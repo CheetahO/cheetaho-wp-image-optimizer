@@ -39,7 +39,6 @@ Please send bug reports, problems, feature requests and so on to support (at) ch
 
 = Connect with CheetahO.com =
 * Website: http://cheetaho.com/
-* [Twitter](https://twitter.com/CheetahO "@CheetahO")
 
 
 == Installation ==
