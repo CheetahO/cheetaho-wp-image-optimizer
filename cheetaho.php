@@ -79,16 +79,7 @@ if (! class_exists('WPCheetahO')) {
                 &$this,
                 'registerSettingsPage'
             )); // display SP in Settings menu
-            
-             if (is_admin() && ( !isset($this->cheetaho_settings['redirectIfNoKey']) || $this->cheetaho_settings['redirectIfNoKey'] == 0)&& (!function_exists("is_multisite") || !is_multisite()) ) {
-				$this->updateOptionsValue('redirectIfNoKey', 1);
-             	$url = admin_url("options-general.php?page=cheetaho");
-             	print('<script>window.location.href="'.$url.'"</script>');
-             	
-				exit();   	
-             }
-             
-	     
+ 
         }
 
         public function registerSettingsPage()
@@ -707,7 +698,6 @@ EOD;
             $valid['api_lossy'] = $input['api_lossy'];
             $valid['auto_optimize'] = isset($input['auto_optimize']) ? 1 : 0;
             $valid['quality'] = isset( $input['quality'] ) ? (int) $input['quality'] : 0;
-            $valid['redirectIfNoKey'] = isset( $settings['redirectIfNoKey'] ) ? (int) $settings['redirectIfNoKey'] : 0;
             
             
             if (empty($input['api_key'])) {
@@ -756,6 +746,24 @@ EOD;
         	update_option('_cheetaho_options', $settings);
         }
     }
+   
+}
+
+register_activation_hook(__FILE__, 'cheetahoActivate');
+add_action('admin_init', 'CheetahoRedirect');
+
+function cheetahoActivate() {
+	add_option('cheetaho_activation_redirect', true);
+}
+
+function CheetahoRedirect() {
+if (get_option('cheetaho_activation_redirect', false)) {
+    delete_option('cheetaho_activation_redirect');
+    if(!isset($_GET['activate-multi']))
+    {
+        exit( wp_redirect( admin_url( 'options-general.php?page=cheetaho' ) ) );
+    	    }
+ }
 }
 
 new WPCheetahO();
