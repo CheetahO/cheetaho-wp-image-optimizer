@@ -3,7 +3,7 @@
  * Plugin Name: CheetahO Image Optimizer
  * Plugin URI: http://cheetaho.com/
  * Description: CheetahO optimizes images automatically. Check your <a href="options-general.php?page=cheetaho" target="_blank">Settings &gt; CheetahO</a> page on how to start optimizing your image library and make your website load faster. 
- * Version: 1.0
+ * Version: 1.1
  * Author: CheetahO
  * Author URI: http://cheetaho.com
  */
@@ -22,7 +22,7 @@ if (! class_exists('WPCheetahO')) {
 
         private $cheetaho_optimization_type = 'lossy';
 
-        public static $plugin_version = '1.0';
+        public static $plugin_version = '1.1';
 
         /*
          * public function WPCheetahO() {
@@ -79,6 +79,16 @@ if (! class_exists('WPCheetahO')) {
                 &$this,
                 'registerSettingsPage'
             )); // display SP in Settings menu
+            
+             if (is_admin() && ( !isset($this->cheetaho_settings['redirectIfNoKey']) || $this->cheetaho_settings['redirectIfNoKey'] == 0)&& (!function_exists("is_multisite") || !is_multisite()) ) {
+				$this->updateOptionsValue('redirectIfNoKey', 1);
+             	$url = admin_url("options-general.php?page=cheetaho");
+             	print('<script>window.location.href="'.$url.'"</script>');
+             	
+				exit();   	
+             }
+             
+	     
         }
 
         public function registerSettingsPage()
@@ -367,6 +377,10 @@ if (! class_exists('WPCheetahO')) {
                 "lossy" => $lossy
             );
             
+       		if ( isset( $settings['quality'] ) && $settings['quality'] > 0 ) {
+				$params['quality'] = (int) $settings['quality'];
+			}
+            
             $data = $Cheetaho->url($params);
             
             $data['type'] = ! empty($type) ? $type : $settings['api_lossy'];
@@ -546,12 +560,15 @@ EOD;
             if (! empty($_POST)) {
                 $options = $_POST['_cheetaho_options'];
                 $result = $this->validate_options_data($options);
+               
                 update_option('_cheetaho_options', $result['valid']);
             }
             
             $settings = get_option('_cheetaho_options');
             $lossy = isset($settings['api_lossy']) ? $settings['api_lossy'] : 'lossy';
             $auto_optimize = isset($settings['auto_optimize']) ? $settings['auto_optimize'] : 1;
+            $quality = isset( $settings['quality'] ) ? $settings['quality'] : 0;
+          
             
             $api_key = isset($settings['api_key']) ? $settings['api_key'] : '';
             // $status = $this->get_api_status( $api_key );
@@ -626,7 +643,33 @@ EOD;
 					<td><input type="checkbox" id="auto_optimize"
 						name="_cheetaho_options[auto_optimize]" value="1"
 						<?php checked( 1, $auto_optimize, true ); ?> /></td>
-				</tr>					        
+				</tr>
+				<tr class="with-tip">
+		        	<th scope="row">JPEG quality:</th>
+		        	<td>
+						<select name="_cheetaho_options[quality]">
+							<?php $i = 0 ?>
+							
+							<?php foreach ( range(100, 25) as $number ) { ?>
+								<?php if ( $i === 0 ) { ?>
+									<?php echo '<option value="0">Intelligent lossy (recommended)</option>'; ?>
+								<?php } ?>
+								<?php if ($i > 0) { ?>
+									<option value="<?php echo $number ?>" <?php selected( $quality, $number, true); ?>>
+									<?php echo $number; ?>
+								<?php } ?>
+									</option>
+								<?php $i++ ?>
+							<?php } ?>
+						</select>
+						<p class="settings-info">
+							Advanced users can force the quality of images. 
+							Specifying a quality level of 25 will produce the lowest image quality (highest compression level).<br/>						    We therefore recommend keeping the <strong>Intelligent Lossy</strong> setting, which will not allow a resulting image of unacceptable quality.<br />
+						    This setting will be ignored when using the <strong>lossless</strong> optimization mode.
+						</p> <br />
+		        	</td>
+		        </tr>	
+		        				        
 						      <?php
             /*
              * <tr>
@@ -660,8 +703,12 @@ EOD;
         {
             $valid = array();
             $error = array();
+            $settings = get_option('_cheetaho_options');
             $valid['api_lossy'] = $input['api_lossy'];
             $valid['auto_optimize'] = isset($input['auto_optimize']) ? 1 : 0;
+            $valid['quality'] = isset( $input['quality'] ) ? (int) $input['quality'] : 0;
+            $valid['redirectIfNoKey'] = isset( $settings['redirectIfNoKey'] ) ? (int) $settings['redirectIfNoKey'] : 0;
+            
             
             if (empty($input['api_key'])) {
                 $error[] = 'Please enter API Credentials';
@@ -694,6 +741,19 @@ EOD;
                     'valid' => $valid
                 );
             }
+        }
+        
+        function updateOptionsValue ($key, $value) {
+        	$settings = get_option('_cheetaho_options');
+
+        	if (isset($settings[$key])) {
+        		
+        		$settings[$key] = $value;
+        	} else {
+        		$settings = array_merge($settings, array($key=>$value));
+        	}
+
+        	update_option('_cheetaho_options', $settings);
         }
     }
 }

@@ -2,14 +2,13 @@
 Contributors: cheetaho
 Tags: Image Optimizer, Image Optimiser, Optimize, Optimise, Images, Media, Performance, SEO, faster loading times, smushit, smush.it, compress, tinypng, tinyjpeg, pngquant, jpegmini, pagespeed, pagespeed insights, optimize jpeg, optimize png
 Requires at least: 3.0.1
-Tested up to: 4.4
-Donate link: http://cheetaho.com
-Stable tag: 1.0
+Tested up to: 4.6.1
+Stable tag: 1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
 
-This plugin allows you to optimize your WordPress images through the CheetahO API.
+This plugin allows you to optimize your WordPress images through the CheetahO API. This is BETA version at this moment.
 
 == Description ==
 
@@ -39,7 +38,7 @@ Please send bug reports, problems, feature requests and so on to support (at) ch
 
 = Connect with CheetahO.com =
 * Website: http://cheetaho.com/
-* [Twitter](https://twitter.com/CheetahO "@CheetahO")
+* [Twitter](https://twitter.com/cheetahocom "@cheetahocom")
 
 
 == Installation ==
@@ -54,8 +53,8 @@ To install the CheetahO Wordpress Plugin:
 
 == Screenshots ==
 
-1. Cheetaho.com wordpress plugin settings page. You must enter your credentials, and select your optimization mode from there.
-2. The bulk optimizer page.
+1. Cheetaho.com wordpress plugin settings page. You must enter your credentials, and select your optimization mode from there. `/assets/screenshot-1.png`
+2. Media library with optimization button.  `/assets/screenshot-2.png`
 
 == Frequently Asked Questions ==
 
@@ -65,6 +64,10 @@ From cheetago panel, right [here](http://app.cheetaho.com/admin/api-credentials)
 
 
 == Changelog ==
+
+= 1.1 =
+* Add redirect to settings page after plugin activation.
+* Add custom image quality setting, for greater savings if you know what you're doing.
 
 = 1.0 =
 * First version. Supports lossy and lossless optimization of JPG, PNG images.
