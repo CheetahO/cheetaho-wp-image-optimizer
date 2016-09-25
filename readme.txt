@@ -82,10 +82,3 @@ From cheetago panel, right [here](http://app.cheetaho.com/admin/api-credentials)
 
 == Any Questions? ==
 Contact us by email support (at) cheetaho dot com.
-
-
-
-
-
-
-
