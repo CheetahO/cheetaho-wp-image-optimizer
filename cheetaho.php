@@ -3,14 +3,16 @@
  * Plugin Name: CheetahO Image Optimizer
  * Plugin URI: http://cheetaho.com/
  * Description: CheetahO optimizes images automatically. Check your <a href="options-general.php?page=cheetaho" target="_blank">Settings &gt; CheetahO</a> page on how to start optimizing your image library and make your website load faster. 
- * Version: 1.1
+ * Version: 1.2
  * Author: CheetahO
  * Author URI: http://cheetaho.com
  */
 
 
 if (! class_exists('WPCheetahO')) {
-
+    require_once ( dirname(__FILE__) . '/lib/functions/cheetaho-ui.php');
+    require_once ( dirname(__FILE__) . '/lib/classes/cheetahoHelper.php');
+	
     class WPCheetahO
     {
 
@@ -22,7 +24,7 @@ if (! class_exists('WPCheetahO')) {
 
         private $cheetaho_optimization_type = 'lossy';
 
-        public static $plugin_version = '1.1';
+        public static $plugin_version = '1.2';
 
         /*
          * public function WPCheetahO() {
@@ -33,6 +35,7 @@ if (! class_exists('WPCheetahO')) {
         {
             $plugin_dir_path = dirname(__FILE__);
             require_once ($plugin_dir_path . '/lib/cheetaho.php');
+            
             $this->cheetaho_settings = get_option('_cheetaho_options');
             $this->cheetaho_optimization_type = $this->cheetaho_settings['api_lossy'];
             add_filter('plugin_action_links_' . plugin_basename(__FILE__), array(
@@ -88,6 +91,12 @@ if (! class_exists('WPCheetahO')) {
                 $this,
                 'renderCheetahoSettingsMenu'
             ));
+            
+        }
+        
+        public function renderCheetahoSettingsMenu () {
+        	
+        	return CheetahoUI::renderCheetahoSettingsMenu($this);
         }
 
         /**
@@ -188,18 +197,25 @@ if (! class_exists('WPCheetahO')) {
                 
                 $settings = $this->cheetaho_settings;
                 $api_key = isset($settings['api_key']) ? $settings['api_key'] : '';
+               
+                $data= array();
+            	if ( empty( $api_key ) ) {
+					$data['error'] = 'There is a problem with your credentials. Please check them in the CheetahO settings section and try again.';
+					echo json_encode( array( 'error' => $data['error'] ) );
+					exit;
+				}
                 
                 $status = $this->get_api_status($api_key);
                 
                 if ($status === false) {
-                    $data['error'] = 'There is a problem with your credentials. Please check settings section.';
+                    $data['error'] = 'There is a problem with your cheetaho account. Maybe quota exceeded.';
                     update_post_meta($image_id, '_cheetaho_size', $data);
                     echo json_encode(array(
                         'error' => $data['error']
                     ));
                     exit();
                 }
-                
+                 
                 /*
                  * if ( isset( $status['active'] ) && $status['active'] === true ) {
                  *
@@ -210,7 +226,7 @@ if (! class_exists('WPCheetahO')) {
                  */
                 
                 $result = $this->optimizeImage($image_path, $type);
-                
+              
                 $data = array();
                 
                 if (! isset($result['error'])) {
@@ -224,7 +240,7 @@ if (! class_exists('WPCheetahO')) {
                     $data['success'] = true;
                     $data['meta'] = wp_get_attachment_metadata($image_id);
                     $saved_bytes = (int) $data['saved_bytes'];
-                    
+                   
                     if ($this->replace_new_image($local_image_path, $result['destURL'])) {
                         
                         // get metadata for thumbnails
@@ -233,12 +249,13 @@ if (! class_exists('WPCheetahO')) {
                         
                         // store info to DB
                         update_post_meta($image_id, '_cheetaho_size', $data);
-                        
+                       
                         // process thumbnails and store that data too. This can be unset when there are no thumbs
                         $thumbs_data = get_post_meta($image_id, '_cheetaho_thumbs', true);
                         if (! empty($thumbs_data)) {
                             $data['thumbs_data'] = $thumbs_data;
                         }
+                        
                         $data['html'] = $this->output_result($image_id);
                         echo json_encode($data);
                     } else {
@@ -280,6 +297,7 @@ if (! class_exists('WPCheetahO')) {
                 $image_id = $post->post_id;
             }
             
+           
             $path_parts = pathinfo($image_data['file']);
             
             // e.g. 04/02, for use in getting correct path or URL
@@ -299,19 +317,25 @@ if (! class_exists('WPCheetahO')) {
             
             if (! empty($sizes)) {
                 
+            	
+					
                 $thumb_path = '';
                 
                 $thumbs_optimized_store = array();
                 $this_thumb = array();
+                $sizes_to_optimize = $this->get_sizes_to_optimize();
                 
                 foreach ($sizes as $key => $size) {
-                    
+	                if ( !in_array("include_size_$key", $sizes_to_optimize) ) {
+						continue;
+					}
+				
                     $thumb_path = $upload_full_path . '/' . $size['file'];
                     
                     if (file_exists($thumb_path) !== false) {
                         
                         $path = wp_get_attachment_image_src($image_id, $key);
-                        
+                       
                         $result = $this->optimizeImage($path[0], $this->cheetaho_optimization_type);
                         
                         if (! empty($result) && ! isset($result['error']) && isset($result['data']['destURL'])) {
@@ -337,6 +361,24 @@ if (! class_exists('WPCheetahO')) {
                 update_post_meta($image_id, '_cheetaho_thumbs', $thumbs_optimized_store, false);
             }
             return $image_data;
+        }
+        
+    	function preg_array_key_exists( $pattern, $array ) {
+		    $keys = array_keys( $array );    
+		    return (int) preg_grep( $pattern,$keys );
+		}
+        
+        function get_sizes_to_optimize () {
+        	$settings = $this->cheetaho_settings;
+			$rv = array();
+
+			foreach( $settings as $key => $value ) {
+				if ( strpos( $key, 'include_size' ) === 0 && !empty( $value ) ) {
+					$rv[] = $key;
+				}
+			}
+			
+			return $rv;
         }
 
         function replace_new_image($image_path, $new_url)
@@ -546,142 +588,6 @@ EOD;
             die();
         }
 
-        public function renderCheetahoSettingsMenu()
-        {
-            if (! empty($_POST)) {
-                $options = $_POST['_cheetaho_options'];
-                $result = $this->validate_options_data($options);
-               
-                update_option('_cheetaho_options', $result['valid']);
-            }
-            
-            $settings = get_option('_cheetaho_options');
-            $lossy = isset($settings['api_lossy']) ? $settings['api_lossy'] : 'lossy';
-            $auto_optimize = isset($settings['auto_optimize']) ? $settings['auto_optimize'] : 1;
-            $quality = isset( $settings['quality'] ) ? $settings['quality'] : 0;
-          
-            
-            $api_key = isset($settings['api_key']) ? $settings['api_key'] : '';
-            // $status = $this->get_api_status( $api_key );
-            
-            $icon_url = admin_url() . 'images/';
-            /*
-             * if ( $status !== false && isset( $status['active'] ) && $status['active'] === true ) {
-             * $icon_url .= 'yes.png';
-             * $status_html = '<p class="apiStatus">Your credentials are valid <span class="apiValid" style="background:url(' . "'$icon_url') no-repeat 0 0" . '"></span></p>';
-             * } else {
-             * $icon_url .= 'no.png';
-             * $status_html = '<p class="apiStatus">There is a problem with your credentials <span class="apiInvalid" style="background:url(' . "'$icon_url') no-repeat 0 0" . '"></span></p>';
-             * }
-             */
-            
-            ?>
-<h1 class="cheetaho-title">Cheetaho Settings</h1>
-<?php if ( isset( $result['error'] ) ) { ?>
-<div class="cheetaho error mb-30">
-						<?php foreach( $result['error'] as $error ) { ?>
-							<p><?php echo $error; ?></p>
-						<?php } ?>
-						</div>
-<?php } else if ( isset( $result['success'] ) ) { ?>
-<div class="cheetaho updated mb-30">
-	<p>Settings saved.</p>
-</div>
-<?php } ?>
-
-					<?php if ( !function_exists( 'curl_init' ) ) { ?>
-<p class="curl-warning mb-30">
-	<strong>Warning: </strong>CURL is not available. If you would like to
-	use this plugin please install CURL
-</p>
-<?php } ?>
-
-<div class="settings-tab">
-	<form method="post">
-		<a href="http://app.cheetaho.com/" target="_blank"
-			title="Log in to your Cheetaho account">Cheetaho API settings</a>
-		<table class="form-table">
-			<tbody>
-				<tr>
-					<th scope="row">API Key:</th>
-					<td><input name="_cheetaho_options[api_key]" type="text"
-						value="<?php echo esc_attr( $api_key ); ?>" size="60"></td>
-				</tr>
-				<tr>
-					<th scope="row">Optimization Type:</th>
-					<td><input type="radio" id="cheetahoLossy"
-						name="_cheetaho_options[api_lossy]" value="1"
-						<?php checked( 1, $lossy, true ); ?> /> <label for="cheetahoLossy">Lossy</label>
-						<p class="settings-info">
-							<b>Lossy compression: </b>lossy has a better compression rate
-							than lossless compression.<br> The resulting image can be not
-							100% identical with the original. Works well for photos taken
-							with your camera.
-						</p> <br /> <input type="radio" id="cheetahoLossless"
-						name="_cheetaho_options[api_lossy]" value="0"
-						<?php checked( 0, $lossy, true ) ?> /> <label
-						for="cheetahoLossless">Lossless</label>
-						<p class="settings-info">
-							<b>Lossless compression: </b> the shrunk image will be identical
-							with the original and smaller in size.<br> You can use this when
-							you do not want to lose any of the original image's details.
-							Choose this if you would like to optimize technical drawings,
-							clip art and comics.
-						</p> <br /></td>
-				</tr>
-				<tr>
-					<th scope="row">Automatically optimize uploads:</th>
-					<td><input type="checkbox" id="auto_optimize"
-						name="_cheetaho_options[auto_optimize]" value="1"
-						<?php checked( 1, $auto_optimize, true ); ?> /></td>
-				</tr>
-				<tr class="with-tip">
-		        	<th scope="row">JPEG quality:</th>
-		        	<td>
-						<select name="_cheetaho_options[quality]">
-							<?php $i = 0 ?>
-							
-							<?php foreach ( range(100, 25) as $number ) { ?>
-								<?php if ( $i === 0 ) { ?>
-									<?php echo '<option value="0">Intelligent lossy (recommended)</option>'; ?>
-								<?php } ?>
-								<?php if ($i > 0) { ?>
-									<option value="<?php echo $number ?>" <?php selected( $quality, $number, true); ?>>
-									<?php echo $number; ?>
-								<?php } ?>
-									</option>
-								<?php $i++ ?>
-							<?php } ?>
-						</select>
-						<p class="settings-info">
-							Advanced users can force the quality of images. 
-							Specifying a quality level of 25 will produce the lowest image quality (highest compression level).<br/>						    We therefore recommend keeping the <strong>Intelligent Lossy</strong> setting, which will not allow a resulting image of unacceptable quality.<br />
-						    This setting will be ignored when using the <strong>lossless</strong> optimization mode.
-						</p> <br />
-		        	</td>
-		        </tr>	
-		        				        
-						      <?php
-            /*
-             * <tr>
-             * <th scope="row">API status:</th>
-             * <td>
-             * <?php echo $status_html ?>
-             * </td>
-             * </tr>
-             */
-            ?>
-						      				        
-						    </tbody>
-		</table>
-		<input type="submit" name="cheetahoSaveAction"
-			class="button button-primary" value="Save Settings" />
-	</form>
-</div>
-
-<?php
-        }
-
         function add_settings_link($links)
         {
             $mylinks = array(
@@ -698,7 +604,11 @@ EOD;
             $valid['api_lossy'] = $input['api_lossy'];
             $valid['auto_optimize'] = isset($input['auto_optimize']) ? 1 : 0;
             $valid['quality'] = isset( $input['quality'] ) ? (int) $input['quality'] : 0;
-            
+        
+            $sizes = get_intermediate_image_sizes();
+			foreach ($sizes as $size) {				
+				$valid['include_size_' . $size] = isset( $input['include_size_' . $size] ) ? 1 : 0;
+			}
             
             if (empty($input['api_key'])) {
                 $error[] = 'Please enter API Credentials';

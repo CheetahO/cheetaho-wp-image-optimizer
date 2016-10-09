@@ -2,17 +2,19 @@ h1.cheetaho-title {
 	margin-bottom: 30px;
 }
 
+.cheetaho-block,
 .settings-tab{
 	background-color:#fff;
 	padding: 25px;
-	width:94%;
 	box-shadow:0 3px 3px rgba(0,0,0,0.1);
 }
 
 .notice.cheetaho.error.mb-30,
 div.error.cheetaho.error.mb-30,
-div.updated.cheetaho.error.mb-30,
+div.updated.cheetaho.mb-30,
 .cheetaho.error.mb-30 {
+	margin-left:0px;
+	margin-right:0px;
 	margin-bottom:30px!important;
 }
 
@@ -90,3 +92,116 @@ div.updated.cheetaho.error.mb-30,
     cursor: pointer;
     transition: all .15s;
 }
+
+.cheetaho-wrap {
+	margin: 10px 20px 0 2px;
+}
+
+.cheetaho-title {
+	position: relative;
+    padding: 30px 20px;
+    font-size: 23px;
+    background: #3c8dbc;
+    color: #FFF;
+}
+
+.cheetaho-rate-us {
+	position: absolute;
+    bottom: 50%;
+    right: 20px;
+    text-align: right;
+    margin-bottom: -2.4em;
+    color: #FFF;
+}
+
+.cheetaho-rate-us a {
+	color: #444;
+}
+.cheetaho-rate-us .stars {
+	display: inline-block;
+	margin: 2px 0 0 10px;
+	text-decoration: none;
+	letter-spacing: .2em;
+	vertical-align: -1px;
+}
+.cheetaho-rate-us .stars .dashicons:before {
+	font-size: 18px;
+}
+.cheetaho-rate-us a:hover,
+.cheetaho-rate-us a:focus {
+	color: #FEE102;
+}
+
+.cheetaho-col {
+    -webkit-flex-basis: 50%;
+    -ms-flex-preferred-size: 50%;
+    flex-basis: 50%;
+}
+
+.cheetaho-col-main{
+    float:left;
+    width:70%;
+}
+
+.cheetaho-col-sidebar {
+	float: right;
+    width: 28%;
+    max-width: 300px;
+}
+
+.form-table th {
+	color:#000;
+}
+
+.cheetaho-sizes-comment span {
+	color:#F5A623;
+}
+
+.stats h3 {
+	margin-top:0px;
+	text-transform:uppercase;
+	color:#444;
+	margin-bottom:10px;
+}
+
+.cheetaho-btn {
+	display: inline-block;
+    margin-bottom: 0;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    padding: 6px 12px;
+    font-size: 13px;
+    line-height: 1.42857143;
+    border-radius: 4px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    text-decoration:none;
+}
+
+.cheetaho-twitter {	
+	color: #fff;
+    background-color: #55acee;
+    border-color: rgba(0,0,0,0.2);
+}
+
+.cheetaho-google {	
+	color: #fff;
+    background: #DB4437;
+    border-color: #DB4437;
+}
+
+.cheetaho-facebook {
+	background: #4267b2;
+	color:#fff;
+}
+
+  

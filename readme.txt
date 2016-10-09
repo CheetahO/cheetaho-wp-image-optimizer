@@ -3,7 +3,7 @@ Contributors: cheetaho
 Tags: Image Optimizer, Image Optimiser, Optimize, Optimise, Images, Media, Performance, SEO, faster loading times, smushit, smush.it, compress, tinypng, tinyjpeg, pngquant, jpegmini, pagespeed, pagespeed insights, optimize jpeg, optimize png
 Requires at least: 3.0.1
 Tested up to: 4.6.1
-Stable tag: 1.1
+Stable tag: 1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
@@ -16,7 +16,16 @@ This plugin allows you to optimize new and existing Wordpress image uploads thro
 
 > **Get your FREE account with us**
 
-> Sign up for your [FREE CheetahO.com Account](http://app.cheetaho.com/) and try out our plugin.
+> Sign up for your [FREE CheetahO.com Account](http://app.cheetaho.com/) and try out CheetahO image optimization tool. We suggest:
+
+> * 100 images
+> * Max file size 4 MiB
+> * API access
+> * ONE API key for multiple sites
+> * Lossless or lossy optimization
+> * Optimization Statistics and History
+
+> Need more? Have a look at our plans: http://cheetaho.com/pricing/
 
 
 = About the plugin =
@@ -62,8 +71,14 @@ To install the CheetahO Wordpress Plugin:
 
 From cheetago panel, right [here](http://app.cheetaho.com/admin/api-credentials).
 
+= I can not optimize image. Got error "Requested file size too large". How fix this? =
+CheetahO lets to optimize image up to 4 MB with free subscription plan. If you would like to optimize bigger files, you will need to take other plans from [here](http://app.cheetaho.com/admin/billing/plans) 
 
 == Changelog ==
+= 1.2 =
+* Image optimization statistics block. 
+* Change settings page interface and add support block.
+* Add setting to choose which image size you would like to optimize.
 
 = 1.1 =
 * Add redirect to settings page after plugin activation.
@@ -76,9 +91,15 @@ From cheetago panel, right [here](http://app.cheetaho.com/admin/api-credentials)
 
 == TODO ==
 * Separate bulk optimization page.
-* API status and info about optimized images
 * Allow image optimize once again
 * Original images backup folder
 
 == Any Questions? ==
 Contact us by email support (at) cheetaho dot com.
+
+
+
+
+
+
+
