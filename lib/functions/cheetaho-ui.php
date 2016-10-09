@@ -125,7 +125,7 @@ class CheetahoUI {
 									<select name="_cheetaho_options[quality]">
 										<?php $i = 0 ?>
 										
-										<?php foreach ( range(100, 25) as $number ) { ?>
+										<?php foreach ( range(100, 40) as $number ) { ?>
 											<?php if ( $i === 0 ) { ?>
 												<?php echo '<option value="0">Intelligent lossy (recommended)</option>'; ?>
 											<?php } ?>
@@ -139,7 +139,7 @@ class CheetahoUI {
 									</select>
 									<p class="settings-info">
 										<small>Advanced users can force the quality of images. 
-										Specifying a quality level of 25 will produce the lowest image quality (highest compression level).<br/>						    We therefore recommend keeping the <strong>Intelligent Lossy</strong> setting, which will not allow a resulting image of unacceptable quality.<br />
+										Specifying a quality level of 40 will produce the lowest image quality (highest compression level).<br/>						    We therefore recommend keeping the <strong>Intelligent Lossy</strong> setting, which will not allow a resulting image of unacceptable quality.<br />
 									    This setting will be ignored when using the <strong>lossless</strong> optimization mode.</small>
 									</p> <br />
 					        	</td>
