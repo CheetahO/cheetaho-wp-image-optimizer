@@ -1,24 +1,26 @@
 === CheetahO Image Optimizer ===
 Contributors: cheetaho
-Tags: Image Optimizer, Image Optimiser, Optimize, Optimise, Images, Media, Performance, SEO, faster loading times, smushit, smush.it, compress, tinypng, tinyjpeg, pngquant, jpegmini, pagespeed, pagespeed insights, optimize jpeg, optimize png
+Tags: Image Optimizer, Image Optimiser, Optimize, Optimise, Images, Media, upload, gtmetrix speed test, Performance, SEO, faster loading times, smushit, smush.it, compress, tinypng, tinyjpeg, pngquant, jpegmini, attachment, gmagick, pagespeed, pagespeed insights, optimize jpeg, optimize png, shrink jpeg, optipng, tinypng, optimize photos, wp smush, compress images, optimize images, image compression
 Requires at least: 3.0.1
 Tested up to: 4.6.1
-Stable tag: 1.2
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+Donate link:  https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8EBKEZMR58UK4
 
-
-This plugin allows you to optimize your WordPress images through the CheetahO API. This is BETA version at this moment.
+This plugin allows you to optimize your WordPress images through the CheetahO API. Your website will be faster, keeping the images high quality.
 
 == Description ==
 
 This plugin allows you to optimize new and existing Wordpress image uploads through [CheetahO Image optimizer](http://cheetaho.com/) API. You can choose lossless or lossy optimization modes. At this moment supported filetypes are JPEG, PNG.
+Smaller image sizes on your website means faster page loads and less bandwidth usage.
+You can try a **live demo** <a href="https://addendio.com/try-plugin/?slug=cheetaho-image-optimizer" target="_blank">here</a> (via addendio.com).
 
 > **Get your FREE account with us**
 
 > Sign up for your [FREE CheetahO.com Account](http://app.cheetaho.com/) and try out CheetahO image optimization tool. We suggest:
 
-> * 100 images
+> * 500 images
 > * Max file size 4 MiB
 > * API access
 > * ONE API key for multiple sites
@@ -48,6 +50,8 @@ Please send bug reports, problems, feature requests and so on to support (at) ch
 = Connect with CheetahO.com =
 * Website: http://cheetaho.com/
 * [Twitter](https://twitter.com/cheetahocom "@cheetahocom")
+
+**Keywords:** picture, optimization, image editor, pngout, upload speed, shortpixel, compression, lossless, media, jpegtran, gtmetrix speed test, image, image optimisation, image optimization, shrink, picture, photo, optimize photos, gmagick, compress, performance, tinypng, crunch, pngquant, attachment, optimize, pictures, fast, images, image files, image quality, jpegmini, lossy, upload, kraken, resize, seo, smushit, optipng, kraken image optimizer, ewww, photo optimization, image optimizer, images, krakenio, png, gmagick, image optimize, jpg, jpeg, jpg optimisation, jpg optimization, optimize jpg, optimise jpg, shrink jpg, optimizer, optimiser, compresion, optimization, cruncher, image cruncher, compress png, compress jpg, compress jpeg, faster loading times, image optimiser, improve pagerank, optimise, optimise jpeg, optimize jpeg, optimize png, optimise png, tinyjpg, short pixel, shortpixel, smush, imsanity, scale, wp smush, compress images, optimize images, shrink jpeg, compressor, faster website, google pagerank, imagify, prizm, optimus, improve page speed, PageSpeed Insights, sitespeed, smaller images, tinyjpeg, wordpress compression, wordPress image tool, reduce image size, bandwidth, pics, keep exif, remove exif, speed up site, speed up website, compress thumbnails, optimize thumbnails
 
 
 == Installation ==

@@ -1,5 +1,7 @@
 <?php
 class CheetahoUI {
+	function __construct() {
+	}
    
 	public static function renderCheetahoSettingsMenu($data)
    {
@@ -11,8 +13,8 @@ class CheetahoUI {
             }
             
             $settings = get_option('_cheetaho_options');
-           
-            $lossy = isset($settings['api_lossy']) ? $settings['api_lossy'] : 'lossy';
+          
+            $lossy = (isset($settings['api_lossy']) && $settings['api_lossy'] != '') ? $settings['api_lossy'] : true;
             $auto_optimize = isset($settings['auto_optimize']) ? $settings['auto_optimize'] : 1;
             $quality = isset( $settings['quality'] ) ? $settings['quality'] : 0;
           	$sizes = get_intermediate_image_sizes();
@@ -61,7 +63,7 @@ class CheetahoUI {
 			<?php } ?>
 			
 			<div class="cheetaho-title">
-				CheetahO
+				CheetahO v<?=CHEETAHO_VERSION?>
 				<p class="cheetaho-rate-us">
 					<strong>Do you like this plugin?</strong><br> Please take a few seconds to <a href="https://wordpress.org/support/view/plugin-reviews/cheetaho-image-optimizer?rate=5#postform">rate it on WordPress.org</a>!					<br>
 					<a class="stars" href="https://wordpress.org/support/view/plugin-reviews/cheetaho-image-optimizer?rate=5#postform"><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span></a>
@@ -71,7 +73,7 @@ class CheetahoUI {
 			<div class="settings-tab">
 				<form method="post">
 				
-					<div class="imagify-sub-header">
+					<div class="cheetaho-sub-header">
 						<table class="form-table">
 							<tbody>
 								<tr>
@@ -220,9 +222,9 @@ class CheetahoUI {
 				<p><a target="_blank" href="https://wordpress.org/support/view/plugin-reviews/cheetaho-image-optimizer#postform">Write a review.</a></p>
 				<p>Contribute directly via <a target="_blank"  href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8EBKEZMR58UK4">Paypal</a>.</p>
 				<p>Or just say to world about us via: <br />
-				<a class="cheetaho-btn cheetaho-twitter"  href="https://twitter.com/intent/tweet?url=http://cheetaho.com&text=Thanks for @cheetahocom for good image optimization service.&hashtags=seo%2C%20webperf%2C%20webdev" target="_blank" class="btn btn-twitter">Twitter</a>
+				<a class="cheetaho-btn cheetaho-twitter"  href="https://twitter.com/intent/tweet?url=http://cheetaho.com&text=Thanks for @cheetahocom for good image optimization service.&hashtags=seo%2C%20webperf%2C%20webdev%2C%20" target="_blank" class="btn btn-twitter">Twitter</a>
 				<a class="cheetaho-btn cheetaho-google" href="https://plus.google.com/share?url=http://cheetaho.com" target="_blank">Google+</a>
-				<a class="cheetaho-btn cheetaho-facebook" href="http://www.facebook.com/sharer.php?u=http://cheetaho.com&t=Thanks for @cheetahocom for good image optimization service" target="_blank">Facebook</a>
+				<a class="cheetaho-btn cheetaho-facebook" href="https://www.facebook.com/dialog/feed?app_id=714993091988558&display=popup&caption=Thanks%20for%20@cheetahocom%20for%20good%20image%20optimization%20service&link=http://cheetaho.com&redirect_uri=http://cheetaho.com" target="_blank">Facebook</a>
 				</p>
 			</div>
         <?php 
@@ -237,4 +239,77 @@ class CheetahoUI {
 			</div>
         <?php 
         }
+        
+        
+		public static function displayQuotaExceededAlert($data = array()) 
+	    { 
+        	$current_screen  = get_current_screen();
+			$ignored_notices = get_user_meta( $GLOBALS['current_user']->ID, '_cheetaho_ignore_notices', true );
+
+			if (in_array( 'quota', (array) $ignored_notices  ) || empty($data)) {
+				return;
+			}
+			?>    
+	        <br/>
+	        <br/>
+	        <div class="wrap cheetaho-alert-danger">
+	        	<a href="<?= getCheetahoUrl( 'closeNotice', 'quota' ); ?>" class="cheetaho-notice-close dark" title="<?php _e( 'Dismiss this notice', 'CheetahO' ); ?>"><span class="dashicons dashicons-dismiss"></span></a>
+	            <h3><?php _e( 'CheetahO image optimization Quota Exceeded', 'CheetahO' ); ?></h3>
+	            <p><?php _e( 'The plugin has optimized', 'CheetahO' ); ?> <strong><?=(isset($data['data']['quota']['optimizedImages']) ? $data['data']['quota']['optimizedImages'] : 0)?> <?php _e( 'images', 'CheetahO' ); ?></strong>. <?php _e( 'Come back on this date to continue optimization.', 'CheetahO' ); ?></p>
+	            <p><?php _e( 'To continue to optimize your images now, log in to your CheetahO account to upgrade your plan.', 'CheetahO' ); ?></p>
+	            <p>
+	             	<a class='button button-primary' href='<?= CHEETAHO_APP_URL?>admin/billing/plans' target='_blank'><?php _e( 'Upgrade plan now', 'CheetahO' ); ?></a>
+	             	<a class='button button-secondary' href='<?= getCheetahoUrl( 'closeNotice', 'quota' ); ?>' ><?php _e( 'I upgraded plan. Close message', 'CheetahO' ); ?></a>
+	             	
+	            </p>
+	           
+	            
+	        </div> <?php 
+	    }
+	    
+		public static function displayApiKeyAlert($settings) 
+	    { 
+			$current_screen  = get_current_screen();
+			$ignored_notices = get_user_meta( $GLOBALS['current_user']->ID, '_cheetaho_ignore_notices', true );
+
+			if (( isset( $current_screen ) && ( 'settings_page_cheetaho' === $current_screen->base || 'settings_page_cheetaho-network' === $current_screen->base ) ) || in_array( 'welcome', (array) $ignored_notices ) || (isset($settings['api_key']) && $settings['api_key'] != '')  ) {
+				return;
+			}
+			?>
+			<div class="cheetaho-welcome">
+				<div class="cheetaho-title">
+					<span class="baseline">
+						<?php _e( 'Welcome to CheetahO image optimization!', 'CheetahO' ); ?>
+					</span>
+					<a href="<?= getCheetahoUrl( 'closeNotice', 'welcome' ); ?>" class="cheetaho-notice-close" title="<?php _e( 'Dismiss this notice', 'CheetahO' ); ?>"><span class="dashicons dashicons-dismiss"></span></a>
+				</div>
+				<div class="cheetaho-settings-section">
+					<div class="cheetaho-columns counter">
+						<div class="col-1-3">
+							<div class="cheetaho-col-content">
+								<p class="cheetaho-col-title"><?php _e( 'Create CheetahO Account', 'CheetahO' ); ?></p>
+								<p class="cheetaho-col-desc"><?php _e( 'Don\'t have an CheetahO account? Create account in few seconds and optimize your images!', 'CheetahO' ); ?></p>
+								<p><a target="_blank" href="<?php echo CHEETAHO_APP_URL; ?>register" class="button button-primary"><?php _e( 'Sign up, It\'s FREE!', 'CheetahO' ); ?></a></p>
+							</div>
+						</div>
+						<div class="col-1-3">
+							<div class="cheetaho-col-content">
+								<p class="cheetaho-col-title"><?php _e( 'Get API Key', 'CheetahO' ); ?></p>
+								<p class="cheetaho-col-desc"><?php printf( __( 'Go to CheetahO API key page. Copy key and come back here.', 'CheetahO' )); ?></p>
+								<p>
+									<a href="<?= CHEETAHO_APP_URL?>admin/api-credentials" class="button button-primary"><?php _e( 'Get API key', 'CheetahO' ); ?></a></p>
+							</div>
+						</div>
+						<div class="col-1-3">
+							<div class="cheetaho-col-content">
+								<p class="cheetaho-col-title"><?php _e( 'Configure it', 'CheetahO' ); ?></p>
+								<p class="cheetaho-col-desc"><?php _e( 'It’s almost done! Now you need to configure your plugin.', 'CheetahO' ); ?></p>
+								<p><a href="<?=CHEETAHO_SETTINGS_LINK?>" class="button button-primary"><?php _e( 'Go to Settings', 'CheetahO' ); ?></a></p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		<?php
+	}
 }

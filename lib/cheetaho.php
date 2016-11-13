@@ -25,6 +25,20 @@ class CheetahO
         
         return $response;
     }
+    
+ 	/**
+     * 
+     * @param array $opts
+     * @return multitype:boolean string
+     */
+    public function status()
+    {
+    	$data = array();
+    	
+        $response = self::request($data, 'http://app.cheetaho.com/api/v1/userstatus', 'get');
+        
+        return $response;
+    }
    
     /**
      * 
@@ -32,24 +46,29 @@ class CheetahO
      * @param unknown $url
      * @return multitype:boolean string
      */
-    private function request($data, $url)
+    private function request($data, $url, $type = 'post')
     {
         $curl = curl_init();
         
+    	$auth = $this->auth;
+    	
         curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-            'Content-Type: application/json'
+            'Content-Type: application/json',
+        	'key: '.$auth['key']
         ));
                
         curl_setopt($curl, CURLOPT_URL, $url);
                
         curl_setopt($curl, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.85 Safari/537.36");
-        curl_setopt($curl, CURLOPT_POST, 1);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        if ($type == 'post') {
+        	curl_setopt($curl, CURLOPT_POST, 1);
+        	curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        }
         curl_setopt($curl, CURLOPT_FAILONERROR, 0);
-        
+
         $response = json_decode(curl_exec($curl), true);
-        
+
         if ($response === null) {
           
             $response = array('data' => array(

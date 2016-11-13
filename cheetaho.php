@@ -3,15 +3,21 @@
  * Plugin Name: CheetahO Image Optimizer
  * Plugin URI: http://cheetaho.com/
  * Description: CheetahO optimizes images automatically. Check your <a href="options-general.php?page=cheetaho" target="_blank">Settings &gt; CheetahO</a> page on how to start optimizing your image library and make your website load faster. 
- * Version: 1.2
+ * Version: 1.2.1
  * Author: CheetahO
  * Author URI: http://cheetaho.com
  */
+
+define( 'CHEETAHO_ASSETS_IMG_URL'   			 , realpath( plugin_dir_url( __FILE__  ) . 'img/' ) . '/img' );
+define( 'CHEETAHO_VERSION'   					 , '1.2.2' );
+define( 'CHEETAHO_APP_URL'						 , 'http://app.cheetaho.com/');
+define( 'CHEETAHO_SETTINGS_LINK'				 , admin_url( 'options-general.php?page=cheetaho' ));
 
 
 if (! class_exists('WPCheetahO')) {
     require_once ( dirname(__FILE__) . '/lib/functions/cheetaho-ui.php');
     require_once ( dirname(__FILE__) . '/lib/classes/cheetahoHelper.php');
+    
 	
     class WPCheetahO
     {
@@ -21,10 +27,12 @@ if (! class_exists('WPCheetahO')) {
         private $cheetaho_settings = array();
 
         private $thumbs_data = array();
+        
+        private $status = array();
 
         private $cheetaho_optimization_type = 'lossy';
 
-        public static $plugin_version = '1.2';
+        public static $plugin_version = CHEETAHO_VERSION;
 
         /*
          * public function WPCheetahO() {
@@ -37,6 +45,9 @@ if (! class_exists('WPCheetahO')) {
             require_once ($plugin_dir_path . '/lib/cheetaho.php');
             
             $this->cheetaho_settings = get_option('_cheetaho_options');
+            $this->status = get_option('_cheetaho_api_status');
+            
+           
             $this->cheetaho_optimization_type = $this->cheetaho_settings['api_lossy'];
             add_filter('plugin_action_links_' . plugin_basename(__FILE__), array(
                 &$this,
@@ -82,8 +93,37 @@ if (! class_exists('WPCheetahO')) {
                 &$this,
                 'registerSettingsPage'
             )); // display SP in Settings menu
- 
+            
+            add_action( 'all_admin_notices', array( $this, 'displayQuotaExceededAlert' ) );
+            add_action( 'all_admin_notices', array( $this, 'displayApiKeyAlert' ) );
+            
         }
+        
+	    function checkStatus ($apiKey = false) {
+		 	$settings = $this->cheetaho_settings;
+		 	$apiKey = ($apiKey == false) ? $settings['api_key'] : $apiKey;
+	        $Cheetaho = new Cheetaho($apiKey);
+	        
+	        $status = $Cheetaho->status();
+	        update_option('_cheetaho_api_status', $status);
+	        $this->status = $status;
+	        return $status;
+	          
+		}
+        
+        public static function displayApiKeyAlert() {
+        	$settings = $this->cheetaho_settings;
+        	return CheetahoUI::displayApiKeyAlert($settings);
+        	if ($settings['api_key'] == ''){
+        		return CheetahoUI::displayApiKeyAlert($settings);
+        	} else {
+        		return '';
+        	}
+        } 
+        
+        public static function displayQuotaExceededAlert() {
+        	return CheetahoUI::displayQuotaExceededAlert( $this->status);
+        } 
 
         public function registerSettingsPage()
         {
@@ -172,8 +212,9 @@ if (! class_exists('WPCheetahO')) {
                 wp_localize_script('cheetaho-js', 'cheetaho_object', array(
                     'url' => admin_url('admin-ajax.php')
                 ));
-                wp_enqueue_style('cheetaho-css', plugins_url('css/cheetaho.css', __FILE__));
+                
             }
+            wp_enqueue_style('cheetaho-css', plugins_url('css/cheetaho.css', __FILE__));
         }
 
         public function cheetaho_ajax_callback()
@@ -418,6 +459,22 @@ if (! class_exists('WPCheetahO')) {
             
             $data['type'] = ! empty($type) ? $type : $settings['api_lossy'];
             
+            if (isset($data['error']) && isset($data['error']['http_code']) && $data['error']['http_code'] == 403) {
+            	$status =  $this->checkStatus();
+            
+                if($status['data']['quota']['exceeded'] == false){
+                	self::cheetahOUpdateNotice('quota', 0, 1);
+                } else { 
+                	self::cheetahOUpdateNotice('quota', 0, 2);
+                }
+            } else {
+            	$status = $this->status;
+            	
+            	if (isset($status['data']['quota']['exceeded']) && $status['data']['quota']['exceeded'] == true) {
+            		self::cheetahOUpdateNotice('quota', 0, 1);
+            	}
+            }
+            
             return $data;
         }
 
@@ -595,6 +652,46 @@ EOD;
             );
             return array_merge($links, $mylinks);
         }
+        
+        /**
+         * update notices settings if action  = 1 - set, else is action = 2 - delete
+         * Enter description here ...
+         * @param unknown_type $notice
+         * @param unknown_type $user_id
+         * @param unknown_type $action
+         */
+        
+        
+	    function cheetahOUpdateNotice( $notice, $user_id = 0, $action = 1 ) {
+			global $current_user;
+			
+			$user_id   = ( 0 === $user_id ) ? $current_user->ID : $user_id;
+			$notices   = get_user_meta( $user_id, '_cheetaho_ignore_notices', true );
+			
+			if ($action == 2) {
+				$newitems = array();
+				if (!empty($notices)) {
+					foreach ($notices  as $item) {
+						if ($item != $notice) {
+							$newitems[] = $item;
+						}
+					}
+				}
+				update_user_meta( $user_id, '_cheetaho_ignore_notices', $newitems );
+			} elseif ($action == 1) {
+				$notices[] = $notice;
+				$notices   = array_filter( $notices );
+				$notices   = array_unique( $notices );
+				update_user_meta( $user_id, '_cheetaho_ignore_notices', $notices );
+				
+				$status = $this->status;
+				$status['data']['quota']['exceeded'] = false;
+				$this->status = $status;
+			}
+		
+			
+			
+		}
 
         function validate_options_data($input)
         {
@@ -613,20 +710,21 @@ EOD;
             if (empty($input['api_key'])) {
                 $error[] = 'Please enter API Credentials';
             } else {
-                
-                // $status = $this->get_api_status( $input['api_key']);
-                
-                // if ( $status !== false ) {
-                
-                // if ( isset($status['active']) && $status['active'] === true ) {
+                      	
+                $status =  $this->checkStatus($input['api_key']);
+             
+                if(isset($status['error'])){
+                	$error[] = 'Your API key is invalid. Check it here http://app.cheetaho.com/admin/api-credentials';
+                } else {
+	                if(isset($status['data']['quota']['exceeded']) && $status['data']['quota']['exceeded'] == false){
+	                	self::cheetahOUpdateNotice('quota', 0, 1);	                	
+	                } else {
+	                	self::cheetahOUpdateNotice('quota', 0, 2);
+	                }
+                }
+               
                 $valid['api_key'] = $input['api_key'];
-                // } else {
-                // $error[] = 'There is a problem with your credentials. Please check them from your CheetahO account.';
-                // }
                 
-                // } else {
-                // $error[] = 'Your API key is invalid. Check it here http://app.cheetaho.com/admin/api-credentials';
-                // }
             }
             
             if (! empty($error)) {
@@ -656,11 +754,50 @@ EOD;
         	update_option('_cheetaho_options', $settings);
         }
     }
-   
+    
+	function getCheetahoUrl( $action = 'options-general', $arg = array() ) {
+		
+		switch( $action ) {
+	
+			case 'closeNotice':
+				$url = wp_nonce_url( admin_url( 'admin-post.php?action=cheetahOCloseNotice&notice=' . $arg ), 'cheetahOCloseNotice' );
+			break;
+	
+			case 'options-general':
+			default :
+				$url  = CHEETAHO_SETTINGS_LINK;
+			break;
+		}
+	
+		return $url;
+	}
+	
+	function cheetahOCloseNotice( $notice, $user_id = 0 ) {
+		global $current_user;
+		$notice = $_GET['notice'];
+		
+		$user_id   = ( 0 === $user_id ) ? $current_user->ID : $user_id;
+		$notices   = get_user_meta( $user_id, '_cheetaho_ignore_notices', true );
+		$notices[] = $notice;
+		$notices   = array_filter( $notices );
+		$notices   = array_unique( $notices );
+	
+		update_user_meta( $user_id, '_cheetaho_ignore_notices', $notices );
+		
+		wp_safe_redirect( wp_get_referer() );
+		die();
+	}
+	
+
+	
+	
+	
 }
+add_action( 'admin_post_cheetahOCloseNotice', 'cheetahOCloseNotice' );
 
 register_activation_hook(__FILE__, 'cheetahoActivate');
 add_action('admin_init', 'CheetahoRedirect');
+
 
 function cheetahoActivate() {
 	add_option('cheetaho_activation_redirect', true);
@@ -671,7 +808,7 @@ if (get_option('cheetaho_activation_redirect', false)) {
     delete_option('cheetaho_activation_redirect');
     if(!isset($_GET['activate-multi']))
     {
-        exit( wp_redirect( admin_url( 'options-general.php?page=cheetaho' ) ) );
+        exit( wp_redirect(CHEETAHO_SETTINGS_LINK ) );
     	    }
  }
 }
