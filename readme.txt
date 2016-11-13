@@ -12,13 +12,13 @@ This plugin allows you to optimize your WordPress images through the CheetahO AP
 
 == Description ==
 
-This plugin allows you to optimize new and existing Wordpress image uploads through [CheetahO Image optimizer](http://cheetaho.com/) API. You can choose lossless or lossy optimization modes. At this moment supported filetypes are JPEG, PNG.
+This plugin allows you to optimize new and existing Wordpress image uploads through CheetahO Image [optimizer](http://cheetaho.com/) API. You can choose lossless or lossy optimization modes. At this moment supported filetypes are JPEG, PNG.
 Smaller image sizes on your website means faster page loads and less bandwidth usage.
 You can try a **live demo** <a href="https://addendio.com/try-plugin/?slug=cheetaho-image-optimizer" target="_blank">here</a> (via addendio.com).
 
 > **Get your FREE account with us**
 
-> Sign up for your [FREE CheetahO.com Account](http://app.cheetaho.com/) and try out CheetahO image optimization tool. We suggest:
+> Sign up for your FREE CheetahO.com [Account](http://app.cheetaho.com/) and try out CheetahO image optimization tool. We suggest:
 
 > * 500 images
 > * Max file size 4 MiB
@@ -35,7 +35,7 @@ You can try a **live demo** <a href="https://addendio.com/try-plugin/?slug=cheet
 * All images uploaded throught the media uploader are optimized on-the-fly. All generated thumbnails are optimized too.
 * All images already present in the media library can be optimized individually, or using the Bulk Action.
 * All optimization is carried out by sending images to CheetahO, and pulling the optimized files to your Wordpress installation.
-* To use this plugin, you must obtain a full API key from [http://app.cheetaho.com/admin/api-credentials).
+* To use this plugin, you must obtain a full API key from CheetahO [panel](http://app.cheetaho.com/admin/api-credentials).
 
 
 Once you have obtained your credentials, from your Wordpress admin, go to the settings page and there you can enter your API credentials, and select your optimization preferences. Once you have done this, click on **Save**. If everything is in order, it will simply say "settings saved" and give you a reassuring green tick that your credentials are valid. You can now start optimizing images from within Media Library. Any image you upload from now on, through any of the media upload screens will be optimized on-the-fly.
@@ -79,6 +79,13 @@ From cheetago panel, right [here](http://app.cheetaho.com/admin/api-credentials)
 CheetahO lets to optimize image up to 4 MB with free subscription plan. If you would like to optimize bigger files, you will need to take other plans from [here](http://app.cheetaho.com/admin/billing/plans) 
 
 == Changelog ==
+= 1.2.2 =
+* Add messages for users
+* Check quota and API key if is valid 
+
+= 1.2.1 =
+* Fix bug with new added class
+
 = 1.2 =
 * Image optimization statistics block. 
 * Change settings page interface and add support block.
