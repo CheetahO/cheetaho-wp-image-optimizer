@@ -3,7 +3,7 @@ Contributors: cheetaho
 Tags: Image Optimizer, Image Optimiser, Optimize, Optimise, Images, Media, upload, gtmetrix speed test, Performance, SEO, faster loading times, smushit, smush.it, compress, tinypng, tinyjpeg, pngquant, jpegmini, attachment, gmagick, pagespeed, pagespeed insights, optimize jpeg, optimize png, shrink jpeg, optipng, tinypng, optimize photos, wp smush, compress images, optimize images, image compression
 Requires at least: 3.0.1
 Tested up to: 4.6.1
-Stable tag: 1.2.2
+Stable tag: 1.2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 Donate link:  https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8EBKEZMR58UK4
@@ -79,6 +79,9 @@ From cheetago panel, right [here](http://app.cheetaho.com/admin/api-credentials)
 CheetahO lets to optimize image up to 4 MB with free subscription plan. If you would like to optimize bigger files, you will need to take other plans from [here](http://app.cheetaho.com/admin/billing/plans) 
 
 == Changelog ==
+= 1.2.3 =
+* Fix bug in construct
+
 = 1.2.2 =
 * Add messages for users
 * Check quota and API key if is valid 
