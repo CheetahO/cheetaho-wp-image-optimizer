@@ -94,8 +94,8 @@ if (! class_exists('WPCheetahO')) {
                 'registerSettingsPage'
             )); // display SP in Settings menu
             
-            add_action( 'all_admin_notices', array( $this, 'displayQuotaExceededAlert' ) );
-            add_action( 'all_admin_notices', array( $this, 'displayApiKeyAlert' ) );
+            add_action( 'all_admin_notices', array(  &$this, 'displayQuotaExceededAlert' ) );
+            add_action( 'all_admin_notices', array(  &$this, 'displayApiKeyAlert' ) );
             
         }
         
@@ -111,7 +111,8 @@ if (! class_exists('WPCheetahO')) {
 	          
 		}
         
-        public static function displayApiKeyAlert() {
+        public  function displayApiKeyAlert() {
+        	
         	$settings = $this->cheetaho_settings;
         	return CheetahoUI::displayApiKeyAlert($settings);
         	if ($settings['api_key'] == ''){
@@ -121,7 +122,7 @@ if (! class_exists('WPCheetahO')) {
         	}
         } 
         
-        public static function displayQuotaExceededAlert() {
+        public  function displayQuotaExceededAlert() {
         	return CheetahoUI::displayQuotaExceededAlert( $this->status);
         } 
 
@@ -791,7 +792,7 @@ EOD;
 
 	
 	
-	
+	new WPCheetahO();
 }
 add_action( 'admin_post_cheetahOCloseNotice', 'cheetahOCloseNotice' );
 
@@ -813,4 +814,4 @@ if (get_option('cheetaho_activation_redirect', false)) {
  }
 }
 
-new WPCheetahO();
+
