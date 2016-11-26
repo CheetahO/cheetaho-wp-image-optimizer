@@ -80,8 +80,9 @@ CheetahO lets to optimize image up to 4 MB with free subscription plan. If you w
 
 == Changelog ==
 = 1.2.4 =
-* Fix iage remove when get unexpected responce
+* Fix image remove when get unexpected responce
 * Add extra validation for thumbnails optimization
+* Test with wordpress 4.6.1
 
 = 1.2.3 =
 * Fix bug in construct
