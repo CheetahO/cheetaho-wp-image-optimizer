@@ -66,18 +66,25 @@ class CheetahO
         	curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
         }
         curl_setopt($curl, CURLOPT_FAILONERROR, 0);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 400);  
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 0); 
 
+        
         $response = json_decode(curl_exec($curl), true);
-
-        if ($response === null) {
-          
-            $response = array('data' => array(
-                "error" => array('message' => 'cURL Error: ' . curl_error($curl)))
-            );
-        }
+		$httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        $error = curl_error($curl);
         
+        if ($response === null ) {
+   		 	$response = array('data' => array(
+               	"error" => array('fatal' => true, 'message' => 'cURL Error: '.$httpcode.' Message:' . $error))
+          	);
+    	} 
+      
+   
         curl_close($curl);
-        
+         
         return $response;
     }
 }

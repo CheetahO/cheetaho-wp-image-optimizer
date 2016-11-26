@@ -3,7 +3,7 @@ jQuery(document).ready(function($) {
 	 var data = {
 			 action: 'cheetaho_request'
 	        },
-     errorTpl = '<div class="cheetahoErrorWrap"><a class="cheetahoError">Failed! Hover here</a></div>',
+     errorTpl = '<div class="cheetahoErrorWrap"><a class="cheetahoError">Failed! Hover here<span></span></a></div>',
      $btnApplyBulkAction = $("#doaction"),
      $btnApplyBulkAction2 = $("#doaction2"),
      $topActionDropdown = $(".tablenav.top .bulkactions select[name='action']"),
@@ -36,18 +36,18 @@ jQuery(document).ready(function($) {
         } else if (data.error) {
 
             var $error = $(errorTpl).attr("title", data.error.message);
-
+            $error
+            .find("span").html( data.error.message)
+            ;
+            
             $parent
                 .closest("td")
                 .find(".cheetahoErrorWrap")
                 .remove();
-
+ 
 
             $parent.after($error);
-            $error.tipsy({
-                fade: true,
-                gravity: 'e'
-            });
+           
 
             $button
                 .text("Retry request")
@@ -201,7 +201,9 @@ jQuery(document).ready(function($) {
 	            timeout: 360000
 	        })
 	        .done(function(data, textStatus, jqXHR) {
-	            if (data.success !== 'undefined') {
+	            if (data.success == true) {
+	            	console.log( $resetButton
+		                    .closest('.cheetaho_size.column-cheetaho_size'));
 	                $resetButton
 	                    .closest('.cheetaho_size.column-cheetaho_size')
 	                    .hide()

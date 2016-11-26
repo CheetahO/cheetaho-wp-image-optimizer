@@ -3,13 +3,13 @@
  * Plugin Name: CheetahO Image Optimizer
  * Plugin URI: http://cheetaho.com/
  * Description: CheetahO optimizes images automatically. Check your <a href="options-general.php?page=cheetaho" target="_blank">Settings &gt; CheetahO</a> page on how to start optimizing your image library and make your website load faster. 
- * Version: 1.2.3
+ * Version: 1.2.4
  * Author: CheetahO
  * Author URI: http://cheetaho.com
  */
 
 define( 'CHEETAHO_ASSETS_IMG_URL'   			 , realpath( plugin_dir_url( __FILE__  ) . 'img/' ) . '/img' );
-define( 'CHEETAHO_VERSION'   					 , '1.2.3' );
+define( 'CHEETAHO_VERSION'   					 , '1.2.4' );
 define( 'CHEETAHO_APP_URL'						 , 'http://app.cheetaho.com/');
 define( 'CHEETAHO_SETTINGS_LINK'				 , admin_url( 'options-general.php?page=cheetaho' ));
 
@@ -162,23 +162,26 @@ if (! class_exists('WPCheetahO')) {
                 
                 $image_path = get_attached_file($image_id);
                 
-                if (! isset($result['error'])) {
-                    $result = $result['data'];
+                if (! isset($result['error']) && ! isset($result['data']['error'])  && isset($result['data']['destURL']) ) {
                     
-                    $savings_percentage = (int) $result['savedBytes'] / (int) $result['originalSize'] * 100;
-                    $data['original_size'] = self::convert_to_kb($result['originalSize']);
-                    $data['cheetaho_size'] = self::convert_to_kb($result['newSize']);
-                    $data['saved_bytes'] = self::convert_to_kb($result['savedBytes']);
-                    $data['saved_percent'] = round($savings_percentage, 2) . '%';
-                    $data['type'] = $this->type_toText($this->cheetaho_optimization_type);
-                    $data['success'] = true;
-                    $data['meta'] = wp_get_attachment_metadata($image_id);
-                    $saved_bytes = (int) $data['saved_bytes'];
-                    
-                    if ($this->replace_new_image($image_path, $result['destURL'])) {
-                        update_post_meta($image_id, '_cheetaho_size', $data);
-                    } else {
-                        // writing image failed
+
+                    if (isset($result['data']['originalSize']) && (int)$result['data']['originalSize'] > 0) {
+          				$result = $result['data'];
+	                    $savings_percentage = (int) $result['savedBytes'] / (int) $result['originalSize'] * 100;
+	                    $data['original_size'] = self::convert_to_kb($result['originalSize']);
+	                    $data['cheetaho_size'] = self::convert_to_kb($result['newSize']);
+	                    $data['saved_bytes'] = self::convert_to_kb($result['savedBytes']);
+	                    $data['saved_percent'] = round($savings_percentage, 2) . '%';
+	                    $data['type'] = $this->type_toText($this->cheetaho_optimization_type);
+	                    $data['success'] = true;
+	                    $data['meta'] = wp_get_attachment_metadata($image_id);
+	                    $saved_bytes = (int) $data['saved_bytes'];
+	                    
+	                    if ($this->replace_new_image($image_path, $result['destURL'])) {
+	                        update_post_meta($image_id, '_cheetaho_size', $data);
+	                    } else {
+	                        // writing image failed
+	                    }
                     }
                 } else {
                     
@@ -268,11 +271,20 @@ if (! class_exists('WPCheetahO')) {
                  */
                 
                 $result = $this->optimizeImage($image_path, $type);
-              
+            
                 $data = array();
-                
-                if (! isset($result['error'])) {
-                    $result = $result['data'];
+               
+                if (! isset($result['error']) && ! isset($result['data']['error']) && isset($result['data']['destURL'])) {
+                	
+                	if (! isset($result['data']['originalSize']) || (int)$result['data']['originalSize'] == 0) {
+                		 echo json_encode(array(
+                            'error' => array('message'=>'Could not optimize image. CheetahO can not optimize image. File size 0kb.')
+                        ));
+                        exit();
+                	}
+                	
+                	
+                	$result = $result['data'];
                     $savings_percentage = (int) $result['savedBytes'] / (int) $result['originalSize'] * 100;
                     $data['original_size'] = self::convert_to_kb($result['originalSize']);
                     $data['cheetaho_size'] = self::convert_to_kb($result['newSize']);
@@ -282,7 +294,7 @@ if (! class_exists('WPCheetahO')) {
                     $data['success'] = true;
                     $data['meta'] = wp_get_attachment_metadata($image_id);
                     $saved_bytes = (int) $data['saved_bytes'];
-                   
+                     
                     if ($this->replace_new_image($local_image_path, $result['destURL'])) {
                         
                         // get metadata for thumbnails
@@ -307,8 +319,8 @@ if (! class_exists('WPCheetahO')) {
                         exit();
                     }
                 } else {
-                    
-                    // error or no optimization
+
+                	// error or no optimization
                     if (file_exists($image_path)) {
                         
                         $data['original_size'] = self::convert_to_kb(filesize($image_path));
@@ -323,6 +335,13 @@ if (! class_exists('WPCheetahO')) {
                         update_post_meta($image_id, '_cheetaho_size', $data);
                     } else {
                         // file not found
+                        $data['error'] = 'File not found';
+                    }
+                    
+                    if (isset($result['data']['error'])) {
+                    	$result = array();
+                    	$result['error'] = array();
+                    	$result['error']['message'] = 'Can not optimize image. Try later or contact CheetahO';
                     }
                     echo json_encode($result);
                 }
@@ -428,11 +447,17 @@ if (! class_exists('WPCheetahO')) {
             $fc = false;
             
             $ch = curl_init($new_url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+            curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
+	        curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, 0 );
+        	curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, 0 );
+        	curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 0 ); 
+        	curl_setopt( $ch, CURLOPT_TIMEOUT, 120 ); 
             curl_setopt($ch, CURLOPT_USERAGENT, 'WordPress/' . get_bloginfo('version') . ' CheetahoPlugin/' . self::$plugin_version);
             $result = curl_exec($ch);
-            $fc = file_put_contents($image_path, $result);
+            
+            if ( $result ) {
+            	$fc = file_put_contents($image_path, $result);
+            }
             return $fc !== false;
         }
 
@@ -456,7 +481,24 @@ if (! class_exists('WPCheetahO')) {
 				$params['quality'] = (int) $settings['quality'];
 			}
             
+			set_time_limit(400);
             $data = $Cheetaho->url($params);
+            
+            
+            //few checks
+        	if (isset($data['data']['error']['fatal']) ) {
+           		echo json_encode(array(
+                           'error' => array('message'=>'System error!')
+                ));
+            	exit(); 
+            }
+             
+           if (isset($data['data']['originalSize']) && isset($data['data']['newSize']) && (int)$data['data']['originalSize'] == 0 && (int)$data['data']['newSize'] == 0) {
+            	echo json_encode(array(
+                           'error' => array('message'=>'Error while we optimized image')
+                ));
+            	exit(); 
+            }
             
             $data['type'] = ! empty($type) ? $type : $settings['api_lossy'];
             
@@ -493,23 +535,25 @@ if (! class_exists('WPCheetahO')) {
         function add_media_columns($columns)
         {
             $columns['original_size'] = 'Original Size';
-            $columns['cheetago_size'] = 'Optimized Size';
+            $columns['cheetaho_size'] = 'Optimized Size';
             return $columns;
         }
 
         function cheetaho_media_library_reset()
         {
             $image_id = (int) $_POST['id'];
-            $image_meta = get_post_meta($image_id, '_cheetago_size', true);
-            $original_size = $image_meta['cheetago_size'];
-            delete_post_meta($image_id, '_cheetago_size');
-            delete_post_meta($image_id, '_cheetago_thumbs');
+           
+            $image_meta = get_post_meta($image_id, '_cheetaho_size', true);
+            
+            $original_size = $image_meta['cheetaho_size'];
+            delete_post_meta($image_id, '_cheetaho_size');
+            delete_post_meta($image_id, '_cheetaho_thumbs');
             echo json_encode(array(
                 'success' => true,
                 'original_size' => $original_size,
                 'html' => $this->optimize_button_html($image_id)
             ));
-            die();
+            wp_die();
         }
 
         static function convert_to_kb($bytes)
@@ -550,7 +594,7 @@ if (! class_exists('WPCheetahO')) {
                     echo $original_size;
                 }
             } else 
-                if (strcmp($column_name, 'cheetago_size') === 0) {
+                if (strcmp($column_name, 'cheetaho_size') === 0) {
                     
                     if (wp_attachment_is_image($id)) {
                         
@@ -599,7 +643,7 @@ if (! class_exists('WPCheetahO')) {
 <br />
 <small><?php echo $thumbs_count; ?> thumbs optimized</small>
 <?php } ?>
-				<?php if ( !empty( $this->cheetaho_settings['show_reset'] ) ) { ?>
+				<?php if ( empty( $this->cheetaho_settings['show_reset'] ) ) { ?>
 <br />
 <small class="cheetahoReset" data-id="<?php echo $id; ?>"
 	title="Removes Cheetaho metadata associated with this image"> Reset </small>
