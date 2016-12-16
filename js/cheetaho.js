@@ -1,5 +1,17 @@
 jQuery(document).ready(function($) {
 	
+	setTimeout(function () {
+		if( jQuery('div.media-frame.mode-grid').length > 0) { 
+	    //the media table is not in the list mode, alert the user
+	    	jQuery('div.media-frame.mode-grid').before('<div id="cheetaho-media-alert" class="notice notice-warning"><p>' 
+	    		+ cheetaho_object.changeMLToListMode 
+	    		+ '<a href="upload.php?mode=list" class="view-list">' 
+	    		+ cheetaho_object.changeMLToListMode1 
+	    		+' </a>',
+	            + '</p></div>');
+		 }
+	}, 2000);
+	
 	 var data = {
 			 action: 'cheetaho_request'
 	        },
@@ -79,17 +91,20 @@ jQuery(document).ready(function($) {
         var array = [];
         $("tr[id^='post-']").each(function() {
             var $row = $(this);
-            var postId = this.id.replace(/^\D+/g, '');
+            var postId = this.id.replace(/^\D+/g, '');  
             if ($row.find("input[type='checkbox'][value='" + postId + "']:checked").length) {
                 var Btn = $row.find(".cheetaho_req");
+
                 if (Btn.length) {
                     var btnData = Btn.data();
+                  
                     var originalSize = $.trim($row.find('td.original_size').text());
                     btnData.originalSize = originalSize;
                     array.push(btnData);
                 }
             }
         });
+       
         return array;
     };
     

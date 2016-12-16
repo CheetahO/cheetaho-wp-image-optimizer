@@ -5,19 +5,27 @@ class CheetahoUI {
    
 	public static function renderCheetahoSettingsMenu($data)
    {
-            if (! empty($_POST)) {
+            if (isset($_POST['cheetahoSaveAction']) && ! empty($_POST)) {
                 $options = $_POST['_cheetaho_options'];
                 $result = $data->validate_options_data($options);
               
                 update_option('_cheetaho_options', $result['valid']);
             }
             
+	    	//empty backup
+	        if(isset($_POST['emptyBackup'])) {
+	            $data->emptyBackup();
+	        }
+            
             $settings = get_option('_cheetaho_options');
           
             $lossy = (isset($settings['api_lossy']) && $settings['api_lossy'] != '') ? $settings['api_lossy'] : true;
             $auto_optimize = isset($settings['auto_optimize']) ? $settings['auto_optimize'] : 1;
+            $backup = isset($settings['backup']) ? $settings['backup'] : 1;
             $quality = isset( $settings['quality'] ) ? $settings['quality'] : 0;
           	$sizes = get_intermediate_image_sizes();
+          	$backupFolderSize =  size_format(WPCheetahO::folderSize(CHEETAHO_BACKUP_FOLDER), 2);
+          	
 
           	foreach ($sizes as $size) {
 				$valid['include_size_' . $size] = isset( $settings['include_size_' . $size]) ? $settings['include_size_' . $size] : 1;
@@ -168,21 +176,31 @@ class CheetahoUI {
 						            </td>
 						        </tr>	
 					        				        
-									      <?php
-			            /*
-			             * <tr>
-			             * <th scope="row">API status:</th>
-			             * <td>
-			             * <?php echo $status_html ?>
-			             * </td>
-			             * </tr>
-			             */
-			            ?>
+			            
+				              <tr>
+				              <th scope="row">Images backups:</th>
+				              <td>
+				              <input type="checkbox" id="backup"
+									name="_cheetaho_options[backup]" value="1"
+									<?php checked( 1, $backup, true ); ?> />
+									
+										<small class="cheetaho-sizes-comment">	
+										<span>You need to have backup active in order to be able to restore images to originals.</span>
+										</small>
+										<p>
+										Your backup folder size is now:
+										<form action="" method="POST">
+				                            <?php echo($backupFolderSize);?>
+				                            <input type="submit"  style="margin-left: 15px; vertical-align: middle;" class="button button-secondary" name="emptyBackup" onclick="confirm('Are you sure want to remove images from backup folder?');" value="Empty backups"/>
+				                        </form>
+										</p>
+				              </td>
+				              </tr>
+			             
 									      				        
 									    </tbody>
 					</table>
-					<input type="submit" name="cheetahoSaveAction"
-						class="button button-primary" value="Save Settings" />
+					<input type="submit" name="cheetahoSaveAction" class="button button-primary" value="Save Settings" />
 				</form>
 			</div>
 		</div>
@@ -203,10 +221,10 @@ class CheetahoUI {
 				<hr />
 				<?php $data = cheetahoHelper::getStats()?>
 				<ul>
-					<li>Images optimized: <?=$data['total_images']?></li>
-					<li>Total images original size: <?=size_format($data['total_size_orig_images'], 2)?></li>
-					<li>Total images size optimized: <?=size_format($data['total_size_images'], 2)?></li>
-					<li>Saved size in % using CheetahO: <?=$data['total_perc_optimized']?>%</li>
+					<li>Images optimized: <span id="optimized-images"><?=$data['total_images']?></span></li>
+					<li>Total images original size: <span data-bytes="<?=$data['total_size_orig_images']?>" id="original-images-size"><?=size_format($data['total_size_orig_images'], 2)?></span></li>
+					<li>Total images size optimized:  <span data-bytes="<?=$data['total_size_images']?>" id="optimized-size"><?=size_format($data['total_size_images'], 2)?></span></li>
+					<li>Saved size in % using CheetahO: <span id="savings-percentage"> <?=$data['total_perc_optimized']?>%</span></li>
 				</ul>
 			</div>
 			<?php 
@@ -311,5 +329,90 @@ class CheetahoUI {
 				</div>
 			</div>
 		<?php
+	}
+	
+	public static function displayBulkForm ($data, $images) {
+		?>
+		<div id="bulk-msg"></div>
+		<div class="cheetaho-wrap cheetaho-bulk">
+		<div class="cheetaho-col cheetaho-col-main">
+			<div class="cheetaho-title">CheetahO v1.2.4				<p class="cheetaho-rate-us">
+					<strong>Do you like this plugin?</strong><br> Please take a few seconds to <a href="https://wordpress.org/support/view/plugin-reviews/cheetaho-image-optimizer?rate=5#postform">rate it on WordPress.org</a>!					<br>
+					<a class="stars" href="https://wordpress.org/support/view/plugin-reviews/cheetaho-image-optimizer?rate=5#postform"><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span></a>
+				</p>
+			</div>
+			<div class="settings-tab">
+			 	<?php $totalToOptimize= $images['uploadedImages']?>
+				<?php if ($totalToOptimize == 0 || count($images['uploaded_images']) == 0):?>
+					<div class="cheetaho-alert-success">Congratulations! Your media library has been successfully optimized! Come back here when you will have new images to optimize</div>
+				<?php else:?>
+				<div class="cheetaho-bulk-info">Here you can start optimizing your entire library. Press the big button to start improving your website speed instantly! We can optimize your original images size and <b>thumbnails</b> <a href="#"  class="info-btn"><i>i</i></a>.
+					<span class="popup-container hide">
+						<h3>What are Thumbnails?</h3>
+						Thumbnails are smaller images generated by your WP theme. Most themes generate between 3 and 6 thumbnails for each Media Library image.<br/><br/>
+						The thumbnails also generate traffic on your website pages and they influence your website's speed.<br/><br/>
+						It's highly recommended that you include thumbnails in the optimization as well.<br/>
+					</span>Please check CheetahO setings <a href="<?=CHEETAHO_SETTINGS_LINK?>">page</a> for available plugin options. 
+				 </div>
+				<p>&nbsp;</p>
+					
+			
+				 <div class="optimize">
+					<div class="progressbar" id="compression-progress-bar" data-number-to-optimize="<?=$totalToOptimize?>" data-amount-optimized="0">
+						<div id="progress-size" class="progress" style="width: 60%;">
+						</div>
+						<div class="numbers">
+							<span id="optimized-so-far">0</span>/<span><?=$totalToOptimize?></span>
+							<span id="percentage">(0%)</span>
+						</div>
+					</div>
+					<div id="bulk-actions" class="optimization-buttons">
+						<input type="submit" name="id-start" id="id-start"  onclick="startAction(); return false;" class="button button-primary button-hero visible" value="Start Bulk Optimization">
+						<input type="submit" name="id-optimizing" id="id-optimizing" onmouseover="optimizingAction(); return false;" class="button button-primary button-hero" value="Optimizing...">
+						<input type="submit" name="id-cancel" onclick="cancelAction(); return false;" id="id-cancel" class="button button-primary button-hero red" value="Cancel">
+						<input type="submit" name="id-cancelling" id="id-cancelling" class="button button-primary button-hero red" value="Cancelling...">	
+					</div>
+				</div>	
+				<p><b>Remember:</b>	For the plugin to do the work, you need to keep this page open. But no worries: if ir will stop, you can continue where you left off!</p>
+				       
+		        <?php endif;?>
+				
+			</div>
+			<?php if ($totalToOptimize > 0 && count($images['uploaded_images']) > 0):?>
+			<script type="text/javascript">
+			<?php
+			
+			echo 'jQuery(function() { bulkOptimization(' . json_encode( $images['uploaded_images'] ) . ')})';
+			
+			?>
+			</script>
+			
+			 <table class="wp-list-table widefat fixed striped media whitebox" id="optimization-items" >
+					<thead>
+						<tr>
+							<?php // column-author WP 3.8-4.2 mobile view ?>
+							<th class="thumbnail"></th>
+							<th class="column-primary" ><?php esc_html_e( 'File', 'cheetaho' ) ?></th>
+							<th class="column"><?php esc_html_e( 'Original size', 'cheetaho' ) ?></th>
+							<th class="column"><?php esc_html_e( 'Size decreased by', 'cheetaho' ) ?></th>
+							<th class="column"><?php esc_html_e( 'Current Size', 'cheetaho' ) ?></th>
+							<th class="column savings" ><?php esc_html_e( 'Savings', 'cheetaho' ) ?></th>
+							<th class="status" ><?php esc_html_e( 'Status', 'cheetaho' ) ?></th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			<?php endif;?>
+		</div>
+		
+		<div class="cheetaho-col cheetaho-col-sidebar">
+			<?=self::renderStats()?>
+			<?=self::renderSupportBlock()?>
+			<?=self::renderContactsBlock()?>
+		</div>
+		</div>	
+		
+		<?php 
 	}
 }

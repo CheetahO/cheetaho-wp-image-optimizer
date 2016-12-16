@@ -2,8 +2,8 @@
 Contributors: cheetaho
 Tags: Image Optimizer, Image Optimiser, Optimize, Optimise, Images, Media, upload, gtmetrix speed test, Performance, SEO, faster loading times, smushit, smush.it, compress, tinypng, tinyjpeg, pngquant, jpegmini, attachment, gmagick, pagespeed, pagespeed insights, optimize jpeg, optimize png, shrink jpeg, optipng, tinypng, optimize photos, wp smush, compress images, optimize images, image compression
 Requires at least: 3.0.1
-Tested up to: 4.6.1
-Stable tag: 1.2.4
+Tested up to: 4.7
+Stable tag: 1.2.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 Donate link:  https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8EBKEZMR58UK4
@@ -26,6 +26,10 @@ You can try a **live demo** <a href="https://addendio.com/try-plugin/?slug=cheet
 > * ONE API key for multiple sites
 > * Lossless or lossy optimization
 > * Optimization Statistics and History
+> * 'Bulk' optimize all the existing images in Media Library.
+> * It is safe to test and use the plugin: all the original images are stored in backup folder (optional feature, you can disable it).
+> * Skip already optimized images.
+> * Optimize thumbnails as well.
 
 > Need more? Have a look at our plans: http://cheetaho.com/pricing/
 
@@ -37,18 +41,17 @@ You can try a **live demo** <a href="https://addendio.com/try-plugin/?slug=cheet
 * All optimization is carried out by sending images to CheetahO, and pulling the optimized files to your Wordpress installation.
 * To use this plugin, you must obtain a full API key from CheetahO [panel](http://app.cheetaho.com/admin/api-credentials).
 
-
 Once you have obtained your credentials, from your Wordpress admin, go to the settings page and there you can enter your API credentials, and select your optimization preferences. Once you have done this, click on **Save**. If everything is in order, it will simply say "settings saved" and give you a reassuring green tick that your credentials are valid. You can now start optimizing images from within Media Library. Any image you upload from now on, through any of the media upload screens will be optimized on-the-fly.
 
 = Features on the way =
-* Optimize entire media library in one click.
 * Optimize your currently active theme.
 * WordPress Multisite support.
+
 
 Please send bug reports, problems, feature requests and so on to support (at) cheetaho dot com, or directly to the author of this plugin.
 
 = Connect with CheetahO.com =
-* Website: http://cheetaho.com/
+* Website: http://cheetaho.com/contact-us/
 * [Twitter](https://twitter.com/cheetahocom "@cheetahocom")
 
 **Keywords:** picture, optimization, image editor, pngout, upload speed, shortpixel, compression, lossless, media, jpegtran, gtmetrix speed test, image, image optimisation, image optimization, shrink, picture, photo, optimize photos, gmagick, compress, performance, tinypng, crunch, pngquant, attachment, optimize, pictures, fast, images, image files, image quality, jpegmini, lossy, upload, kraken, resize, seo, smushit, optipng, kraken image optimizer, ewww, photo optimization, image optimizer, images, krakenio, png, gmagick, image optimize, jpg, jpeg, jpg optimisation, jpg optimization, optimize jpg, optimise jpg, shrink jpg, optimizer, optimiser, compresion, optimization, cruncher, image cruncher, compress png, compress jpg, compress jpeg, faster loading times, image optimiser, improve pagerank, optimise, optimise jpeg, optimize jpeg, optimize png, optimise png, tinyjpg, short pixel, shortpixel, smush, imsanity, scale, wp smush, compress images, optimize images, shrink jpeg, compressor, faster website, google pagerank, imagify, prizm, optimus, improve page speed, PageSpeed Insights, sitespeed, smaller images, tinyjpeg, wordpress compression, wordPress image tool, reduce image size, bandwidth, pics, keep exif, remove exif, speed up site, speed up website, compress thumbnails, optimize thumbnails
@@ -79,6 +82,12 @@ From cheetago panel, right [here](http://app.cheetaho.com/admin/api-credentials)
 CheetahO lets to optimize image up to 4 MB with free subscription plan. If you would like to optimize bigger files, you will need to take other plans from [here](http://app.cheetaho.com/admin/billing/plans) 
 
 == Changelog ==
+= 1.2.5 =
+* Add backup options for optimized images
+* Add 'Bulk' images optimization
+* Test with wordpress 4.7 version
+* Fix thumbnails optimization during image upload
+
 = 1.2.4 =
 * Fix image remove when get unexpected responce
 * Add extra validation for thumbnails optimization

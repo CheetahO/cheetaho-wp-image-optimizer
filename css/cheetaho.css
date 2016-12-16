@@ -27,6 +27,17 @@ div.updated.cheetaho.mb-30,
 	background:url(../img/loading.gif) 0 0 no-repeat;
 }
 
+.cheetaho-bulk-spinner {
+	position: absolute;
+	display: none;
+	width: 20px;
+	height: 20px;
+	margin-top: 15px;
+	background-size: 20px 20px;
+	background:url(../img/loading.gif) 0 0 no-repeat;
+	left:47%;
+}
+
 .cheetaho-mask {
   z-index:90000;
   width:100%;
@@ -57,6 +68,7 @@ div.updated.cheetaho.mb-30,
     margin-bottom: 10px;
     margin-top: 20px;
     overflow: hidden;
+    position:relative;
     background-color: #f5f5f5;
     border-radius: 4px;
     -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
@@ -143,10 +155,23 @@ div.updated.cheetaho.mb-30,
     width:70%;
 }
 
+
 .cheetaho-col-sidebar {
 	float: right;
     width: 28%;
     max-width: 300px;
+}
+
+
+@media only screen and (min-width: 1300px) {
+	.cheetaho-col-main{
+		 width:75%;
+	}
+	
+	.cheetaho-col-sidebar {
+	    width: 22%;
+	    max-width: 300px;
+	}
 }
 
 .form-table th {
@@ -281,6 +306,65 @@ div.updated.cheetaho.mb-30,
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1); 
     padding: 1px 12px;
 }
+
+.cheetaho-alert-success {
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1); 
+    padding: 10px 12px;
+    border:1px solid green;
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;  
+}
+
+.info-btn {
+	font-weight:bold;
+	color:#fff;
+	background:#000;
+	border-radius:50%;
+	width:15px;
+	height:15px;
+	text-align:center;
+	display:inline-block;
+}
+
+.info-btn:focus,
+.info-btn:active,
+.info-btn:hover {
+	color:#fff;
+	outline:none;
+	cursor:pointer;
+}
+
+.cheetaho-bulk-info {
+	position:relative;
+}
+
+.info-btn:focus + .popup-container,
+.info-btn:active + .popup-container {
+	display:block!important; 
+	border: #c0c0c0 1px dotted;
+    padding: 5px 10px 10px 10px;
+    display: block;
+    z-index: 100;
+    background: #f0f0f0 no-repeat 100% 5%;
+    left: 0px;
+    margin: 10px;
+    width: 350px;
+    position: absolute;
+    top: 10px;
+    right:0;
+    left:auto;
+    text-decoration: none 
+}
+
+.info-btn i{
+	display:inline-block;
+	text-align:center;
+	vertical-align:middle;
+	padding-bottom:3px;
+}
+
+.cheetahoError,
 .cheetahoReset,
 a.cheetahoError {
     border-bottom: 1px dashed;
@@ -288,6 +372,17 @@ a.cheetahoError {
     font-size:12px;
     color:blue;
 }
+
+td.failed {
+	font-size:10px;
+	color:red;
+}
+
+tr.success td {
+	font-size:12px;
+	color:green;
+}
+
 a.cheetahoError:hover {
     cursor: help;
     position: relative
@@ -310,5 +405,82 @@ a.cheetahoError:hover span {
     left:auto;
     color:red;
     text-decoration: none
+}
+
+/**bulk**/
+
+.cheetaho-bulk .optimize {
+	margin: 4px 23px 32px;
+    text-align: center;
+    clear: both;
+}
+
+.cheetaho-bulk div.optimize div.progressbar {
+    position: relative;
+    height: 32px;
+    margin-bottom: 32px;
+    line-height: 32px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #fff;
+    background-color: #ebebeb;
+}
+
+.cheetaho-bulk div.progress {
+    background-color: #4CAF50;
+    position: absolute;
+    left: 0;
+    min-width: 4px;
+    width: 0;
+    height: 32px;
+    z-index: 2;
+    transition: width 1s ease;
+    background-size: 40px 80px;
+    -webkit-backface-visibility: hidden;
+    -webkit-perspective: 1000;
+    backface-visibility: hidden;
+    perspective: 1000;
+}
+
+.cheetaho-bulk div.numbers {
+    position: relative;
+    z-index: 3;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+}
+
+.cheetaho-bulk  table.whitebox {
+    min-width: 750px;
+    margin-top: 16px;
+    border: 1px solid #e5e5e5;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+    background-color: #fff;
+}
+
+.cheetaho-bulk table.whitebox thead th.thumbnail {
+    width: 30px;
+}
+
+.cheetaho-bulk table.whitebox thead th.thumbnail {
+    width: 30px;
+}
+
+.cheetaho-bulk  table.whitebox th.column {
+    width: auto;
+}
+ 
+.cheetaho-bulk .button-hero {
+	display:none;
+}
+
+.cheetaho-bulk .optimization-buttons {
+	position:relative;
+}
+
+.cheetaho-bulk .button-hero.visible {
+	display:inline-block;
+}
+
+.hide {
+	display:none;
 }
   
