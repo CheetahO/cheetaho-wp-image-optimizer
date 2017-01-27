@@ -2,8 +2,8 @@
 Contributors: cheetaho
 Tags: Image Optimizer, Image Optimiser, Optimize, Optimise, Images, Media, upload, gtmetrix speed test, Performance, SEO, faster loading times, smushit, smush.it, compress, tinypng, tinyjpeg, pngquant, jpegmini, attachment, gmagick, pagespeed, pagespeed insights, optimize jpeg, optimize png, shrink jpeg, optipng, tinypng, optimize photos, wp smush, compress images, optimize images, image compression
 Requires at least: 3.0.1
-Tested up to: 4.7
-Stable tag: 1.2.5
+Tested up to: 4.7.2
+Stable tag: 1.2.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 Donate link:  https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8EBKEZMR58UK4
@@ -20,8 +20,8 @@ You can try a **live demo** <a href="https://addendio.com/try-plugin/?slug=cheet
 
 > Sign up for your FREE CheetahO.com [Account](http://app.cheetaho.com/) and try out CheetahO image optimization tool. We suggest:
 
-> * 500 images
-> * Max file size 4 MiB
+> * 500 images (can buy more)
+> * Max file size 4 MiB (with paid plan get more)
 > * API access
 > * ONE API key for multiple sites
 > * Lossless or lossy optimization
@@ -30,6 +30,7 @@ You can try a **live demo** <a href="https://addendio.com/try-plugin/?slug=cheet
 > * It is safe to test and use the plugin: all the original images are stored in backup folder (optional feature, you can disable it).
 > * Skip already optimized images.
 > * Optimize thumbnails as well.
+> * Works with both HTTPS and HTTP websites
 
 > Need more? Have a look at our plans: http://cheetaho.com/pricing/
 
@@ -67,6 +68,9 @@ To install the CheetahO Wordpress Plugin:
 4. Any images you upload from now on using Wordpress's Media Upload will be optimized according to your settings. Auto-generated thumbnails will also be optimized.
 5. Images already present can be optimized from within the Media Library.
 
+CheetahO - Getting Started
+[youtube https://www.youtube.com/watch?v=ERikQMzZv8E]
+
 == Screenshots ==
 
 1. Cheetaho.com wordpress plugin settings page. You must enter your credentials, and select your optimization mode from there. `/assets/screenshot-1.png`
@@ -78,10 +82,30 @@ To install the CheetahO Wordpress Plugin:
 
 From cheetago panel, right [here](http://app.cheetaho.com/admin/api-credentials).
 
+= What happens after I optimize the 500 FREE images? =
+
+If you exhaust your free image quota, CheetahO will stop working. You will have to wait for the next month's quota when your plan will renew.
+
+= How does the one-time plan work? =
+
+You can purchase a one-time plan for processing you images. You will pay for it only once, this is not plan subscription. This plan is recommended for websites that have a large gallery that needs to be optimized.
+
+= I want to get original images. Where is the backup folder located? =
+
+Your original images are saved in a backup folder located on your server at: /wp-content/uploads/CheetahoBackups/
+
+
 = I can not optimize image. Got error "Requested file size too large". How fix this? =
 CheetahO lets to optimize image up to 4 MB with free subscription plan. If you would like to optimize bigger files, you will need to take other plans from [here](http://app.cheetaho.com/admin/billing/plans) 
 
 == Changelog ==
+
+= 1.2.6 =
+* Update readme
+* Testing with WordPress 4.7.2 version
+* Add website logo
+* Set API calls use HTTPS
+
 = 1.2.5 =
 * Add backup options for optimized images
 * Add 'Bulk' images optimization

@@ -336,7 +336,7 @@ class CheetahoUI {
 		<div id="bulk-msg"></div>
 		<div class="cheetaho-wrap cheetaho-bulk">
 		<div class="cheetaho-col cheetaho-col-main">
-			<div class="cheetaho-title">CheetahO v1.2.4				<p class="cheetaho-rate-us">
+			<div class="cheetaho-title">CheetahO v<?=CHEETAHO_VERSION?>				<p class="cheetaho-rate-us">
 					<strong>Do you like this plugin?</strong><br> Please take a few seconds to <a href="https://wordpress.org/support/view/plugin-reviews/cheetaho-image-optimizer?rate=5#postform">rate it on WordPress.org</a>!					<br>
 					<a class="stars" href="https://wordpress.org/support/view/plugin-reviews/cheetaho-image-optimizer?rate=5#postform"><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span></a>
 				</p>
