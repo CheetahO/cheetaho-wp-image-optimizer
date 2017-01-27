@@ -21,7 +21,7 @@ class CheetahO
     public function url($params = array())
     {
         $data = json_encode(array_merge($this->auth, $params));
-        $response = self::request($data, 'http://app.cheetaho.com/api/v1/media');
+        $response = self::request($data, 'https://app.cheetaho.com/api/v1/media');
         
         return $response;
     }
@@ -35,7 +35,7 @@ class CheetahO
     {
     	$data = array();
     	
-        $response = self::request($data, 'http://app.cheetaho.com/api/v1/userstatus', 'get');
+        $response = self::request($data, 'https://app.cheetaho.com/api/v1/userstatus', 'get');
         
         return $response;
     }
