@@ -59,21 +59,20 @@ class CheetahoUI {
 									</div>
 			<?php } else if ( isset( $result['success'] ) ) { ?>
 			<div class="cheetaho updated mb-30">
-				<p>Settings saved.</p>
+				<p><?php _e( 'Settings saved.', 'CheetahO')?></p>
 			</div>
 			<?php } ?>
 			
 								<?php if ( !function_exists( 'curl_init' ) ) { ?>
 			<p class="curl-warning mb-30">
-				<strong>Warning: </strong>CURL is not available. If you would like to
-				use this plugin please install CURL
+				<strong><?php _e( 'Warning:', 'CheetahO' )?> </strong><?php _e( 'CURL is not available. If you would like to use this plugin please install CURL', 'CheetahO')?>
 			</p>
 			<?php } ?>
 			
 			<div class="cheetaho-title">
 				CheetahO v<?=CHEETAHO_VERSION?>
 				<p class="cheetaho-rate-us">
-					<strong>Do you like this plugin?</strong><br> Please take a few seconds to <a href="https://wordpress.org/support/view/plugin-reviews/cheetaho-image-optimizer?rate=5#postform">rate it on WordPress.org</a>!					<br>
+					<strong><?php _e( 'Do you like this plugin?', 'CheetahO')?></strong><br> <?php _e( 'Please take a few seconds to', 'CheetahO')?> <a href="https://wordpress.org/support/view/plugin-reviews/cheetaho-image-optimizer?rate=5#postform"><?php _e( 'rate it on WordPress.org', 'CheetahO')?></a>!					<br>
 					<a class="stars" href="https://wordpress.org/support/view/plugin-reviews/cheetaho-image-optimizer?rate=5#postform"><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span></a>
 				</p>
 			</div>
@@ -85,10 +84,10 @@ class CheetahoUI {
 						<table class="form-table">
 							<tbody>
 								<tr>
-									<th scope="row"><label for="api_key">API Key</label></th>
+									<th scope="row"><label for="api_key"><?php _e( 'API Key', 'CheetahO')?></label></th>
 									<td>
 										<input name="_cheetaho_options[api_key]" type="text" value="<?php echo esc_attr( $api_key ); ?>" size="60">
-										Don't have an API Key yet? <a href="http://app.cheetaho.com/" target="_blank" title="Log in to your Cheetaho account">Create one, it's FREE</a>
+										<?php _e( 'Do not have an API Key yet?', 'CheetahO')?> <a href="http://app.cheetaho.com/" target="_blank" title="Log in to your Cheetaho account"><?php _e( 'Create one, it is FREE', 'CheetahO' )?></a>
 									</td>
 								</tr>
 							</tbody>
@@ -101,43 +100,35 @@ class CheetahoUI {
 						<tbody>
 							
 							<tr>
-								<th scope="row">Optimization Type:</th>
-								<td><input type="radio" id="cheetahoLossy"
-									name="_cheetaho_options[api_lossy]" value="1"
-									<?php checked( 1, $lossy, true ); ?> /> <label for="cheetahoLossy">Lossy</label>
+								<th scope="row"><?php _e( 'Optimization Type:', 'CheetahO')?></th>
+								<td>
+								<input type="radio" id="cheetahoLossy" name="_cheetaho_options[api_lossy]" value="1" <?php checked( 1, $lossy, true ); ?> /> <label for="cheetahoLossy"><?php _e( 'Lossy', 'CheetahO')?></label>
 									<p class="settings-info">
-										<small><b>Lossy compression: </b>lossy has a better compression rate
-										than lossless compression.<br> The resulting image can be not
-										100% identical with the original. Works well for photos taken
-										with your camera.</small>
-									</p> <br /> <input type="radio" id="cheetahoLossless"
-									name="_cheetaho_options[api_lossy]" value="0"
-									<?php checked( 0, $lossy, true ) ?> /> <label
-									for="cheetahoLossless">Lossless</label>
+										<small><b><?php _e( 'Lossy compression:', 'CheetahO')?> </b><?php _e( 'lossy has a better compression rate than lossless compression.<br> The resulting image can be not 100% identical with the original. Works well for photos taken with your camera.', 'CheetahO')?></small>
+									</p> <br /> 
+									<input type="radio" id="cheetahoLossless" name="_cheetaho_options[api_lossy]" value="0" <?php checked( 0, $lossy, true ) ?> /> 
+									<label for="cheetahoLossless"><?php _e( 'Lossless', 'CheetahO')?></label>
 									<p class="settings-info">
-										<small><b>Lossless compression: </b> the shrunk image will be identical
-										with the original and smaller in size.<br> You can use this when
-										you do not want to lose any of the original image's details.
-										Choose this if you would like to optimize technical drawings,
-										clip art and comics.</small>
+										<small><b><?php _e( 'Lossless compression:', 'CheetahO')?> </b> <?php _e( 'the shrunk image will be identical with the original and smaller in size.', 'CheetahO');?><br /> 
+										<?php _e( 'You can use this when you do not want to lose any of the original images details. Choose this if you would like to optimize technical drawings, clip art and comics.', 'CheetahO')?></small>
 									</p> 
 									</td>
 							</tr>
 							<tr>
-								<th scope="row">Automatically optimize uploads:</th>
-								<td><input type="checkbox" id="auto_optimize"
-									name="_cheetaho_options[auto_optimize]" value="1"
-									<?php checked( 1, $auto_optimize, true ); ?> /></td>
+								<th scope="row"><?php _e( 'Automatically optimize uploads:', 'CheetahO')?></th>
+								<td>
+									<input type="checkbox" id="auto_optimize" name="_cheetaho_options[auto_optimize]" value="1" <?php checked( 1, $auto_optimize, true ); ?> />
+								</td>
 							</tr>
 							<tr class="with-tip">
-					        	<th scope="row">JPEG quality:</th>
+					        	<th scope="row"><?php _e( 'JPEG quality:', 'CheetahO')?></th>
 					        	<td>
 									<select name="_cheetaho_options[quality]">
 										<?php $i = 0 ?>
 										
 										<?php foreach ( range(100, 40) as $number ) { ?>
 											<?php if ( $i === 0 ) { ?>
-												<?php echo '<option value="0">Intelligent lossy (recommended)</option>'; ?>
+												<?php echo '<option value="0">'.__('Intelligent lossy (recommended)', 'Cheetaho').'</option>'; ?>
 											<?php } ?>
 											<?php if ($i > 0) { ?>
 												<option value="<?php echo $number ?>" <?php selected( $quality, $number, true); ?>>
@@ -148,19 +139,19 @@ class CheetahoUI {
 										<?php } ?>
 									</select>
 									<p class="settings-info">
-										<small>Advanced users can force the quality of images. 
-										Specifying a quality level of 40 will produce the lowest image quality (highest compression level).<br/>						    We therefore recommend keeping the <strong>Intelligent Lossy</strong> setting, which will not allow a resulting image of unacceptable quality.<br />
-									    This setting will be ignored when using the <strong>lossless</strong> optimization mode.</small>
+										<small><?php _e( 'Advanced users can force the quality of images. Specifying a quality level of 40 will produce the lowest image quality (highest compression level).', 'CheetahO')?><br/>
+										<?php _e( 'We therefore recommend keeping the <strong>Intelligent Lossy</strong> setting, which will not allow a resulting image of unacceptable quality.', 'CheetahO')?><br />
+									    <?php _e( 'This setting will be ignored when using the <strong>lossless</strong> optimization mode.', 'CheetahO')?>
+									    </small>
 									</p> <br />
 					        	</td>
 					        </tr>
 					          <tr class="cheetaho-advanced-settings">
-						            <th scope="row">Image Sizes to optimize:</th>
+						            <th scope="row"><?php _e( 'Image Sizes to optimize:', 'CheetahO')?></th>
 									<td>
 									<p class="cheetaho-sizes-comment">
-										<small>You can choose witch image size created by WordPress you want to compress.	
-										The original size is automatically optimized by CheetahO.	
-										<span>Do not forget that each additional image size will affect your CheetahO monthly usage!</span>
+										<small><?php _e( 'You can choose witch image size created by WordPress you want to compress. The original size is automatically optimized by CheetahO.', 'CheetahO')?>	
+										<span><?php _e( 'Do not forget that each additional image size will affect your CheetahO monthly usage!', 'CheetahO')?></span>
 										</small></p>
 						            	<br />
 										<?php $size_count = count($sizes); ?>
@@ -178,20 +169,20 @@ class CheetahoUI {
 					        				        
 			            
 				              <tr>
-				              <th scope="row">Images backups:</th>
+				              <th scope="row"><?php _e( 'Images backups:', 'CheetahO')?></th>
 				              <td>
 				              <input type="checkbox" id="backup"
 									name="_cheetaho_options[backup]" value="1"
 									<?php checked( 1, $backup, true ); ?> />
 									
 										<small class="cheetaho-sizes-comment">	
-										<span>You need to have backup active in order to be able to restore images to originals.</span>
+										<span><?php _e( 'You need to have backup active in order to be able to restore images to originals.', 'CheetahO')?></span>
 										</small>
 										<p>
-										Your backup folder size is now:
+										<?php _e( 'Your backup folder size is now:', 'CheetahO')?>
 										<form action="" method="POST">
 				                            <?php echo($backupFolderSize);?>
-				                            <input type="submit"  style="margin-left: 15px; vertical-align: middle;" class="button button-secondary" name="emptyBackup" onclick="confirm('Are you sure want to remove images from backup folder?');" value="Empty backups"/>
+				                            <input type="submit"  style="margin-left: 15px; vertical-align: middle;" class="button button-secondary" name="emptyBackup" onclick="confirm('<?php _e('Are you sure want to remove images from backup folder?', 'CheetahO')?>');" value="Empty backups"/>
 				                        </form>
 										</p>
 				              </td>
@@ -217,14 +208,14 @@ class CheetahoUI {
         public static function renderStats() {
         	?>
         	<div class="cheetaho-block stats">
-				<h3>Optimization Stats</h3>
+				<h3><?php _e( 'Optimization Stats', 'CheetahO');?></h3>
 				<hr />
 				<?php $data = cheetahoHelper::getStats()?>
 				<ul>
-					<li>Images optimized: <span id="optimized-images"><?=$data['total_images']?></span></li>
-					<li>Total images original size: <span data-bytes="<?=$data['total_size_orig_images']?>" id="original-images-size"><?=size_format($data['total_size_orig_images'], 2)?></span></li>
-					<li>Total images size optimized:  <span data-bytes="<?=$data['total_size_images']?>" id="optimized-size"><?=size_format($data['total_size_images'], 2)?></span></li>
-					<li>Saved size in % using CheetahO: <span id="savings-percentage"> <?=$data['total_perc_optimized']?>%</span></li>
+					<li><?php _e( 'Images optimized:', 'CheetahO')?> <span id="optimized-images"><?=$data['total_images']?></span></li>
+					<li><?php _e( 'Total images original size:', 'CheetahO')?>  <span data-bytes="<?=$data['total_size_orig_images']?>" id="original-images-size"><?=size_format($data['total_size_orig_images'], 2)?></span></li>
+					<li><?php _e( 'Total images size optimized:', 'CheetahO')?>   <span data-bytes="<?=$data['total_size_images']?>" id="optimized-size"><?=size_format($data['total_size_images'], 2)?></span></li>
+					<li><?php _e( 'Saved size in % using CheetahO:', 'CheetahO')?>  <span id="savings-percentage"> <?=$data['total_perc_optimized']?>%</span></li>
 				</ul>
 			</div>
 			<?php 
@@ -234,12 +225,12 @@ class CheetahoUI {
         public static function renderSupportBlock() {
         ?>
         	<div class="cheetaho-block stats">
-				<h3>Support CheetahO</h3>
+				<h3><?php _e( 'Support CheetahO', 'CheetahO')?></h3>
 				<hr />
-				<p>Would you like to help support development of this plugin?</p>
-				<p><a target="_blank" href="https://wordpress.org/support/view/plugin-reviews/cheetaho-image-optimizer#postform">Write a review.</a></p>
-				<p>Contribute directly via <a target="_blank"  href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8EBKEZMR58UK4">Paypal</a>.</p>
-				<p>Or just say to world about us via: <br />
+				<p><?php _e( 'Would you like to help support development of this plugin?', 'CheetahO')?></p>
+				<p><a target="_blank" href="https://wordpress.org/support/view/plugin-reviews/cheetaho-image-optimizer#postform"><?php _e( 'Write a review.', 'CheetahO')?></a></p>
+				<p><?php _e( 'Contribute directly via', 'CheetahO')?> <a target="_blank"  href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8EBKEZMR58UK4">Paypal</a>.</p>
+				<p><?php _e( 'Or just say to world about us via:', 'CheetahO')?> <br />
 				<a class="cheetaho-btn cheetaho-twitter"  href="https://twitter.com/intent/tweet?url=http://cheetaho.com&text=Thanks for @cheetahocom for good image optimization service.&hashtags=seo%2C%20webperf%2C%20webdev%2C%20" target="_blank" class="btn btn-twitter">Twitter</a>
 				<a class="cheetaho-btn cheetaho-google" href="https://plus.google.com/share?url=http://cheetaho.com" target="_blank">Google+</a>
 				<a class="cheetaho-btn cheetaho-facebook" href="https://www.facebook.com/dialog/feed?app_id=714993091988558&display=popup&caption=Thanks%20for%20@cheetahocom%20for%20good%20image%20optimization%20service&link=http://cheetaho.com&redirect_uri=http://cheetaho.com" target="_blank">Facebook</a>
@@ -251,9 +242,9 @@ class CheetahoUI {
         public static function renderContactsBlock () {
         ?>
         	<div class="cheetaho-block stats">
-				<h3>Contact Us:</h3>
+				<h3><?php _e( 'Contact Us', 'CheetahO')?>:</h3>
 				<hr />
-				<p>Found Bug? Have questions or suggestions. Please write us an email: <a target="_blank"  href="mailto:support@cheetaho.com">support@cheetaho.com</a> or you can fill our contact form <a target="_blank" href="http://cheetaho.com/contact-us/">here</a>.</p>
+				<p><?php _e( 'Found Bug? Have questions or suggestions. Please write us an email:', 'CheetahO')?> <a target="_blank"  href="mailto:support@cheetaho.com">support@cheetaho.com</a> <?php _e( 'or you can fill our contact form', 'CheetahO')?> <a target="_blank" href="http://cheetaho.com/contact-us/"><?php _e( 'here', 'CheetahO')?></a>.</p>
 			</div>
         <?php 
         }
@@ -278,10 +269,7 @@ class CheetahoUI {
 	            <p>
 	             	<a class='button button-primary' href='<?= CHEETAHO_APP_URL?>admin/billing/plans' target='_blank'><?php _e( 'Upgrade plan now', 'CheetahO' ); ?></a>
 	             	<a class='button button-secondary' href='<?= getCheetahoUrl( 'closeNotice', 'quota' ); ?>' ><?php _e( 'I upgraded plan. Close message', 'CheetahO' ); ?></a>
-	             	
-	            </p>
-	           
-	            
+	            </p>  
 	        </div> <?php 
 	    }
 	    
@@ -336,23 +324,23 @@ class CheetahoUI {
 		<div id="bulk-msg"></div>
 		<div class="cheetaho-wrap cheetaho-bulk">
 		<div class="cheetaho-col cheetaho-col-main">
-			<div class="cheetaho-title">CheetahO v<?=CHEETAHO_VERSION?>				<p class="cheetaho-rate-us">
-					<strong>Do you like this plugin?</strong><br> Please take a few seconds to <a href="https://wordpress.org/support/view/plugin-reviews/cheetaho-image-optimizer?rate=5#postform">rate it on WordPress.org</a>!					<br>
+			<div class="cheetaho-title">CheetahO v<?=CHEETAHO_VERSION?> <p class="cheetaho-rate-us">
+					<strong><?php _e( 'Do you like this plugin?', 'CheetahO')?></strong><br /> <?php _e( 'Please take a few seconds to', 'CheetahO')?> <a href="https://wordpress.org/support/view/plugin-reviews/cheetaho-image-optimizer?rate=5#postform"><?php _e( 'rate it on WordPress.org', 'CheeahO')?></a>! <br />
 					<a class="stars" href="https://wordpress.org/support/view/plugin-reviews/cheetaho-image-optimizer?rate=5#postform"><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span></a>
 				</p>
 			</div>
 			<div class="settings-tab">
 			 	<?php $totalToOptimize= $images['uploadedImages']?>
 				<?php if ($totalToOptimize == 0 || count($images['uploaded_images']) == 0):?>
-					<div class="cheetaho-alert-success">Congratulations! Your media library has been successfully optimized! Come back here when you will have new images to optimize</div>
+					<div class="cheetaho-alert-success"><?php _e( 'Congratulations! Your media library has been successfully optimized! Come back here when you will have new images to optimize', 'CheetahO')?></div>
 				<?php else:?>
-				<div class="cheetaho-bulk-info">Here you can start optimizing your entire library. Press the big button to start improving your website speed instantly! We can optimize your original images size and <b>thumbnails</b> <a href="#"  class="info-btn"><i>i</i></a>.
+				<div class="cheetaho-bulk-info"><?php _e( 'Here you can start optimizing your entire library. Press the big button to start improving your website speed instantly! We can optimize your original images size and', 'CheetahO')?> <b><?php _e('thumbnails', 'CheetahO')?></b> <a href="#"  class="info-btn"><i>i</i></a>.
 					<span class="popup-container hide">
-						<h3>What are Thumbnails?</h3>
-						Thumbnails are smaller images generated by your WP theme. Most themes generate between 3 and 6 thumbnails for each Media Library image.<br/><br/>
-						The thumbnails also generate traffic on your website pages and they influence your website's speed.<br/><br/>
-						It's highly recommended that you include thumbnails in the optimization as well.<br/>
-					</span>Please check CheetahO setings <a href="<?=CHEETAHO_SETTINGS_LINK?>">page</a> for available plugin options. 
+						<h3><?php _e( 'What are Thumbnails?', 'CheetahO')?></h3>
+						<?php _e('Thumbnails are smaller images generated by your WP theme. Most themes generate between 3 and 6 thumbnails for each Media Library image.', 'CheetahO')?><br/><br/>
+						<?php _e('The thumbnails also generate traffic on your website pages and they influence your websites speed', 'CheetahO')?>.<br/><br/>
+						<?php _e('It is highly recommended that you include thumbnails in the optimization as well.', 'CheetahO')?><br/>
+					</span><?php _e('Please check CheetahO setings', 'CheetahO')?> <a href="<?=CHEETAHO_SETTINGS_LINK?>"><?php _e('page', 'CheetahO')?></a> <?php _e('for available plugin options', 'CheetahO')?>. 
 				 </div>
 				<p>&nbsp;</p>
 					
@@ -367,13 +355,13 @@ class CheetahoUI {
 						</div>
 					</div>
 					<div id="bulk-actions" class="optimization-buttons">
-						<input type="submit" name="id-start" id="id-start"  onclick="startAction(); return false;" class="button button-primary button-hero visible" value="Start Bulk Optimization">
-						<input type="submit" name="id-optimizing" id="id-optimizing" onmouseover="optimizingAction(); return false;" class="button button-primary button-hero" value="Optimizing...">
-						<input type="submit" name="id-cancel" onclick="cancelAction(); return false;" id="id-cancel" class="button button-primary button-hero red" value="Cancel">
-						<input type="submit" name="id-cancelling" id="id-cancelling" class="button button-primary button-hero red" value="Cancelling...">	
+						<input type="submit" name="id-start" id="id-start"  onclick="startAction(); return false;" class="button button-primary button-hero visible" value="<?php _e('Start Bulk Optimization', 'CheetahO')?>">
+						<input type="submit" name="id-optimizing" id="id-optimizing" onmouseover="optimizingAction(); return false;" class="button button-primary button-hero" value="<?php _e('Optimizing...', 'CheetahO')?>">
+						<input type="submit" name="id-cancel" onclick="cancelAction(); return false;" id="id-cancel" class="button button-primary button-hero red" value="<?php _e('Cancel', 'CheetahO')?>">
+						<input type="submit" name="id-cancelling" id="id-cancelling" class="button button-primary button-hero red" value="<?php _e('Cancelling...', 'CheetahO')?>">	
 					</div>
 				</div>	
-				<p><b>Remember:</b>	For the plugin to do the work, you need to keep this page open. But no worries: if ir will stop, you can continue where you left off!</p>
+				<p><b><?php _e('Remember', 'CheetahO')?>:</b> <?php _e('For the plugin to do the work, you need to keep this page open. But no worries: if ir will stop, you can continue where you left off!', 'CheetahO')?></p>
 				       
 		        <?php endif;?>
 				
@@ -392,12 +380,12 @@ class CheetahoUI {
 						<tr>
 							<?php // column-author WP 3.8-4.2 mobile view ?>
 							<th class="thumbnail"></th>
-							<th class="column-primary" ><?php esc_html_e( 'File', 'cheetaho' ) ?></th>
-							<th class="column"><?php esc_html_e( 'Original size', 'cheetaho' ) ?></th>
-							<th class="column"><?php esc_html_e( 'Size decreased by', 'cheetaho' ) ?></th>
-							<th class="column"><?php esc_html_e( 'Current Size', 'cheetaho' ) ?></th>
-							<th class="column savings" ><?php esc_html_e( 'Savings', 'cheetaho' ) ?></th>
-							<th class="status" ><?php esc_html_e( 'Status', 'cheetaho' ) ?></th>
+							<th class="column-primary" ><?php esc_html_e( 'File', 'CheetahO' ) ?></th>
+							<th class="column"><?php esc_html_e( 'Original size', 'CheetahO' ) ?></th>
+							<th class="column"><?php esc_html_e( 'Size decreased by', 'CheetahO' ) ?></th>
+							<th class="column"><?php esc_html_e( 'Current Size', 'CheetahO' ) ?></th>
+							<th class="column savings" ><?php esc_html_e( 'Savings', 'CheetahO' ) ?></th>
+							<th class="status" ><?php esc_html_e( 'Status', 'CheetahO' ) ?></th>
 						</tr>
 					</thead>
 					<tbody>
