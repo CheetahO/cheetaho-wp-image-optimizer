@@ -1,9 +1,9 @@
 === CheetahO Image Optimizer ===
 Contributors: cheetaho
-Tags: Image Optimizer, Image Optimiser, Optimize, Optimise, Images, Media, upload, gtmetrix speed test, Performance, SEO, faster loading times, smushit, smush.it, compress, tinypng, tinyjpeg, pngquant, jpegmini, attachment, gmagick, pagespeed, pagespeed insights, optimize jpeg, optimize png, shrink jpeg, optipng, tinypng, optimize photos, wp smush, compress images, optimize images, image compression
+Tags: Optimize image, image optimizer, compress jpeg, compress png, compress gif, image compression, wp smush, optimize gif, tinypng, shrink jpeg, optipng, wordpress performance
 Requires at least: 3.0.1
-Tested up to: 4.7.2
-Stable tag: 1.2.8
+Tested up to: 4.7.3
+Stable tag: 1.2.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 Donate link:  https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8EBKEZMR58UK4
@@ -55,7 +55,7 @@ Please send bug reports, problems, feature requests and so on to support (at) ch
 * Website: http://cheetaho.com/contact-us/
 * [Twitter](https://twitter.com/cheetahocom "@cheetahocom")
 
-**Keywords:** picture, optimization, image editor, pngout, upload speed, shortpixel, compression, lossless, media, jpegtran, gtmetrix speed test, image, image optimisation, image optimization, shrink, picture, photo, optimize photos, gmagick, compress, performance, tinypng, crunch, pngquant, attachment, optimize, pictures, fast, images, image files, image quality, jpegmini, lossy, upload, kraken, resize, seo, smushit, optipng, kraken image optimizer, ewww, photo optimization, image optimizer, images, krakenio, png, gmagick, image optimize, jpg, jpeg, jpg optimisation, jpg optimization, optimize jpg, optimise jpg, shrink jpg, optimizer, optimiser, compresion, optimization, cruncher, image cruncher, compress png, compress jpg, compress jpeg, faster loading times, image optimiser, improve pagerank, optimise, optimise jpeg, optimize jpeg, optimize png, optimise png, tinyjpg, short pixel, shortpixel, smush, imsanity, scale, wp smush, compress images, optimize images, shrink jpeg, compressor, faster website, google pagerank, imagify, prizm, optimus, improve page speed, PageSpeed Insights, sitespeed, smaller images, tinyjpeg, wordpress compression, wordPress image tool, reduce image size, bandwidth, pics, keep exif, remove exif, speed up site, speed up website, compress thumbnails, optimize thumbnails
+**Keywords:** picture, optimization, pngout, shortpixel, compression, lossless, jpegtran, image, image optimization, shrink, optimize photos, compress, performance, tinypng, crunch, pngquant, optimize, jpegmini, lossy, kraken, seo, smushit, optipng, ewww, photo optimization, image optimizer, png, image optimize, jpg, jpeg, jpg optimization, optimize jpg, optimise jpg, shrink jpg, optimizer, optimiser, compresion, image cruncher, compress png, compress jpg, compress jpeg, image optimiser, improve pagerank, optimise, optimise jpeg, optimize jpeg, optimize png, optimise png, tinyjpg, smush, imsanity, wp smush, compress images, optimize images, shrink jpeg, compressor, faster website, imagify, prizm, optimus, improve page speed, smaller images, tinyjpeg, wordpress compression, wordPress image tool, reduce image size, remove exif, speed up site, speed up website, zara, optimize thumbnails
 
 
 == Installation ==
@@ -94,11 +94,31 @@ You can purchase a one-time plan for processing you images. You will pay for it 
 
 Your original images are saved in a backup folder located on your server at: /wp-content/uploads/CheetahoBackups/
 
+= How does Bulk Optimization work? =
+
+The Bulk option makes Cheetaho optimize all your images at once. You can optimize your images in the Media > Bulk CheetahO section by clicking on the compress images button.
+
+Please be patient and do not close the WordPress admin while you are rolling the bulk processing on your media gallery.
+
+= Are my images safe? =
+
+Yes. All processed files are stored only for a few hours.
+
+= What types of formats can be optimized? =
+
+For now, Cheetaho supports JPEG, GIF, and PNG formats.
 
 = I can not optimize image. Got error "Requested file size too large". How fix this? =
 CheetahO lets to optimize image up to 4 MB with free subscription plan. If you would like to optimize bigger files, you will need to take other plans from [here](http://app.cheetaho.com/admin/billing/plans) 
 
+= On how many websites can I use the plugin? =
+You can use the plugin on as many sites as you wish. The only limit is the optimization quota of your account.
+
 == Changelog ==
+= 1.2.9 =
+* Update readme file
+* Testing with WordPress 4.7.3 version
+
 = 1.2.8 =
 * Fixed duplicated function issue. Thanks for http://alpakuauginimas.lt
 
@@ -148,11 +168,13 @@ CheetahO lets to optimize image up to 4 MB with free subscription plan. If you w
 * Allows optimization of existing images in Wordpress Media Library.
 
 == TODO ==
-* Separate bulk optimization page.
-* Allow image optimize once again
-* Original images backup folder
+* Woocommerce support.
+* NextGEN Gallery support.
+* PDF files optimization support.
+* Image file resolution resize.
+* Retina images optimization support.
 
-== Any Questions? ==
+== Any Questions or suggestions? ==
 Contact us by email support (at) cheetaho dot com.
 
 
