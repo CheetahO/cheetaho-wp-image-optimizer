@@ -3,7 +3,7 @@ Contributors: cheetaho
 Tags: Optimize image, image optimizer, compress jpeg, compress png, compress gif, image compression, wp smush, optimize gif, tinypng, shrink jpeg, optipng, wordpress performance
 Requires at least: 3.0.1
 Tested up to: 4.7.3
-Stable tag: 1.2.9
+Stable tag: 1.3.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 Donate link:  https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8EBKEZMR58UK4
@@ -31,6 +31,8 @@ You can try a **live demo** <a href="https://addendio.com/try-plugin/?slug=cheet
 > * Skip already optimized images.
 > * Optimize thumbnails as well.
 > * Works with both HTTPS and HTTP websites
+> * Works with eCommerce websites using WooCommerce plugin
+
 
 > Need more? Have a look at our plans: http://cheetaho.com/pricing/
 
@@ -54,8 +56,6 @@ Please send bug reports, problems, feature requests and so on to support (at) ch
 = Connect with CheetahO.com =
 * Website: http://cheetaho.com/contact-us/
 * [Twitter](https://twitter.com/cheetahocom "@cheetahocom")
-
-**Keywords:** picture, optimization, pngout, shortpixel, compression, lossless, jpegtran, image, image optimization, shrink, optimize photos, compress, performance, tinypng, crunch, pngquant, optimize, jpegmini, lossy, kraken, seo, smushit, optipng, ewww, photo optimization, image optimizer, png, image optimize, jpg, jpeg, jpg optimization, optimize jpg, optimise jpg, shrink jpg, optimizer, optimiser, compresion, image cruncher, compress png, compress jpg, compress jpeg, image optimiser, improve pagerank, optimise, optimise jpeg, optimize jpeg, optimize png, optimise png, tinyjpg, smush, imsanity, wp smush, compress images, optimize images, shrink jpeg, compressor, faster website, imagify, prizm, optimus, improve page speed, smaller images, tinyjpeg, wordpress compression, wordPress image tool, reduce image size, remove exif, speed up site, speed up website, zara, optimize thumbnails
 
 
 == Installation ==
@@ -115,6 +115,15 @@ CheetahO lets to optimize image up to 4 MB with free subscription plan. If you w
 You can use the plugin on as many sites as you wish. The only limit is the optimization quota of your account.
 
 == Changelog ==
+= 1.3.2 =
+* Update translations 
+
+= 1.3.1 =
+* Fix notice close bug. Thanks for http://baltproekt.net/
+
+= 1.3 =
+* Remove keywords from readme
+
 = 1.2.9 =
 * Update readme file
 * Testing with WordPress 4.7.3 version

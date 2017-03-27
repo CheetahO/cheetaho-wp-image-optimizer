@@ -3,15 +3,15 @@
  * Plugin Name: CheetahO Image Optimizer
  * Plugin URI: http://cheetaho.com/
  * Description: CheetahO optimizes images automatically. Check your <a href="options-general.php?page=cheetaho" target="_blank">Settings &gt; CheetahO</a> page on how to start optimizing your image library and make your website load faster. Do not forget to update these settings after plugin update. 
- * Version: 1.2.9
+ * Version: 1.3.2
  * Author: CheetahO
  * Author URI: http://cheetaho.com
- * Text Domain: CheetahO
+ * Text Domain: cheetaho-image-optimizer
  * Domain Path: /languages
  */
 
 define( 'CHEETAHO_ASSETS_IMG_URL'   			 , realpath( plugin_dir_url( __FILE__  ) . 'img/' ) . '/img' );
-define( 'CHEETAHO_VERSION'   					 , '1.2.9' );
+define( 'CHEETAHO_VERSION'   					 , '1.3.2' );
 define( 'CHEETAHO_APP_URL'						 , 'https://app.cheetaho.com/');
 define( 'CHEETAHO_SETTINGS_LINK'				 , admin_url( 'options-general.php?page=cheetaho' ));
 $uploads = wp_upload_dir();
@@ -251,9 +251,9 @@ if (! class_exists('WPCheetahO')) {
                 ));
                 wp_localize_script('cheetaho-js', 'cheetaho_object', array(
                     'url' => admin_url('admin-ajax.php'),
-                    'changeMLToListMode' => __( 'In order to access the CheetahO Optimization actions and info, please change to ', 'cheetaho' ),
-                	'changeMLToListMode1' => __( 'List View', 'cheetaho' ),
-                	'changeMLToListMode2' => __( 'Dismiss', 'cheetaho' ),
+                    'changeMLToListMode' => __( 'In order to access the CheetahO Optimization actions and info, please change to ', 'cheetaho-image-optimizer' ),
+                	'changeMLToListMode1' => __( 'List View', 'cheetaho-image-optimizer' ),
+                	'changeMLToListMode2' => __( 'Dismiss', 'cheetaho-image-optimizer' ),
             
                 ));
                
@@ -266,24 +266,24 @@ if (! class_exists('WPCheetahO')) {
                 ));
              	 
              	 wp_localize_script( 'cheetaho-js-bulk', 'cheetahoBulk', array(  
-             	 		'chAllDone' => __( 'All images are processed', 'cheetaho' ),
-             	 		'chNoActionTaken' => __( 'No action taken', 'cheetaho' ),
-             	 		'chBulkAction' => __( 'Compress Images', 'cheetaho' ),
-             	 		'chCancelled' => __( 'Cancelled', 'cheetaho' ),
-             	 		'chCompressing' => __( 'Compressing', 'cheetaho' ),
-             	 		'chCompressed' => __( 'compressed', 'cheetaho' ),
-             	 		'chFile' => __( 'File', 'cheetaho' ),
-             	 		'chSizesOptimized' => __( 'Sizes optimized', 'cheetaho' ),
-             	 		'chInitialSize' => __( 'Initial size', 'cheetaho' ),
-             	 		'chCurrentSize' => __( 'Current size', 'cheetaho' ),
-             	 		'chSavings' => __( 'Savings', 'cheetaho' ),
-             	 		'chStatus' => __( 'Status', 'cheetaho' ),
-             	 		'chShowMoreDetails' => __( 'Show more details', 'cheetaho' ),
-             	 		'chError' => __( 'Error', 'cheetaho' ),
-             	 		'chLatestError' => __( 'Latest error', 'cheetaho' ),
-             	 		'chInternalError' => __( 'Internal error', 'cheetaho' ),
-             	 		'chOutOf' => __( 'out of', 'cheetaho' ),
-             	 		'chWaiting' => __( 'Waiting', 'cheetaho' ),
+             	 		'chAllDone' => __( 'All images are processed', 'cheetaho-image-optimizer' ),
+             	 		'chNoActionTaken' => __( 'No action taken', 'cheetaho-image-optimizer' ),
+             	 		'chBulkAction' => __( 'Compress Images', 'cheetaho-image-optimizer' ),
+             	 		'chCancelled' => __( 'Cancelled', 'cheetaho-image-optimizer' ),
+             	 		'chCompressing' => __( 'Compressing', 'cheetaho-image-optimizer' ),
+             	 		'chCompressed' => __( 'compressed', 'cheetaho-image-optimizer' ),
+             	 		'chFile' => __( 'File', 'cheetaho-image-optimizer' ),
+             	 		'chSizesOptimized' => __( 'Sizes optimized', 'cheetaho-image-optimizer' ),
+             	 		'chInitialSize' => __( 'Initial size', 'cheetaho-image-optimizer' ),
+             	 		'chCurrentSize' => __( 'Current size', 'cheetaho-image-optimizer' ),
+             	 		'chSavings' => __( 'Savings', 'cheetaho-image-optimizer' ),
+             	 		'chStatus' => __( 'Status', 'cheetaho-image-optimizer' ),
+             	 		'chShowMoreDetails' => __( 'Show more details', 'cheetaho-image-optimizer' ),
+             	 		'chError' => __( 'Error', 'cheetaho-image-optimizer' ),
+             	 		'chLatestError' => __( 'Latest error', 'cheetaho-image-optimizer' ),
+             	 		'chInternalError' => __( 'Internal error', 'cheetaho-image-optimizer' ),
+             	 		'chOutOf' => __( 'out of', 'cheetaho-image-optimizer' ),
+             	 		'chWaiting' => __( 'Waiting', 'cheetaho-image-optimizer' ),
              	 ));
              	 
             }
@@ -315,7 +315,7 @@ if (! class_exists('WPCheetahO')) {
                
                 $data= array();
             	if ( empty( $api_key ) ) {
-					$data['error'] = 'There is a problem with your credentials. Please check them in the CheetahO settings section and try again.';
+					$data['error'] = __('There is a problem with your credentials. Please check them in the CheetahO settings section and try again.', 'cheetaho-image-optimizer');
 					echo json_encode( array( 'error' => array('message'=>$data['error'] ) ));
 					exit;
 				}
@@ -323,7 +323,7 @@ if (! class_exists('WPCheetahO')) {
                 $status = $this->get_api_status($api_key);
                 
                 if ($status === false) {
-                    $data['error'] = 'There is a problem with your cheetaho account. Maybe quota exceeded.';
+                    $data['error'] = __('There is a problem with your cheetaho account. Maybe quota exceeded.', 'cheetaho-image-optimizer');
                     update_post_meta($image_id, '_cheetaho_size', $data);
                     echo json_encode(array(
                         'error' => array('message'=>$data['error'])
@@ -348,7 +348,7 @@ if (! class_exists('WPCheetahO')) {
                 	
                 	if (! isset($result['data']['originalSize']) || (int)$result['data']['originalSize'] == 0) {
                 		 echo json_encode(array(
-                            'error' => array('message'=>'Could not optimize image. CheetahO can not optimize image. File size 0kb.')
+                            'error' => array('message'=> __('Could not optimize image. CheetahO can not optimize image. File size 0kb.', 'cheetaho-image-optimizer'))
                         ));
                         exit();
                 	}
@@ -398,7 +398,7 @@ if (! class_exists('WPCheetahO')) {
                         echo json_encode($data);
                     } else {
                         echo json_encode(array(
-                            'error' => 'Could not overwrite original file. Please check your files permisions.'
+                            'error' => __('Could not overwrite original file. Please check your files permisions.', 'cheetaho-image-optimizer')
                         ));
                         exit();
                     }
@@ -425,7 +425,7 @@ if (! class_exists('WPCheetahO')) {
                     if (isset($result['data']['error'])) {
                     	$result = array();
                     	$result['error'] = array();
-                    	$result['error']['message'] = 'Can not optimize image. Try later or contact CheetahO';
+                    	$result['error']['message'] = __('Can not optimize image. Try later or contact CheetahO', 'cheetaho-image-optimizer');
                     }
                     echo json_encode($result);
                 }
@@ -561,7 +561,7 @@ if (! class_exists('WPCheetahO')) {
         	
 	        	if (cheetahoHelper::isProcessablePath($image_path) === false) {
 	        		echo json_encode(array(
-	                           'error' => array('message'=>'This type of file can not be optimized')
+	                           'error' => array('message'=> __('This type of file can not be optimized', 'cheetaho-image-optimizer'))
 	                ));
 	            	exit();
 	        	}
@@ -570,7 +570,7 @@ if (! class_exists('WPCheetahO')) {
 	        	
 	        	if (!isset($settings['api_key']) || $settings['api_key'] == ''){
 	        		echo json_encode(array(
-	                           'error' => array('message' => 'API key is required. Check CheetahO plugin settings.')
+	                           'error' => array('message' => __('API key is required. Check CheetahO plugin settings.', 'cheetaho-image-optimizer'))
 	                ));
 	            	exit();
 	        	}
@@ -610,7 +610,7 @@ if (! class_exists('WPCheetahO')) {
 	             
 	           if (isset($data['data']['originalSize']) && isset($data['data']['newSize']) && (int)$data['data']['originalSize'] == 0 && (int)$data['data']['newSize'] == 0) {
 	            	echo json_encode(array(
-	                           'error' => array('message'=>'Error while we optimized image')
+	                           'error' => array('message'=>__('Error while we optimized image', 'cheetaho-image-optimizer'))
 	                ));
 	            	exit(); 
 	            }
@@ -653,8 +653,8 @@ if (! class_exists('WPCheetahO')) {
 
         function add_media_columns($columns)
         {
-            $columns['original_size'] = 'Original Size';
-            $columns['cheetaho_size'] = 'Optimized Size';
+            $columns['original_size'] = __('Original Size', 'cheetaho-image-optimizer');
+            $columns['cheetaho_size'] = __('Optimized Size', 'cheetaho-image-optimizer');
             return $columns;
         }
 
@@ -761,7 +761,8 @@ if (! class_exists('WPCheetahO')) {
                             } else 
                                 if (isset($meta['error'])) {
                                     $error = $meta['error']['message'];
-                                    echo '<div class="cheetahoErrorWrap"><a class="cheetahoError" title="' . $error . '">Failed! Hover here</a></div>';
+                                    $txt = __('Failed! Hover here', 'cheetaho-image-optimizer');
+                                    echo '<div class="cheetahoErrorWrap"><a class="cheetahoError" title="' . $error . '">'.$txt.'</a></div>';
                                 }
                         }
                     } else {
@@ -792,7 +793,7 @@ if (! class_exists('WPCheetahO')) {
 <?php } ?>
 				<?php if ( empty( $this->cheetaho_settings['show_reset'] ) ) { ?>
 <br />
-<small class="cheetahoReset" data-id="<?php echo $id; ?>" title="Removes Cheetaho metadata associated with this image"> Reset </small>
+<small class="cheetahoReset" data-id="<?php echo $id; ?>" title="<?php echo __('Removes Cheetaho metadata associated with this image', 'cheetaho-image-optimizer') ?>"> <?php echo __('Reset', 'cheetaho-image-optimizer') ?> </small>
 <span class="cheetahoSpinner"></span>
 <?php } ?>
 			<?php
@@ -839,7 +840,7 @@ EOD;
         function add_settings_link($links)
         {
             $mylinks = array(
-                '<a href="' . admin_url('options-general.php?page=cheetaho') . '">Settings</a>'
+                '<a href="' . admin_url('options-general.php?page=cheetaho') . '">'.__("Settings", "cheetaho-image-optimizer").'</a>'
             );
             return array_merge($links, $mylinks);
         }
@@ -870,6 +871,10 @@ EOD;
 				}
 				update_user_meta( $user_id, '_cheetaho_ignore_notices', $newitems );
 			} elseif ($action == 1) {
+				if (!is_array($notices)) {
+					$notices = array();
+				}
+				
 				$notices[] = $notice;
 				$notices   = array_filter( $notices );
 				$notices   = array_unique( $notices );
@@ -907,7 +912,7 @@ EOD;
                 $status =  $this->checkStatus($input['api_key']);
              
                 if(isset($status['error'])){
-                	$error[] = 'Your API key is invalid. Check it here http://app.cheetaho.com/admin/api-credentials';
+                	$error[] = __('Your API key is invalid. Check it here', 'cheetaho-image-optimizer').' http://app.cheetaho.com/admin/api-credentials';
                 } else {
 	                if(isset($status['data']['quota']['exceeded']) && $status['data']['quota']['exceeded'] == false){
 	                	self::cheetahOUpdateNotice('quota', 0, 1);	                	
@@ -921,7 +926,7 @@ EOD;
             }
             
             if ( !file_exists(CHEETAHO_BACKUP_FOLDER) && !@mkdir(CHEETAHO_BACKUP_FOLDER, 0777, true) )
-                $error[] = "There is something preventing us to create a new folder for backing up your original files. Please make sure that folder <b>" . WP_CONTENT_DIR . '/' . CHEETAHO_UPLOADS_NAME . "</b> has the necessary write and read rights.";
+                $error[] = __("There is something preventing us to create a new folder for backing up your original files. Please make sure that folder", 'cheetaho-image-optimizer')." <b>" . WP_CONTENT_DIR . '/' . CHEETAHO_UPLOADS_NAME . "</b> ".__("has the necessary write and read rights.",'cheetaho-image-optimizer');
             
             if (! empty($error)) {
                 return array(
@@ -974,10 +979,14 @@ EOD;
 		
 		$user_id   = ( 0 === $user_id ) ? $current_user->ID : $user_id;
 		$notices   = get_user_meta( $user_id, '_cheetaho_ignore_notices', true );
+		if (!is_array($notices)) {
+			$notices = array();
+		}
 		$notices[] = $notice;
+		
 		$notices   = array_filter( $notices );
 		$notices   = array_unique( $notices );
-	
+
 		update_user_meta( $user_id, '_cheetaho_ignore_notices', $notices );
 		
 		wp_safe_redirect( wp_get_referer() );
@@ -998,7 +1007,7 @@ add_action('admin_init', 'CheetahoRedirect');
 add_action( 'plugins_loaded', 'cheetahoTranslate' );
 function cheetahoTranslate() {
 	$path = path_join( dirname( plugin_basename( __FILE__ ) ), 'languages/' );
-	load_plugin_textdomain( 'CheetahO', false, $path );
+	load_plugin_textdomain( 'cheetaho-image-optimizer', false, $path );
 }
 
 function cheetahoActivate() {
