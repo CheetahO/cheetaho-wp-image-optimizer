@@ -3,7 +3,7 @@
  * Plugin Name: CheetahO Image Optimizer
  * Plugin URI: http://cheetaho.com/
  * Description: CheetahO optimizes images automatically. Check your <a href="options-general.php?page=cheetaho" target="_blank">Settings &gt; CheetahO</a> page on how to start optimizing your image library and make your website load faster. Do not forget to update these settings after plugin update. 
- * Version: 1.3.2
+ * Version: 1.3.3
  * Author: CheetahO
  * Author URI: http://cheetaho.com
  * Text Domain: cheetaho-image-optimizer
@@ -11,7 +11,7 @@
  */
 
 define( 'CHEETAHO_ASSETS_IMG_URL'   			 , realpath( plugin_dir_url( __FILE__  ) . 'img/' ) . '/img' );
-define( 'CHEETAHO_VERSION'   					 , '1.3.2' );
+define( 'CHEETAHO_VERSION'   					 , '1.3.3' );
 define( 'CHEETAHO_APP_URL'						 , 'https://app.cheetaho.com/');
 define( 'CHEETAHO_SETTINGS_LINK'				 , admin_url( 'options-general.php?page=cheetaho' ));
 $uploads = wp_upload_dir();
@@ -595,7 +595,12 @@ if (! class_exists('WPCheetahO')) {
 	       		if ( isset( $settings['quality'] ) && $settings['quality'] > 0 ) {
 					$params['quality'] = (int) $settings['quality'];
 				}
-	            
+	           
+				if ( isset( $settings['keep_exif'] ) && $settings['keep_exif'] == 1 ) {
+					$params['strip_options'] = array('keep_exif' => (int) $settings['keep_exif']);
+				}
+				
+				
 				set_time_limit(400);
 	            $data = $Cheetaho->url($params);
 	            
@@ -899,6 +904,7 @@ EOD;
             $valid['auto_optimize'] = isset($input['auto_optimize']) ? 1 : 0;
             $valid['quality'] = isset( $input['quality'] ) ? (int) $input['quality'] : 0;
         	$valid['backup'] = isset( $input['backup'] ) ? 1 : 0;
+        	$valid['keep_exif'] = isset( $input['keep_exif'] ) ? 1 : 0;
             $sizes = get_intermediate_image_sizes();
             
 			foreach ($sizes as $size) {				

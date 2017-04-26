@@ -2,8 +2,8 @@
 Contributors: cheetaho
 Tags: Optimize image, image optimizer, compress jpeg, compress png, compress gif, image compression, wp smush, optimize gif, tinypng, shrink jpeg, optipng, wordpress performance
 Requires at least: 3.0.1
-Tested up to: 4.7.3
-Stable tag: 1.3.2
+Tested up to: 4.7.4
+Stable tag: 1.3.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 Donate link:  https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8EBKEZMR58UK4
@@ -26,12 +26,15 @@ You can try a **live demo** <a href="https://addendio.com/try-plugin/?slug=cheet
 > * ONE API key for multiple sites
 > * Lossless or lossy optimization
 > * Optimization Statistics and History
-> * 'Bulk' optimize all the existing images in Media Library.
-> * It is safe to test and use the plugin: all the original images are stored in backup folder (optional feature, you can disable it).
-> * Skip already optimized images.
-> * Optimize thumbnails as well.
+> * 'Bulk' optimize all the existing images in Media Library
+> * It is safe to test and use the plugin: all the original images are stored in backup folder (optional feature, you can disable it)
+> * Skip already optimized images
+> * Optimize thumbnails as well
 > * Works with both HTTPS and HTTP websites
 > * Works with eCommerce websites using WooCommerce plugin
+> * Keep or remove EXIF data from your images, compress images with lossless option. This option is great for photographers
+> * Able to compress JPG, PNG, GIF images
+> * Option to deactivate auto-optimizing images on image upload
 
 
 > Need more? Have a look at our plans: http://cheetaho.com/pricing/
@@ -115,6 +118,11 @@ CheetahO lets to optimize image up to 4 MB with free subscription plan. If you w
 You can use the plugin on as many sites as you wish. The only limit is the optimization quota of your account.
 
 == Changelog ==
+= 1.3.3 =
+* Add option to keep or remove image EXIF metadata
+* Test with WordPress 4.7.4 version.
+* Fix old openssl issue.
+
 = 1.3.2 =
 * Update translations 
 

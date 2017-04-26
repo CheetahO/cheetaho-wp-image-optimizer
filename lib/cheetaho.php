@@ -21,7 +21,7 @@ class CheetahO
     public function url($params = array())
     {
         $data = json_encode(array_merge($this->auth, $params));
-        $response = self::request($data, 'https://app.cheetaho.com/api/v1/media');
+        $response = self::request($data, 'http://app.cheetaho.com/api/v1/media');
         
         return $response;
     }
@@ -35,7 +35,7 @@ class CheetahO
     {
     	$data = array();
     	
-        $response = self::request($data, 'https://app.cheetaho.com/api/v1/userstatus', 'get');
+        $response = self::request($data, 'http://app.cheetaho.com/api/v1/userstatus', 'get');
         
         return $response;
     }
@@ -59,7 +59,7 @@ class CheetahO
                
         curl_setopt($curl, CURLOPT_URL, $url);
                
-        curl_setopt($curl, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.85 Safari/537.36");
+        curl_setopt($curl, CURLOPT_USERAGENT, "cheetahoapi Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.85 Safari/537.36");
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         if ($type == 'post') {
         	curl_setopt($curl, CURLOPT_POST, 1);

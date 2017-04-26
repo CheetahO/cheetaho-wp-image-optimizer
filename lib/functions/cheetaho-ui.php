@@ -25,6 +25,7 @@ class CheetahoUI {
             $quality = isset( $settings['quality'] ) ? $settings['quality'] : 0;
           	$sizes = get_intermediate_image_sizes();
           	$backupFolderSize =  size_format(WPCheetahO::folderSize(CHEETAHO_BACKUP_FOLDER), 2);
+          	$keep_exif = isset($settings['keep_exif']) ? $settings['keep_exif'] : 1;
           	
 
           	foreach ($sizes as $size) {
@@ -120,13 +121,21 @@ class CheetahoUI {
 									<input type="checkbox" id="auto_optimize" name="_cheetaho_options[auto_optimize]" value="1" <?php checked( 1, $auto_optimize, true ); ?> />
 								</td>
 							</tr>
+							<tr>
+								<th scope="row"><?php _e( 'Keep EXIF metadata:', 'cheetaho-image-optimizer')?><br />
+									<small><a target="_blank" href="https://cheetaho.com/?p=378"><?php _e( 'What is EXIF metadata?', 'cheetaho-image-optimizer')?></a></small>
+								</th>
+								<td>
+									<input type="checkbox" id="keep_exif" name="_cheetaho_options[keep_exif]" value="1" <?php checked( 1, $keep_exif, true ); ?> />
+								</td>
+							</tr>
 							<tr class="with-tip">
 					        	<th scope="row"><?php _e( 'JPEG quality:', 'cheetaho-image-optimizer')?></th>
 					        	<td>
 									<select name="_cheetaho_options[quality]">
 										<?php $i = 0 ?>
 										
-										<?php foreach ( range(100, 40) as $number ) { ?>
+										<?php foreach ( range(100, 70) as $number ) { ?>
 											<?php if ( $i === 0 ) { ?>
 												<?php echo '<option value="0">'.__('Intelligent lossy (recommended)', 'cheetaho-image-optimizer').'</option>'; ?>
 											<?php } ?>
