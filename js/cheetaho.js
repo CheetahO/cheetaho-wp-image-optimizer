@@ -1,5 +1,18 @@
+function removeInputValsIfNotSet() {
+	
+	if(jQuery("#authUser").data('val') == ''){
+		jQuery("#authUser").val("");
+	}
+	
+	if(jQuery("#authPass").data('val') == ''){
+		jQuery("#authPass").val("");
+	}
+}
+
 jQuery(document).ready(function($) {
 	
+	setTimeout('removeInputValsIfNotSet()', 1000);
+
 	setTimeout(function () {
 		if( jQuery('div.media-frame.mode-grid').length > 0) { 
 	    //the media table is not in the list mode, alert the user
@@ -260,4 +273,24 @@ jQuery(document).ready(function($) {
 	     }).done(requestSuccess).fail(requestFail).always(requestComplete);
 	
 	 });
+	
+	var resizeAlert = false;
+	
+	jQuery(".resize-sizes").blur(function(e){
+        var elm = jQuery(this);
+        
+        if(resizeAlert == elm.val()) return;
+        resizeAlert = elm.val();
+        
+        var minSize = jQuery("#min-" + elm.data('type')).val();
+        if(elm.val() < Math.min(minSize, 1024)) {
+            alert( cheetaho_object.resizeAlert1.replace('{type}', elm.data('type')));
+            
+            e.preventDefault();
+            elm.focus();
+        }
+        else {
+            this.defaultValue = elm.val();
+        }
+    });
 });

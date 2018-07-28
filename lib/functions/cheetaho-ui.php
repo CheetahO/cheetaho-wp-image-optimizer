@@ -26,13 +26,18 @@ class CheetahoUI {
           	$sizes = get_intermediate_image_sizes();
           	$backupFolderSize =  size_format(WPCheetahO::folderSize(CHEETAHO_BACKUP_FOLDER), 2);
           	$keep_exif = isset($settings['keep_exif']) ? $settings['keep_exif'] : 1;
-          	
+          	$resize = isset($settings['resize']) ? (int)$settings['resize'] : 0;
+          	$maxHeight = isset($settings['maxHeight']) ? $settings['maxHeight'] : 0;
+          	$maxWidth = isset($settings['maxWidth']) ? $settings['maxWidth'] : 0;
 
           	foreach ($sizes as $size) {
 				$valid['include_size_' . $size] = isset( $settings['include_size_' . $size]) ? $settings['include_size_' . $size] : 1;
 			}
             
             $api_key = isset($settings['api_key']) ? $settings['api_key'] : '';
+            $authUser = isset($settings['authUser']) ? $settings['authUser'] : '';
+            $authPass = isset($settings['authPass']) ? $settings['authPass'] : '';
+            
             // $status = $data->get_api_status( $api_key );
             
             $icon_url = admin_url() . 'images/';
@@ -74,12 +79,12 @@ class CheetahoUI {
 				CheetahO v<?=CHEETAHO_VERSION?>
 				<p class="cheetaho-rate-us">
 					<strong><?php _e( 'Do you like this plugin?', 'cheetaho-image-optimizer')?></strong><br> <?php _e( 'Please take a few seconds to', 'cheetaho-image-optimizer')?> <a href="https://wordpress.org/support/view/plugin-reviews/cheetaho-image-optimizer?rate=5#postform"><?php _e( 'rate it on WordPress.org', 'cheetaho-image-optimizer')?></a>!					<br>
-					<a class="stars" href="https://wordpress.org/support/view/plugin-reviews/cheetaho-image-optimizer?rate=5#postform"><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span></a>
+					<a class="stars" target="_blank" href="https://wordpress.org/support/view/plugin-reviews/cheetaho-image-optimizer?rate=5#postform"><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span></a>
 				</p>
 			</div>
 			
 			<div class="settings-tab">
-				<form method="post">
+				<form method="post" autocomplete="off" id="settingsForm">
 				
 					<div class="cheetaho-sub-header">
 						<table class="form-table">
@@ -175,8 +180,26 @@ class CheetahoUI {
      							        <?php } ?>
 						            </td>
 						        </tr>	
-					        				        
-			            
+					        	<tr>
+				              	<th scope="row"><?php _e( 'Resize my full size images:', 'cheetaho-image-optimizer')?></th>
+				              	<td>
+				              		<?php $maxImageSizes = cheetahoHelper::getMaxIntermediateImageSize()?>
+				              		<input type="hidden" id="min-width" value="<?php echo $maxImageSizes['width']?>">
+				              		<input type="hidden" id="min-height" value="<?php echo $maxImageSizes['height']?>">
+				              		<input type="checkbox" id="resize" name="_cheetaho_options[resize]" value="1" <?php checked( 1, $resize, true ); ?> />
+				              		<small><?php _e('Set a maximum height and width for all images uploaded to your site so that any unnecessarily large images are automatically resized before they are added to the media gallery. The original aspect ratio is preserved and image is not cropped.', 'cheetaho-image-optimizer')?></small>   
+				              		<div class="resize-inputs"><input type="text" class="resize-sizes" value="<?=($maxWidth > 0) ? $maxWidth : $maxImageSizes['width']?>" data-type="width" name="_cheetaho_options[maxWidth]"/> <?php _e( 'pixels wide', 'cheetaho-image-optimizer')?> x <input data-type="height" class="resize-sizes" type="text" value="<?=($maxHeight > 0) ? $maxHeight : $maxImageSizes['height']?>" name="_cheetaho_options[maxHeight]"/> <?php _e( 'pixels high', 'cheetaho-image-optimizer')?></div>   
+			            		</td>
+			            		</tr>
+			            		<tr>
+			            			<th scope="row"><?php _e( 'HTTP AUTH credentials:', 'cheetaho-image-optimizer')?></th>
+					              	<td>
+					              		<input  autocomplete="off"  name="_cheetaho_options[authUser]" type="text" id="authUser" value="<?=$authUser?>" data-val="<?=$authUser?>"  placeholder="<?php _e( 'User', 'cheetaho-image-optimizer')?>"><br />
+					              		<input autocomplete="off"  name="_cheetaho_options[authPass]" type="password" id="authPass" value="<?=$authPass?>" data-val="<?=$authPass?>"  placeholder="<?php _e( 'Password', 'cheetaho-image-optimizer')?>">
+					              		<p class="settings-info"><small><?php _e('Fill these fields if your site (front-end) is not publicly accessible and visitors need a user/pass to connect to it. If you don not know what is this or site is public then leave the fields empty', 'cheetaho-image-optimizer')?></small></p>
+					              	</td>
+			            		</tr>
+			            		
 				              <tr>
 				              <th scope="row"><?php _e( 'Images backups:', 'cheetaho-image-optimizer')?></th>
 				              <td>
@@ -335,7 +358,7 @@ class CheetahoUI {
 		<div class="cheetaho-col cheetaho-col-main">
 			<div class="cheetaho-title">CheetahO v<?=CHEETAHO_VERSION?> <p class="cheetaho-rate-us">
 					<strong><?php _e( 'Do you like this plugin?', 'cheetaho-image-optimizer')?></strong><br /> <?php _e( 'Please take a few seconds to', 'cheetaho-image-optimizer')?> <a href="https://wordpress.org/support/view/plugin-reviews/cheetaho-image-optimizer?rate=5#postform"><?php _e( 'rate it on WordPress.org', 'cheetaho-image-optimizer')?></a>! <br />
-					<a class="stars" href="https://wordpress.org/support/view/plugin-reviews/cheetaho-image-optimizer?rate=5#postform"><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span></a>
+					<a class="stars" target="_blank" href="https://wordpress.org/support/view/plugin-reviews/cheetaho-image-optimizer?rate=5#postform"><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span></a>
 				</p>
 			</div>
 			<div class="settings-tab">
@@ -412,4 +435,27 @@ class CheetahoUI {
 		
 		<?php 
 	}
+	
+	public static function displayRateUsAlert($data = array()) 
+	{ 
+        	$current_screen  = get_current_screen();
+			$ignored_notices = get_user_meta( $GLOBALS['current_user']->ID, '_cheetaho_ignore_notices', true );
+
+			if (in_array( 'rate_us', (array) $ignored_notices  ) || empty($data)) {
+				return;
+			}
+			?>    
+        <br/>
+        <br/>
+        <div class="wrap cheetaho-alert-info cheetaho-message-block">
+        	<a href="<?= getCheetahoUrl( 'closeNotice', 'quota' ); ?>" class="cheetaho-notice-close dark" title="<?php _e( 'Dismiss this notice', 'cheetaho-image-optimizer' ); ?>"><span class="dashicons dashicons-dismiss"></span></a>
+            <h3><?php _e( 'CheetahO image optimization', 'cheetaho-image-optimizer' ); ?></h3>
+            <p >
+            	<?php _e( 'Do you like this plugin? Please help us and take a few seconds to rate it on WordPress.org!', 'cheetaho-image-optimizer' ) ?>
+            	<a class="stars" target="_blank" href="https://wordpress.org/support/view/plugin-reviews/cheetaho-image-optimizer?rate=5#postform"><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span></a>
+			</p>
+			<a class='button button-secondary' href='<?= getCheetahoUrl( 'closeNotice', 'rate_us' ); ?>' ><?php _e( 'Skip message', 'cheetaho-image-optimizer' ); ?></a>
+			
+        </div> <?php 
+    }
 }

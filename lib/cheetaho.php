@@ -7,21 +7,26 @@
 class CheetahO
 {
     protected $auth = array();
-    public function __construct($key = '')
+    public function __construct($settings = array(), $params = array())
     {
         $this->auth = array(
-                "key" => $key
+        		"key" => (isset($settings['api_key']) && $settings['api_key'] != '') ? $settings['api_key'] : ''
         );
+        
+        if (isset($settings['authUser']) && isset($settings['authPass'])) {
+        	$this->auth = array_merge($this->auth, array('authUser' => $settings['authUser'], 'authPass' => $settings['authPass']));
+        }
     }
-    /**
-     * 
+    
+    /** 
      * @param array $opts
      * @return multitype:boolean string
      */
     public function url($params = array())
     {
         $data = json_encode(array_merge($this->auth, $params));
-        $response = self::request($data, 'http://app.cheetaho.com/api/v1/media');
+       
+        $response = self::request($data, 'http://api.cheetaho.com/api/v1/media');
         
         return $response;
     }
@@ -35,7 +40,7 @@ class CheetahO
     {
     	$data = array();
     	
-        $response = self::request($data, 'http://app.cheetaho.com/api/v1/userstatus', 'get');
+        $response = self::request($data, 'http://api.cheetaho.com/api/v1/userstatus', 'get');
         
         return $response;
     }
@@ -56,7 +61,7 @@ class CheetahO
             'Content-Type: application/json',
         	'key: '.$auth['key']
         ));
-               
+        
         curl_setopt($curl, CURLOPT_URL, $url);
                
         curl_setopt($curl, CURLOPT_USERAGENT, "cheetahoapi Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.85 Safari/537.36");
@@ -71,7 +76,6 @@ class CheetahO
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 0); 
 
-        
         $response = json_decode(curl_exec($curl), true);
 		$httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         $error = curl_error($curl);

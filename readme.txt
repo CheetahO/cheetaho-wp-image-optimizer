@@ -1,28 +1,31 @@
-=== CheetahO Image Optimizer ===
+=== CheetahO Image Compression and Optimizer ===
 Contributors: cheetaho
-Tags: Optimize image, image optimizer, compress jpeg, compress png, compress gif, image compression, wp smush, optimize gif, tinypng, shrink jpeg, optipng, wordpress performance
+Tags: image, optimize, compress, performance, lossless, lossy, photo, pictures, optimize JPG, compress PNG, compress jpeg, optimize gif, Smush WordPress Compression
 Requires at least: 3.0.1
-Tested up to: 4.7.4
-Stable tag: 1.3.3
+Tested up to: 4.9.7
+Stable tag: 1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 Donate link:  https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8EBKEZMR58UK4
 
-This plugin allows you to optimize your WordPress images through the CheetahO API. Your website will be faster, keeping the images high quality.
+This plugin allows you to compress and optimize your WordPress images through the CheetahO API. Your website will be faster, keeping the images high quality.
 
 == Description ==
 
-This plugin allows you to optimize new and existing Wordpress image uploads through CheetahO Image [optimizer](http://cheetaho.com/) API. You can choose lossless or lossy optimization modes. At this moment supported filetypes are JPEG, PNG, GIF.
-Smaller image sizes on your website means faster page loads and less bandwidth usage.
+This plugin allows you to resize/scale images down to your specified size, optimize and compress new and existing Wordpress image uploads through CheetahO Image [optimizer](https://cheetaho.com/) API. You can choose lossless or lossy optimization modes. At this moment supported filetypes are JPEG, PNG, GIF.
+Smaller image sizes on your website means faster page loads and less bandwidth usage. The faster your site loads, the more Google, Yahoo, Bing and other search engines will like it.
 You can try a **live demo** <a href="https://addendio.com/try-plugin/?slug=cheetaho-image-optimizer" target="_blank">here</a> (via addendio.com).
+
+Set a max width and height and large images will scale down as they are being compressed. CheetahO compress images uses proprietary algorithm & blazing fast servers to quickly compress images & optimize images. Also cuts all the unnecessary data without slowing down your website/blog which helps to boost seo & performance.
 
 > **Get your FREE account with us**
 
 > Sign up for your FREE CheetahO.com [Account](http://app.cheetaho.com/) and try out CheetahO image optimization tool. We suggest:
 
-> * 500 images (can buy more)
+> * Free 500 images every month (can buy more)
 > * Max file size 4 MiB (with paid plan get more)
 > * API access
+> * Pixel-perfect optimization using innovative tools and progressive rendering.
 > * ONE API key for multiple sites
 > * Lossless or lossy optimization
 > * Optimization Statistics and History
@@ -35,9 +38,12 @@ You can try a **live demo** <a href="https://addendio.com/try-plugin/?slug=cheet
 > * Keep or remove EXIF data from your images, compress images with lossless option. This option is great for photographers
 > * Able to compress JPG, PNG, GIF images
 > * Option to deactivate auto-optimizing images on image upload
+> * Able to compress WOOCOMMERCE products images.
+> * Images can be automatically resized before being optimized. No need to install additional plugins like Imsanity or Resize Image After Upload
+> * Compress/resize images even your site is not public.
 
 
-> Need more? Have a look at our plans: http://cheetaho.com/pricing/
+> Need more? Have a look at our plans: https://cheetaho.com/pricing/
 
 
 = About the plugin =
@@ -45,6 +51,7 @@ You can try a **live demo** <a href="https://addendio.com/try-plugin/?slug=cheet
 * All images uploaded throught the media uploader are optimized on-the-fly. All generated thumbnails are optimized too.
 * All images already present in the media library can be optimized individually, or using the Bulk Action.
 * All optimization is carried out by sending images to CheetahO, and pulling the optimized files to your Wordpress installation.
+* All full size images can be resized/rescaled before optimization by setting maximum width and height.
 * To use this plugin, you must obtain a full API key from CheetahO [panel](http://app.cheetaho.com/admin/api-credentials).
 
 Once you have obtained your credentials, from your Wordpress admin, go to the settings page and there you can enter your API credentials, and select your optimization preferences. Once you have done this, click on **Save**. If everything is in order, it will simply say "settings saved" and give you a reassuring green tick that your credentials are valid. You can now start optimizing images from within Media Library. Any image you upload from now on, through any of the media upload screens will be optimized on-the-fly.
@@ -57,7 +64,7 @@ Once you have obtained your credentials, from your Wordpress admin, go to the se
 Please send bug reports, problems, feature requests and so on to support (at) cheetaho dot com, or directly to the author of this plugin.
 
 = Connect with CheetahO.com =
-* Website: http://cheetaho.com/contact-us/
+* Website: https://cheetaho.com/contact-us/
 * [Twitter](https://twitter.com/cheetahocom "@cheetahocom")
 
 
@@ -78,12 +85,18 @@ CheetahO - Getting Started
 
 1. Cheetaho.com wordpress plugin settings page. You must enter your credentials, and select your optimization mode from there. `/assets/screenshot-1.png`
 2. Media library with optimization button.  `/assets/screenshot-2.png`
+3. Bulk image optimization page.  `/assets/screenshot-3.png`
 
 == Frequently Asked Questions ==
 
 = Where can I get an API key? =
 
 From cheetago panel, right [here](http://app.cheetaho.com/admin/api-credentials).
+
+= Can I test/use Cheetaho image optimization plugin for free?
+
+Yes you can.
+Register to CheetahO and get 500 free image optimization credits each month. Exceeding the monthly free quota will pause the optimization process till the quota is reset or extended by buying one of our plans.
 
 = What happens after I optimize the 500 FREE images? =
 
@@ -105,7 +118,7 @@ Please be patient and do not close the WordPress admin while you are rolling the
 
 = Are my images safe? =
 
-Yes. All processed files are stored only for a few hours.
+Yes. All processed files in our servers are stored only for a few hours.
 
 = What types of formats can be optimized? =
 
@@ -117,7 +130,58 @@ CheetahO lets to optimize image up to 4 MB with free subscription plan. If you w
 = On how many websites can I use the plugin? =
 You can use the plugin on as many sites as you wish. The only limit is the optimization quota of your account.
 
+= Full size image resize. What is this? =
+You can resize/scale images by setting maximum width and height in Cheetaho settings page. CheetahO will resize only original (full size) images to a predefined size while keeping its aspect and proportions intact. The thumbnails will not be touched.
+
+= Do you have an API? =
+Yes, we have API. More information you can find here: https://cheetaho.com/api-documentation/
+
+= My site is DEV mode on localhost. Can I use plugin on a localhost installation? =
+You can not use plugin on a localhost. Your site is not public and our servers can not download images to optimize.
+
+= Can this plugin resize images? =
+If you choose the option to resize your images and set max with and height then the image can be resized to a predefined size while keeping its aspect and proportions intact.
+
+= Have questions or need help? =
+We are here to help. <a href="https://cheetaho.com/contact-us/">Contact us</a>!
+
+ 
 == Changelog ==
+= 1.4 =
+* Test with WordPress 4.9.7
+* Add Basic Authorization option for non public website.
+
+= 1.3.9.1 =
+* Fix bug during image resize on upload.
+
+= 1.3.9 =
+* Fix images list error message.
+* test with wordpress 4.9.1
+* Skip validation and error show durig upload files. This allow upload any file without issues.
+* Image resize functionality.
+
+= 1.3.8 =
+* Few small user interface fixes.
+* Update Readme document.
+* Test With WordPress 4.9
+
+= 1.3.7 =
+* Fix image optimization bug then not allowed file was optimizes during file uploaded
+* Update Readme document.
+* Test With WordPress 4.8.1
+
+= 1.3.6 =
+* Update Readme document.
+* Test With WordPress 4.8
+* Add new screens
+
+= 1.3.5 =
+* Change API url.
+
+= 1.3.4 =
+* Test with WordPress 4.7.5 version.
+* Display system error.
+
 = 1.3.3 =
 * Add option to keep or remove image EXIF metadata
 * Test with WordPress 4.7.4 version.
@@ -185,11 +249,10 @@ You can use the plugin on as many sites as you wish. The only limit is the optim
 * Allows optimization of existing images in Wordpress Media Library.
 
 == TODO ==
-* Woocommerce support.
 * NextGEN Gallery support.
 * PDF files optimization support.
-* Image file resolution resize.
 * Retina images optimization support.
+* SVG image optimization
 
 == Any Questions or suggestions? ==
 Contact us by email support (at) cheetaho dot com.

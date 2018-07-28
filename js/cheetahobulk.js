@@ -12,7 +12,7 @@
 
 		var percentage = "100%"
 		if (totalToOptimize > 0) {
-			percentage = Math.round((compressionsDone + optimizedSoFar) / totalToOptimize * 100, 1) + "%";
+			percentage = Math.round((compressionsDone + optimizedSoFar) / totalToOptimize * 100) + "%";
 		}
 		
 		jQuery("div#compression-progress-bar #progress-size").css("width", percentage);

@@ -286,7 +286,6 @@ class cheetahoHelper{
     			//main file
     			self::renameFile($bkFile, $file);
 
-
     			//overwriting thumbnails
     			foreach($thumbsPaths as $source => $destination) {
     				self::renameFile($source, $destination);
@@ -366,4 +365,34 @@ class cheetahoHelper{
     	
     	return  array('uploadedImages' => $data['totalToOptimizeCount'],  'uploaded_images' => $data['availableForOptimization']);
     }
+    
+    function getMaxIntermediateImageSize() {
+		global $_wp_additional_image_sizes;
+		
+		$width = 0;
+		$height = 0;
+		$get_intermediate_image_sizes = get_intermediate_image_sizes ();
+		
+		// Create the full array with sizes and crop info
+		if (is_array ( $get_intermediate_image_sizes )) {
+			foreach ( $get_intermediate_image_sizes as $_size ) {
+				if (in_array ( $_size, array (
+						'thumbnail',
+						'medium',
+						'large' 
+				) )) {
+					$width = max ( $width, get_option ( $_size . '_size_w' ) );
+					$height = max ( $height, get_option ( $_size . '_size_h' ) );
+				} elseif (isset ( $_wp_additional_image_sizes [$_size] )) {
+					$width = max ( $width, $_wp_additional_image_sizes [$_size] ['width'] );
+					$height = max ( $height, $_wp_additional_image_sizes [$_size] ['height'] );
+				}
+			}
+		}
+		
+		return array (
+				'width' => max ( 250, $width ),
+				'height' => max ( 250, $height ) 
+		);
+	}
 }

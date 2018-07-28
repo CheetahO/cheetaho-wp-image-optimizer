@@ -124,6 +124,8 @@ div.updated.cheetaho.mb-30,
     text-align: right;
     margin-bottom: -2.4em;
     color: #FFF;
+    font-size:12px;
+    line-height:18px;
 }
 
 .cheetaho-rate-us a {
@@ -187,6 +189,7 @@ div.updated.cheetaho.mb-30,
 	text-transform:uppercase;
 	color:#444;
 	margin-bottom:10px;
+	font-size:20px;
 }
 
 .cheetaho-btn {
@@ -201,7 +204,7 @@ div.updated.cheetaho.mb-30,
     background-image: none;
     border: 1px solid transparent;
     white-space: nowrap;
-    padding: 6px 12px;
+    padding: 6px 11px;
     font-size: 13px;
     line-height: 1.42857143;
     border-radius: 4px;
@@ -314,6 +317,30 @@ div.updated.cheetaho.mb-30,
     color: #3c763d;
     background-color: #dff0d8;
     border-color: #d6e9c6;  
+}
+
+.cheetaho-alert-info {
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1); 
+    padding: 10px 12px;
+    border:1px solid #fff;
+    color: #000;
+    background-color: #fff;
+    border-color: #fff;  
+}
+
+.cheetaho-message-block h3{
+	font-size: 18px;
+    font-weight: 400;
+    line-height: 1.2;
+}
+
+.cheetaho-message-block p{
+    line-height: 1.2;
+}
+
+.cheetaho-message-block .stars {
+	 color: #FEE102;
+	 text-decoration:none;
 }
 
 .info-btn {
@@ -482,5 +509,9 @@ a.cheetahoError:hover span {
 
 .hide {
 	display:none;
+}
+
+.cheetaho-wrap .resize-inputs input {
+	max-width:50px;
 }
   
