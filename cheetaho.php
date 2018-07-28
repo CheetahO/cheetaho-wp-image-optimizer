@@ -57,7 +57,7 @@ cio_fs()->add_filter( 'after_skip_url', 'cio_fs_settings_url' );
 cio_fs()->add_filter( 'after_connect_url', 'cio_fs_settings_url' );
 
 define( 'CHEETAHO_ASSETS_IMG_URL'   			 , realpath( plugin_dir_url( __FILE__  ) . 'img/' ) . '/img' );
-define( 'CHEETAHO_VERSION'   					 , '1.3.9.1' );
+define( 'CHEETAHO_VERSION'   					 , '1.4' );
 define( 'CHEETAHO_APP_URL'						 , 'https://app.cheetaho.com/');
 define( 'CHEETAHO_SETTINGS_LINK'				 , admin_url( 'options-general.php?page=cheetaho' ));
 $uploads = wp_upload_dir();
