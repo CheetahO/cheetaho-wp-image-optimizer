@@ -1,0 +1,486 @@
+# Copyright (C) 2017 CheetahO Image Optimizer
+# This file is distributed under the same license as the CheetahO Image Optimizer package.
+msgid ""
+msgstr ""
+"Project-Id-Version: CheetahO Image Optimizer 1.2.8\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/cheetaho-image-"
+"optimizer\n"
+"POT-Creation-Date: 2017-03-23 10:57:26+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: cheetaho.php:254
+msgid ""
+"In order to access the CheetahO Optimization actions and info, please change "
+"to "
+msgstr ""
+
+#: cheetaho.php:255
+msgid "List View"
+msgstr ""
+
+#: cheetaho.php:256
+msgid "Dismiss"
+msgstr ""
+
+#: cheetaho.php:269
+msgid "All images are processed"
+msgstr ""
+
+#: cheetaho.php:270
+msgid "No action taken"
+msgstr ""
+
+#: cheetaho.php:271
+msgid "Compress Images"
+msgstr ""
+
+#: cheetaho.php:272
+msgid "Cancelled"
+msgstr ""
+
+#: cheetaho.php:273
+msgid "Compressing"
+msgstr ""
+
+#: cheetaho.php:274
+msgid "compressed"
+msgstr ""
+
+#: cheetaho.php:275 lib/functions/cheetaho-ui.php:383
+msgid "File"
+msgstr ""
+
+#: cheetaho.php:276
+msgid "Sizes optimized"
+msgstr ""
+
+#: cheetaho.php:277
+msgid "Initial size"
+msgstr ""
+
+#: cheetaho.php:278
+msgid "Current size"
+msgstr ""
+
+#: cheetaho.php:279 lib/functions/cheetaho-ui.php:387
+msgid "Savings"
+msgstr ""
+
+#: cheetaho.php:280 lib/functions/cheetaho-ui.php:388
+msgid "Status"
+msgstr ""
+
+#: cheetaho.php:281
+msgid "Show more details"
+msgstr ""
+
+#: cheetaho.php:282
+msgid "Error"
+msgstr ""
+
+#: cheetaho.php:283
+msgid "Latest error"
+msgstr ""
+
+#: cheetaho.php:284
+msgid "Internal error"
+msgstr ""
+
+#: cheetaho.php:285
+msgid "out of"
+msgstr ""
+
+#: cheetaho.php:286
+msgid "Waiting"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:62
+msgid "Settings saved."
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:68
+msgid "Warning:"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:68
+msgid ""
+"CURL is not available. If you would like to use this plugin please install "
+"CURL"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:75 lib/functions/cheetaho-ui.php:328
+msgid "Do you like this plugin?"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:75 lib/functions/cheetaho-ui.php:328
+msgid "Please take a few seconds to"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:75 lib/functions/cheetaho-ui.php:328
+msgid "rate it on WordPress.org"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:87
+msgid "API Key"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:90
+msgid "Do not have an API Key yet?"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:90
+msgid "Create one, it is FREE"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:103
+msgid "Optimization Type:"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:105
+msgid "Lossy"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:107
+msgid "Lossy compression:"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:107
+msgid ""
+"lossy has a better compression rate than lossless compression.<br> The "
+"resulting image can be not 100% identical with the original. Works well for "
+"photos taken with your camera."
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:110
+msgid "Lossless"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:112
+msgid "Lossless compression:"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:112
+msgid ""
+"the shrunk image will be identical with the original and smaller in size."
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:113
+msgid ""
+"You can use this when you do not want to lose any of the original images "
+"details. Choose this if you would like to optimize technical drawings, clip "
+"art and comics."
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:118
+msgid "Automatically optimize uploads:"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:124
+msgid "JPEG quality:"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:131
+msgid "Intelligent lossy (recommended)"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:142
+msgid ""
+"Advanced users can force the quality of images. Specifying a quality level "
+"of 40 will produce the lowest image quality (highest compression level)."
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:143
+msgid ""
+"We therefore recommend keeping the <strong>Intelligent Lossy</strong> "
+"setting, which will not allow a resulting image of unacceptable quality."
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:144
+msgid ""
+"This setting will be ignored when using the <strong>lossless</strong> "
+"optimization mode."
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:150
+msgid "Image Sizes to optimize:"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:153
+msgid ""
+"You can choose witch image size created by WordPress you want to compress. "
+"The original size is automatically optimized by CheetahO."
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:154
+msgid ""
+"Do not forget that each additional image size will affect your CheetahO "
+"monthly usage!"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:172
+msgid "Images backups:"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:179
+msgid ""
+"You need to have backup active in order to be able to restore images to "
+"originals."
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:182
+msgid "Your backup folder size is now:"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:185
+msgid "Are you sure want to remove images from backup folder?"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:211
+msgid "Optimization Stats"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:215
+msgid "Images optimized:"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:216
+msgid "Total images original size:"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:217
+msgid "Total images size optimized:"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:218
+msgid "Saved size in % using CheetahO:"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:228
+msgid "Support CheetahO"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:230
+msgid "Would you like to help support development of this plugin?"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:231
+msgid "Write a review."
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:232
+msgid "Contribute directly via"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:233
+msgid "Or just say to world about us via:"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:245
+msgid "Contact Us"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:247
+msgid "Found Bug? Have questions or suggestions. Please write us an email:"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:247
+msgid "or you can fill our contact form"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:247
+msgid "here"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:265 lib/functions/cheetaho-ui.php:290
+msgid "Dismiss this notice"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:266
+msgid "CheetahO image optimization Quota Exceeded"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:267
+msgid "The plugin has optimized"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:267
+msgid "images"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:267
+msgid "Come back on this date to continue optimization."
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:268
+msgid ""
+"To continue to optimize your images now, log in to your CheetahO account to "
+"upgrade your plan."
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:270
+msgid "Upgrade plan now"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:271
+msgid "I upgraded plan. Close message"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:288
+msgid "Welcome to CheetahO image optimization!"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:296
+msgid "Create CheetahO Account"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:297
+msgid ""
+"Don't have an CheetahO account? Create account in few seconds and optimize "
+"your images!"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:298
+msgid "Sign up, It's FREE!"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:303
+msgid "Get API Key"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:304
+msgid "Go to CheetahO API key page. Copy key and come back here."
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:306
+msgid "Get API key"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:311
+msgid "Configure it"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:312
+msgid "It’s almost done! Now you need to configure your plugin."
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:313
+msgid "Go to Settings"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:335
+msgid ""
+"Congratulations! Your media library has been successfully optimized! Come "
+"back here when you will have new images to optimize"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:337
+msgid ""
+"Here you can start optimizing your entire library. Press the big button to "
+"start improving your website speed instantly! We can optimize your original "
+"images size and"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:337
+msgid "thumbnails"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:339
+msgid "What are Thumbnails?"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:340
+msgid ""
+"Thumbnails are smaller images generated by your WP theme. Most themes "
+"generate between 3 and 6 thumbnails for each Media Library image."
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:341
+msgid ""
+"The thumbnails also generate traffic on your website pages and they "
+"influence your websites speed"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:342
+msgid ""
+"It is highly recommended that you include thumbnails in the optimization as "
+"well."
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:343
+msgid "Please check CheetahO setings"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:343
+msgid "page"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:343
+msgid "for available plugin options"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:358
+msgid "Start Bulk Optimization"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:359
+msgid "Optimizing..."
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:360
+msgid "Cancel"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:361
+msgid "Cancelling..."
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:364
+msgid "Remember"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:364
+msgid ""
+"For the plugin to do the work, you need to keep this page open. But no "
+"worries: if ir will stop, you can continue where you left off!"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:384
+msgid "Original size"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:385
+msgid "Size decreased by"
+msgstr ""
+
+#: lib/functions/cheetaho-ui.php:386
+msgid "Current Size"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "CheetahO Image Optimizer"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://cheetaho.com/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"CheetahO optimizes images automatically. Check your <a href=\"options-"
+"general.php?page=cheetaho\" target=\"_blank\">Settings &gt; CheetahO</a> "
+"page on how to start optimizing your image library and make your website "
+"load faster. Do not forget to update these settings after plugin update."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "CheetahO"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://cheetaho.com"
+msgstr ""
