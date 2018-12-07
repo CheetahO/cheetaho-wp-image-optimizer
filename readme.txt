@@ -2,8 +2,8 @@
 Contributors: cheetaho
 Tags: image, optimize, compress, performance, lossless, lossy, photo, pictures, optimize JPG, compress PNG, compress jpeg, optimize gif, Smush WordPress Compression
 Requires at least: 3.0.1
-Tested up to: 4.9.7
-Stable tag: 1.4
+Tested up to: 5
+Stable tag: 1.4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 Donate link:  https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8EBKEZMR58UK4
@@ -35,12 +35,14 @@ Set a max width and height and large images will scale down as they are being co
 > * Optimize thumbnails as well
 > * Works with both HTTPS and HTTP websites
 > * Works with eCommerce websites using WooCommerce plugin
+> * ALso compatible with galleries Modula, Foo Gallery and any other galleries or sliders
 > * Keep or remove EXIF data from your images, compress images with lossless option. This option is great for photographers
 > * Able to compress JPG, PNG, GIF images
 > * Option to deactivate auto-optimizing images on image upload
 > * Able to compress WOOCOMMERCE products images.
 > * Images can be automatically resized before being optimized. No need to install additional plugins like Imsanity or Resize Image After Upload
 > * Compress/resize images even your site is not public.
+> * Compatible with WP Retina 2x – all retina images are automatically compressed.
 
 
 > Need more? Have a look at our plans: https://cheetaho.com/pricing/
@@ -102,7 +104,7 @@ Register to CheetahO and get 500 free image optimization credits each month. Exc
 
 If you exhaust your free image quota, CheetahO will stop working. You will have to wait for the next month's quota when your plan will renew.
 
-= How does the one-time plan work? =
+= How do the one-time plan work? =
 
 You can purchase a one-time plan for processing you images. You will pay for it only once, this is not plan subscription. This plan is recommended for websites that have a large gallery that needs to be optimized.
 
@@ -147,6 +149,12 @@ We are here to help. <a href="https://cheetaho.com/contact-us/">Contact us</a>!
 
  
 == Changelog ==
+
+= 1.4.1 =
+* Test with WordPress 5
+* Fix warning which appears in php 7.2.
+* Retina images support - automatically optimize retina images
+
 = 1.4 =
 * Test with WordPress 4.9.7
 * Add Basic Authorization option for non public website.
@@ -251,7 +259,6 @@ We are here to help. <a href="https://cheetaho.com/contact-us/">Contact us</a>!
 == TODO ==
 * NextGEN Gallery support.
 * PDF files optimization support.
-* Retina images optimization support.
 * SVG image optimization
 
 == Any Questions or suggestions? ==

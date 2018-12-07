@@ -3,8 +3,7 @@
 class cheetahoHelper{
 	
 	public static $allowed_extensions = array('jpg', 'jpeg', 'gif', 'png');
-	
-	        
+
 	public static function getStats() {
 		$settings = get_option('_cheetaho_options');
 		$data = self::getOptimizationStatistics($settings);
@@ -208,6 +207,10 @@ class cheetahoHelper{
 			if ( !file_exists($paths['backupFile']) ) {
 				@copy( $paths['originalImagePath'], $paths['backupFile']) ;
 			}
+			
+			if ( !file_exists(cheetahoMetaHelper::retinaName($paths['backupFile']) )) {
+				@copy( cheetahoMetaHelper::retinaName ($paths['originalImagePath']), cheetahoMetaHelper::retinaName ($paths['backupFile'])) ;
+			}
 		}
 	}
 	
@@ -243,7 +246,6 @@ class cheetahoHelper{
     }
  	
     protected static function setFilePerms($file) {
-        //die(getenv('USERNAME') ? getenv('USERNAME') : getenv('USER'));
         $perms = @fileperms($file);
         if(!($perms & 0x0100) || !($perms & 0x0080)) {
             if(!@chmod($file, $perms | 0x0100 | 0x0080)) {
@@ -303,9 +305,7 @@ class cheetahoHelper{
     
  	protected static function renameFile($bkFile, $file) {
         @rename($bkFile, $file);
-        $ext = pathinfo($file, PATHINFO_EXTENSION);
-      //  @rename(substr($bkFile, 0, strlen($bkFile) - 1 - strlen($ext)) . "@2x." . $ext, substr($file, 0, strlen($file) - 1 - strlen($ext)) . "@2x." . $ext);
-        
+        @rename(cheetahoMetaHelper::retinaName($bkFile), cheetahoMetaHelper::retinaName($file));        
     }
     
  	public static function isProcessable($ID) {
