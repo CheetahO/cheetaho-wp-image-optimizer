@@ -12,24 +12,24 @@ cache:
 matrix:
     include:
         # aliased to a recent 5.6.x version
-        - php: '5.6'
-          env:
-            - WP_VERSION=latest
-            - WP_MULTISITE=0
-        - php: '5.6'
-          env:
-            - WP_VERSION=latest
-            - WP_MULTISITE=1
+        #- php: '5.6'
+        #  env:
+        #    - WP_VERSION=latest
+        #    - WP_MULTISITE=0
+        #- php: '5.6'
+        #  env:
+        #    - WP_VERSION=latest
+        #    - WP_MULTISITE=1
         # aliased to a recent 7.x version
         - php: '7.0'
           env:
             - WP_VERSION=latest
             - WP_MULTISITE=0
             - SNIFF=1
-        - php: '7.0'
-          env:
-            - WP_VERSION=latest
-            - WP_MULTISITE=1
+        #- php: '7.0'
+        #  env:
+        #    - WP_VERSION=latest
+        #    - WP_MULTISITE=1
             
 before_script:
     # Set up CodeSniffer
