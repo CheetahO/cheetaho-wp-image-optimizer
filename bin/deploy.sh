@@ -10,7 +10,7 @@ fi
 
 if [[ -z "$WP_ORG_PASSWORD" ]]; then
 	echo "WordPress.org password not set" 1>&2
-	exit 1
+#	exit 1
 fi
 
 if [[ -z "$TRAVIS_BRANCH" || "$TRAVIS_BRANCH" != "master" ]]; then
