@@ -59,3 +59,13 @@ before_script:
 script:
   - if [[ "$WPSNIFF" == "1" ]]; then phpcs --standard=phpcs.ruleset.xml --extensions=php .; fi
   - phpunit
+
+deploy:
+  #
+  # Auto-deploys the built plugin to WordPress.org on push to master branch
+  #
+  provider: script
+  skip_cleanup: true
+  script: ./bin/deploy.sh
+  on:
+    branch: dev
