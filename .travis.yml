@@ -23,21 +23,21 @@ matrix:
       env: WP_VERSION=latest
         - WP_MULTISITE=0
         - SNIFF=1
-    - php: 7.1
-      env: WP_VERSION=latest
-    - php: 7.0
-      env: WP_VERSION=latest
-    - php: 5.6
-      env: WP_VERSION=3.2.1
-    - php: 5.6
-      env: WP_VERSION=latest
-    - php: 5.6
-      env: WP_VERSION=trunk
-    - php: 5.6
-      env: WP_TRAVISCI=phpcs
-    - php: 5.3
-      env: WP_VERSION=latest
-      dist: precise
+    #- php: 7.1
+    #  env: WP_VERSION=latest
+    #- php: 7.0
+    #  env: WP_VERSION=latest
+    #- php: 5.6
+    #  env: WP_VERSION=3.2.1
+    #- php: 5.6
+    #  env: WP_VERSION=latest
+    #- php: 5.6
+    #  env: WP_VERSION=trunk
+    #- php: 5.6
+    #  env: WP_TRAVISCI=phpcs
+    #- php: 5.3
+    #  env: WP_VERSION=latest
+    #  dist: precise
 
 before_script:
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
@@ -49,7 +49,7 @@ before_script:
     fi
   - |
     if [[ ! -z "$WP_VERSION" ]] ; then
-      bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION false c4bfa487531a1e4350167175e66ed6a92e7c6f1a
+      bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION false $CHEETAHO_API_KEY
       composer global require "phpunit/phpunit=4.8.*|5.7.*"
     fi
   - |
