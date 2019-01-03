@@ -2,6 +2,7 @@
 
 #https://deliciousbrains.com/deploying-wordpress-plugins-travis/
 #https://kuzmi.ch/articles/wordpress-plugin-and-theme-development-using-git-only/
+#https://github.com/ocean90/svn2git-tools/tree/master/automated-wordpress-plugin-deployment
 
 if [[ -z "$TRAVIS" ]]; then
 	echo "Script is only to be run by Travis CI" 1>&2

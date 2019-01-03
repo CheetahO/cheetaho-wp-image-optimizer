@@ -20,7 +20,7 @@ cache:
 matrix:
   include:
     - php: 7.2
-      env: WP_VERSION=latest WPSNIFF=1 WP_MULTISITE=1
+      env: WP_VERSION=latest WP_MULTISITE=1
     #- php: 7.1
     #  env: WP_VERSION=latest
     #- php: 7.0
@@ -66,6 +66,7 @@ deploy:
   #
   provider: script
   skip_cleanup: true
-  script: ./bin/deploy.sh
+  script: bash ./bin/deploy.sh
   on:
-    branch: dev
+    php: 7.2
+#    branch: dev
