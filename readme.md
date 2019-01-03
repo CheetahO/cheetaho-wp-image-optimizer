@@ -77,7 +77,7 @@ CheetahO - Getting Started
     ```
 2. Install test env tests:
     ```shell
-    bash bin/install-wp-tests.sh wordpress_test root 'mysql_pass' localhost latest
+    bash bin/install-wp-tests.sh wordpress_test root 'mysql_pass' localhost latest false <cheetaho_api_key>
     ```
 3. Run phpUnit tests:
     ```shell
