@@ -69,4 +69,4 @@ deploy:
   script: bash ./bin/deploy.sh
   on:
     php: 7.2
-#    branch: dev
+    branch: dev
