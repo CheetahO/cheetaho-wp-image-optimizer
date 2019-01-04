@@ -1,5 +1,11 @@
 # CheetahO Image Compression and Optimizer
 
+[![Build Status](https://travis-ci.org/CheetahO/cheetaho-wp-image-optimizer.svg?branch=dev)](https://travis-ci.org/CheetahO/cheetaho-wp-image-optimizer)
+[![WordPress Plugin Downloads](https://img.shields.io/wordpress/plugin/dt/cheetaho-image-optimizer.svg)](https://wordpress.org/plugins/cheetaho-image-optimizer/)
+[![WordPress Plugin Rating](https://img.shields.io/wordpress/plugin/r/cheetaho-image-optimizer.svg)](https://wordpress.org/support/plugin/cheetaho-image-optimizer/reviews/)
+[![WordPress Plugin Version](https://img.shields.io/wordpress/plugin/v/cheetaho-image-optimizer.svg)](https://wordpress.org/plugins/cheetaho-image-optimizer/)
+[![WordPress Tested Up To](https://img.shields.io/wordpress/v/cheetaho-image-optimizer.svg)](https://wordpress.org/plugins/cheetaho-image-optimizer/)
+
 ![CheetahO Image Compression and Optimizer](https://ps.w.org/cheetaho-image-optimizer/assets/banner-772x250.png)
 
 This plugin allows you to compress and optimize your WordPress images through the CheetahO API. Your website will be faster, keeping the images high quality.
