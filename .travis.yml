@@ -40,7 +40,7 @@ jobs:
     - stage: 🚀 deployment
       name: "Deploy to WordPress"
       php: 7.2
-      before_script: skip
+      env: WP_VERSION=latest
       deploy:
         provider: script
         skip_cleanup: true
