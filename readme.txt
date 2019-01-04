@@ -1,9 +1,9 @@
 === CheetahO Image Compression and Optimizer ===
 Contributors: cheetaho
-Tags: image, optimize, compress, performance, lossless, lossy, photo, pictures, optimize JPG, compress PNG, compress jpeg, optimize gif, Smush WordPress Compression
-Requires at least: 3.0.1
-Tested up to: 5
-Stable tag: 1.4.1
+Tags: compressor, image, optimize, compress, performance, lossless, image optimiser, lossy, photo, pictures, optimize JPG, compress PNG, compress jpeg, optimize gif
+Requires at least: 3.2.1
+Tested up to: 5.0
+Stable tag: 1.4.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 Donate link:  https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8EBKEZMR58UK4
@@ -32,7 +32,7 @@ Set a max width and height and large images will scale down as they are being co
 > * 'Bulk' optimize all the existing images in Media Library
 > * It is safe to test and use the plugin: all the original images are stored in backup folder (optional feature, you can disable it)
 > * Skip already optimized images
-> * Optimize thumbnails as well
+> * Optimize thumbnails as well. You can also select individual thumbnails to exclude from optimization.
 > * Works with both HTTPS and HTTP websites
 > * Works with eCommerce websites using WooCommerce plugin
 > * ALso compatible with galleries Modula, Foo Gallery and any other galleries or sliders
@@ -42,7 +42,7 @@ Set a max width and height and large images will scale down as they are being co
 > * Able to compress WOOCOMMERCE products images.
 > * Images can be automatically resized before being optimized. No need to install additional plugins like Imsanity or Resize Image After Upload
 > * Compress/resize images even your site is not public.
-> * Compatible with WP Retina 2x – all retina images are automatically compressed.
+> * Compatible with WP Retina 2x â€“ all retina images are automatically compressed.
 
 
 > Need more? Have a look at our plans: https://cheetaho.com/pricing/
@@ -127,7 +127,7 @@ Yes. All processed files in our servers are stored only for a few hours.
 For now, Cheetaho supports JPEG, GIF, and PNG formats.
 
 = I can not optimize image. Got error "Requested file size too large". How fix this? =
-CheetahO lets to optimize image up to 4 MB with free subscription plan. If you would like to optimize bigger files, you will need to take other plans from [here](http://app.cheetaho.com/admin/billing/plans) 
+CheetahO lets to optimize image up to 4 MB with free subscription plan. If you would like to optimize bigger files, you will need to take other plans from [here](http://app.cheetaho.com/admin/billing/plans)
 
 = On how many websites can I use the plugin? =
 You can use the plugin on as many sites as you wish. The only limit is the optimization quota of your account.
@@ -144,11 +144,21 @@ You can not use plugin on a localhost. Your site is not public and our servers c
 = Can this plugin resize images? =
 If you choose the option to resize your images and set max with and height then the image can be resized to a predefined size while keeping its aspect and proportions intact.
 
+= Do you optimize the images in cloud? =
+Yes, all the images are optimized in our Cloud. This takes the load off of your server and allows us to produce the best results.
+
 = Have questions or need help? =
 We are here to help. <a href="https://cheetaho.com/contact-us/">Contact us</a>!
 
- 
+
 == Changelog ==
+= 1.4.2.1 =
+* Update readme
+
+= 1.4.2 =
+* Add missed Class
+* Clean code.
+* Update readme file
 
 = 1.4.1 =
 * Test with WordPress 5
@@ -196,7 +206,7 @@ We are here to help. <a href="https://cheetaho.com/contact-us/">Contact us</a>!
 * Fix old openssl issue.
 
 = 1.3.2 =
-* Update translations 
+* Update translations
 
 = 1.3.1 =
 * Fix notice close bug. Thanks for http://baltproekt.net/
@@ -212,9 +222,9 @@ We are here to help. <a href="https://cheetaho.com/contact-us/">Contact us</a>!
 * Fixed duplicated function issue. Thanks for http://alpakuauginimas.lt
 
 = 1.2.7 =
-* Add strings in translations 
+* Add strings in translations
 * Add gif images compression
- 
+
 = 1.2.6 =
 * Update readme
 * Testing with WordPress 4.7.2 version
@@ -237,13 +247,13 @@ We are here to help. <a href="https://cheetaho.com/contact-us/">Contact us</a>!
 
 = 1.2.2 =
 * Add messages for users
-* Check quota and API key if is valid 
+* Check quota and API key if is valid
 
 = 1.2.1 =
 * Fix bug with new added class
 
 = 1.2 =
-* Image optimization statistics block. 
+* Image optimization statistics block.
 * Change settings page interface and add support block.
 * Add setting to choose which image size you would like to optimize.
 
@@ -263,10 +273,3 @@ We are here to help. <a href="https://cheetaho.com/contact-us/">Contact us</a>!
 
 == Any Questions or suggestions? ==
 Contact us by email support (at) cheetaho dot com.
-
-
-
-
-
-
-

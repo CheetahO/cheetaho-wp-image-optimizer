@@ -6,7 +6,7 @@
 
 if [[ -z "$TRAVIS" ]]; then
 	echo "Script is only to be run by Travis CI" 1>&2
-	exit 1
+#	exit 1
 fi
 
 if [[ -z "$WP_ORG_PASSWORD" ]]; then
@@ -19,95 +19,138 @@ if [[ -z "$TRAVIS_BRANCH" || "$TRAVIS_BRANCH" != "master" ]]; then
 #	exit 0
 fi
 
-WP_ORG_USERNAME="CheetahO"
-PLUGIN="cheetaho-wp-image-optimizer"
-PROJECT_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
-PLUGIN_BUILDS_PATH="$PROJECT_ROOT/builds"
-PLUGIN_BUILD_CONFIG_PATH="$PROJECT_ROOT/build-cfg"
-VERSION=$(/usr/bin/php -f "$PLUGIN_BUILD_CONFIG_PATH/utils/get_plugin_version.php" "$PROJECT_ROOT" "$PLUGIN")
-ZIP_FILE="$PLUGIN_BUILDS_PATH/$PLUGIN-$VERSION.zip"
+# main config
+PLUGINSLUG="cheetaho-wp-image-optimizer"
+CURRENTDIR=`pwd`
+MAINFILE="cheetaho.php"
+DEFAULT_EDITOR="/usr/bin/vim"
 
-# Ensure the zip file for the current version has been built
-if [ ! -f "$ZIP_FILE" ]; then
-    echo "Built zip file $ZIP_FILE does not exist" 1>&2
-    exit 1
+# git config
+GITPATH="$CURRENTDIR/" # this file should be in the base of your git repository
+
+# svn config
+SVNPATH="/tmp/$PLUGINSLUG" # Path to a temp SVN repo. No trailing slash required.
+SVNURL="http://plugins.svn.wordpress.org/$PLUGINSLUG/" # Remote SVN repo on wordpress.org
+SVNUSER="nerijuso" # Your SVN username
+
+# Let's begin...
+echo
+echo "Deploy WordPress plugin"
+echo "======================="
+echo
+
+# Check version in readme.txt is the same as plugin file after translating both to unix
+# line breaks to work around grep's failure to identify mac line breaks
+NEWVERSION1=`grep "Stable tag: " "$GITPATH/readme.txt" | awk -F' ' '{print $NF}'`
+echo "readme.txt version: $NEWVERSION1"
+NEWVERSION2=`grep "Version: " "$GITPATH/$MAINFILE" | awk -F' ' '{print $NF}'`
+echo "$MAINFILE version: $NEWVERSION2"
+
+if [ "$NEWVERSION1" != "$NEWVERSION2" ]
+	then echo "Version in readme.txt & $MAINFILE don't match. Exiting."
+	exit 1
 fi
 
-# Check if the tag exists for the version we are building
-TAG=$(svn ls "https://plugins.svn.wordpress.org/$PLUGIN/tags/$VERSION")
-error=$?
-if [ $error == 0 ]; then
-    # Tag exists, don't deploy
-    echo "Tag already exists for version $VERSION, aborting deployment"
-    exit 1
+echo "Versions match in readme.txt and $MAINFILE. Let's proceed..."
+
+if git show-ref --quiet --tags --verify -- "refs/tags/$NEWVERSION1"
+	then
+		echo "Version $NEWVERSION1 already exists as git tag. Exiting."
+		exit 1
+	else
+		echo "Git version does not exist. Let's proceed..."
+		echo
 fi
 
-cd "$PLUGIN_BUILDS_PATH"
-# Remove any unzipped dir so we start from scratch
-rm -fR "$PLUGIN"
-# Unzip the built plugin
-unzip -q -o "$ZIP_FILE"
+cd $GITPATH
 
-# Clean up any previous svn dir
-rm -fR svn
+echo -n "Saving previous Git tag version..."
+PREVTAG=`git describe --tags \`git rev-list --tags --max-count=1\``
+echo "Done."
 
-# Checkout the SVN repo
-svn co -q "http://svn.wp-plugins.org/$PLUGIN" svn
+echo -n "Tagging new Git version..."
+git tag -a "$NEWVERSION1" -m "Tagging version $NEWVERSION1"
+echo "Done."
 
-# Move out the trunk directory to a temp location
-mv svn/trunk ./svn-trunk
-# Create trunk directory
-mkdir svn/trunk
-# Copy our new version of the plugin into trunk
-rsync -r -p $PLUGIN/* svn/trunk
+echo -n "Pushing new Git tag..."
+git push --quiet --tags
+echo "Done."
 
-# Copy all the .svn folders from the checked out copy of trunk to the new trunk.
-# This is necessary as the Travis container runs Subversion 1.6 which has .svn dirs in every sub dir
-cd svn/trunk/
-TARGET=$(pwd)
-cd ../../svn-trunk/
+echo -n "Creating local copy of SVN repo..."
+svn checkout --quiet $SVNURL/trunk $SVNPATH/trunk
+echo "Done."
 
-# Find all .svn dirs in sub dirs
-SVN_DIRS=`find . -type d -iname .svn`
+echo -n "Exporting the HEAD of master from Git to the trunk of SVN..."
+git checkout-index --quiet --all --force --prefix=$SVNPATH/trunk/
+echo "Done."
 
-for SVN_DIR in $SVN_DIRS; do
-    SOURCE_DIR=${SVN_DIR/.}
-    TARGET_DIR=$TARGET${SOURCE_DIR/.svn}
-    TARGET_SVN_DIR=$TARGET${SVN_DIR/.}
-    if [ -d "$TARGET_DIR" ]; then
-        # Copy the .svn directory to trunk dir
-        cp -r $SVN_DIR $TARGET_SVN_DIR
-    fi
-done
+echo -n "Preparing commit message..."
+git log --pretty=oneline --abbrev-commit $PREVTAG..$NEWVERSION1 > /tmp/wppdcommitmsg.tmp
+echo "Done."
 
-# Back to builds dir
-cd ../
+echo -n "Preparing assets-wp-repo..."
+if [ -d $SVNPATH/trunk/assets-wp-repo ]
+	then
+		svn checkout --quiet $SVNURL/assets $SVNPATH/assets > /dev/null 2>&1
+		mkdir $SVNPATH/assets/ > /dev/null 2>&1 # Create assets directory if it doesn't exists
+		mv $SVNPATH/trunk/assets-wp-repo/* $SVNPATH/assets/ # Move new assets
+		rm -rf $SVNPATH/trunk/assets-wp-repo # Clean up
+		cd $SVNPATH/assets/ # Switch to assets directory
+		svn stat | grep "^?\|^M" > /dev/null 2>&1 # Check if new or updated assets exists
+		if [ $? -eq 0 ]
+			then
+				svn stat | grep "^?" | awk '{print $2}' | xargs svn add --quiet # Add new assets
+				echo -en "Committing new assets..."
+				svn commit --quiet --username=$SVNUSER -m "Updated assets"
+				echo "Done."
+			else
+				echo "Unchanged."
+		fi
+	else
+		echo "No assets exists."
+fi
 
-# Remove checked out dir
-rm -fR svn-trunk
 
-# Clean up unnecessary files
-rm -rf .git/
-rm -rf bin/
-rm -rf tests/
-rm -f .travis.yml
-rm -f .phpcs.xml.dist
-rm -f phpunit.xml.dist
-rm -f readme.md
+cd $SVNPATH/trunk/
 
-# Add new version tag
-mkdir svn/tags/$VERSION
-rsync -r -p $PLUGIN/* svn/tags/$VERSION
+echo -n "Ignoring GitHub specific files and deployment script..."
+svn propset --quiet svn:ignore "deploy.sh
+.git
+bin/
+tests/
+.phpcs.xml.dist
+.travis.yml
+phpunit.xml.dist
+readme.md
+.gitignore" .
+echo "Done."
 
-# Add new files to SVN
-svn stat svn | grep '^?' | awk '{print $2}' | xargs -I x svn add x@
-# Remove deleted files from SVN
-svn stat svn | grep '^!' | awk '{print $2}' | xargs -I x svn rm --force x@
-svn stat svn
+echo -n "Adding new files..."
+svn stat | grep "^?" | awk '{print $2}' | xargs svn add --quiet
+echo "Done."
 
-# Commit to SVN
-#svn ci --no-auth-cache --username $WP_ORG_USERNAME --password $WP_ORG_PASSWORD svn -m "Deploy version $VERSION"
-echo "Commit to svn all files"
+echo -n "Removing old files..."
+svn stat | grep "^\!" | awk '{print $2}' | xargs svn remove --quiet
+echo "Done."
 
-# Remove SVN temp dir
-rm -fR svn
+echo -n "Enter a commit message for this new SVN version..."
+$DEFAULT_EDITOR /tmp/wppdcommitmsg.tmp
+COMMITMSG=`cat /tmp/wppdcommitmsg.tmp`
+rm /tmp/wppdcommitmsg.tmp
+echo "Done."
+
+echo -n "Committing new SVN version..."
+#svn commit --quiet --username=$SVNUSER -m "$COMMITMSG"
+echo "Done."
+
+echo -n "Tagging and committing new SVN tag..."
+#svn copy $SVNURL/trunk $SVNURL/tags/$NEWVERSION1 --quiet --username=$SVNUSER -m "Tagging version $NEWVERSION1"
+echo "Done."
+
+echo -n "Removing temporary directory $SVNPATH..."
+rm -rf $SVNPATH/
+echo "Done."
+
+echo
+echo "The plugin version $NEWVERSION1 is successfully deployed."
+echo
