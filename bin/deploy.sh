@@ -151,11 +151,11 @@ rm /tmp/wppdcommitmsg.tmp
 echo "Done."
 
 echo -n "Committing new SVN version..."
-#svn commit --quiet --username=$SVNUSER -m "$COMMITMSG"
+####svn commit --quiet --username=$SVNUSER -m "$COMMITMSG"
 echo "Done."
 
 echo -n "Tagging and committing new SVN tag..."
-#svn copy $SVNURL/trunk $SVNURL/tags/$NEWVERSION1 --quiet --username=$SVNUSER -m "Tagging version $NEWVERSION1"
+####svn copy $SVNURL/trunk $SVNURL/tags/$NEWVERSION1 --quiet --username=$SVNUSER -m "Tagging version $NEWVERSION1"
 echo "Done."
 
 echo -n "Removing temporary directory $SVNPATH..."
