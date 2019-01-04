@@ -101,7 +101,7 @@ if [ -d $SVNPATH/trunk/assets-wp-repo ]
 			then
 				svn stat | grep "^?" | awk '{print $2}' | xargs svn add --quiet # Add new assets
 				echo -en "Committing new assets..."
-				svn commit --quiet --username=$SVNUSER -m "Updated assets"
+###				svn commit --quiet --username=$SVNUSER -m "Updated assets"
 				echo "Done."
 			else
 				echo "Unchanged."
@@ -113,28 +113,39 @@ fi
 
 cd $SVNPATH/trunk/
 
-echo -n "Ignoring GitHub specific files and deployment script..."
-svn propset --quiet svn:ignore "deploy.sh
-.git
-bin/
-tests/
-.phpcs.xml.dist
-.travis.yml
-phpunit.xml.dist
-readme.md
-.gitignore" .
+echo -n "Delete GitHub specific files and deployment script..."
+rm -rf .git
+rm -rf bin/
+rm -rf tests/
+rm -rf .phpcs.xml.dist
+rm -rf .travis.yml
+rm -rf phpunit.xml.dist
+rm -rf readme.md
+rm -rf .gitignore
+rm -rf .git/
+rm -rf phpcs.ruleset.xml
 echo "Done."
 
 echo -n "Adding new files..."
-svn stat | grep "^?" | awk '{print $2}' | xargs svn add --quiet
+SVNFILESTOADD=`svn stat | grep "^?" | awk '{print $2}' | xargs`
+
+if [ "$SVNFILESTOADD" != "" ]; then
+    echo -n "Add files ${SVNFILESTOADD}"
+    svn stat | grep "^?" | awk '{print $2}' | xargs svn add --quiet
+fi
 echo "Done."
 
 echo -n "Removing old files..."
-svn stat | grep "^\!" | awk '{print $2}' | xargs svn remove --quiet
+SVNFILESTOREMOVE=`svn stat | grep "^\!" | awk '{print $2}' | xargs`
+
+if [ "$SVNFILESTOREMOVE" != "" ]; then
+    echo -n "Removing files ${SVNFILESTOREMOVE}"
+    svn stat | grep "^\!" | awk '{print $2}' | xargs svn remove --quiet
+fi
 echo "Done."
 
 echo -n "Enter a commit message for this new SVN version..."
-$DEFAULT_EDITOR /tmp/wppdcommitmsg.tmp
+#$DEFAULT_EDITOR /tmp/wppdcommitmsg.tmp
 COMMITMSG=`cat /tmp/wppdcommitmsg.tmp`
 rm /tmp/wppdcommitmsg.tmp
 echo "Done."

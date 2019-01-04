@@ -1,5 +1,7 @@
 # CheetahO Image Compression and Optimizer
 
+![CheetahO Image Compression and Optimizer](https://ps.w.org/cheetaho-image-optimizer/assets/banner-772x250.png)
+
 This plugin allows you to compress and optimize your WordPress images through the CheetahO API. Your website will be faster, keeping the images high quality.
 
 ## Description
