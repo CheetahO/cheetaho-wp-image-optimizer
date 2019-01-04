@@ -20,7 +20,7 @@ if [[ -z "$TRAVIS_BRANCH" || "$TRAVIS_BRANCH" != "master" ]]; then
 fi
 
 # main config
-PLUGINSLUG="cheetaho-wp-image-optimizer"
+PLUGINSLUG="cheetaho-image-optimizer"
 CURRENTDIR=`pwd`
 MAINFILE="cheetaho.php"
 DEFAULT_EDITOR="/usr/bin/vim"
@@ -73,7 +73,7 @@ git tag -a "$NEWVERSION1" -m "Tagging version $NEWVERSION1"
 echo "Done."
 
 echo -n "Pushing new Git tag..."
-git push --quiet --tags
+git push --quiet --tags https://${GH_TOKEN}@github.com/CheetahO/cheetaho-wp-image-optimizer.git > /dev/null 2>&1
 echo "Done."
 
 echo -n "Creating local copy of SVN repo..."
