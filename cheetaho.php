@@ -62,6 +62,7 @@ define('CHEETAHO_ASSETS_IMG_URL', realpath(plugin_dir_url(__FILE__) . 'img/') . 
 define('CHEETAHO_VERSION', '1.4.2.1');
 define('CHEETAHO_APP_URL', 'https://app.cheetaho.com/');
 define('CHEETAHO_SETTINGS_LINK', admin_url('options-general.php?page=cheetaho'));
+
 $uploads = wp_upload_dir();
 define('CHEETAHO_UPLOADS_BASE', $uploads['basedir']);
 
@@ -245,10 +246,16 @@ if (!class_exists('WPCheetahO')) {
                     $settings = $this->cheetaho_settings;
                     $type = $settings['api_lossy'];
 
-                    if (!parse_url(WP_CONTENT_URL, PHP_URL_SCHEME)) { // no absolute URLs used -> we implement a hack
-                        $image_path = get_site_url() . wp_get_attachment_url($image_id); // get the file URL
+                    $mode = getenv('CHEETAHO_TEST_MODE');
+
+                    if ($mode == true) {
+                        $image_path = getenv("TEST_JPG_IMAGE_REMOTE_PATH");
                     } else {
-                        $image_path = wp_get_attachment_url($image_id); // get the file URL
+                        if (!parse_url(WP_CONTENT_URL, PHP_URL_SCHEME)) { // no absolute URLs used -> we implement a hack
+                            $image_path = get_site_url() . wp_get_attachment_url($image_id); // get the file URL
+                        } else {
+                            $image_path = wp_get_attachment_url($image_id); // get the file URL
+                        }
                     }
 
                     $result = $this->optimizeImage($image_path, $type, $image_id, true);
@@ -296,7 +303,6 @@ if (!class_exists('WPCheetahO')) {
                     } else {
                         // error or no optimization
                         if (file_exists($image_path)) {
-
                             $data['original_size'] = self::convert_to_kb(filesize($image_path));
                             $data['error'] = $result['error'];
                             $data['type'] = $result['type'];
@@ -312,7 +318,8 @@ if (!class_exists('WPCheetahO')) {
                         }
                     }
                 }
-            } catch (Exception $e) {}
+            } catch (Exception $e) {
+            }
         }
 
         public function cheetaho_enqueue($hook)
@@ -325,15 +332,11 @@ if (!class_exists('WPCheetahO')) {
                 ));
                 wp_localize_script('cheetaho-js', 'cheetaho_object', array(
                     'url' => admin_url('admin-ajax.php'),
-                    'changeMLToListMode' => __('In order to access the CheetahO Optimization actions and info, please change to ',
-                        'cheetaho-image-optimizer'),
+                    'changeMLToListMode' => __('In order to access the CheetahO Optimization actions and info, please change to ', 'cheetaho-image-optimizer'),
                     'changeMLToListMode1' => __('List View', 'cheetaho-image-optimizer'),
                     'changeMLToListMode2' => __('Dismiss', 'cheetaho-image-optimizer'),
-                    'resizeAlert1' => __('Please do not set a {type} less than your largest website thumbnail. If you will do this you will need regenerate all your thumbnails in case you will ever need this.',
-                        'cheetaho-image-optimizer'),
+                    'resizeAlert1' => __('Please do not set a {type} less than your largest website thumbnail. If you will do this you will need regenerate all your thumbnails in case you will ever need this.', 'cheetaho-image-optimizer'),
                 ));
-
-
             }
 
             if ($hook == 'media_page_cheetaho-bulk') {
@@ -361,7 +364,6 @@ if (!class_exists('WPCheetahO')) {
                     'chOutOf' => __('out of', 'cheetaho-image-optimizer'),
                     'chWaiting' => __('Waiting', 'cheetaho-image-optimizer'),
                 ));
-
             }
 
             wp_enqueue_style('cheetaho-css', plugins_url('css/cheetaho.css', __FILE__));
@@ -433,7 +435,6 @@ if (!class_exists('WPCheetahO')) {
                         ));
                         exit();
                     }
-
 
                     $result = $result['data'];
                     $savings_percentage = (int)$result['savedBytes'] / (int)$result['originalSize'] * 100;
@@ -622,24 +623,46 @@ if (!class_exists('WPCheetahO')) {
             return $rv;
         }
 
-        function replace_new_image($image_path, $new_url)
+        function replace_new_image($image_path, $new_url, $d = false)
         {
-            $fc = false;
+            $status = false;
 
-            $ch = curl_init($new_url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 120);
-            curl_setopt($ch, CURLOPT_USERAGENT,
-                'WordPress/' . get_bloginfo('version') . ' CheetahoPlugin/' . self::$plugin_version);
-            $result = curl_exec($ch);
-
-            if ($result) {
-                $fc = file_put_contents($image_path, $result);
+            if (!function_exists('download_url')) {
+                require_once(ABSPATH . '/wp-admin/includes/file.php');
             }
-            return $fc !== false;
+
+            $tempDownloadedFile = download_url($new_url);
+
+            if (!is_wp_error($tempDownloadedFile)) {
+                clearstatcache();
+                $perms = fileperms($image_path) & 0777;
+
+                // Replace the file.
+                $success = @rename($tempDownloadedFile, $image_path);
+
+                // If tempfile still exists, unlink it.
+                if (file_exists($tempDownloadedFile)) {
+                    @unlink($tempDownloadedFile);
+                }
+
+                // If file renaming failed.
+                if (!$success) {
+                    @copy($tempDownloadedFile, $image_path);
+                    @unlink($tempDownloadedFile);
+                }
+
+                // Some servers are having issue with file permission, this should fix it.
+                if (empty($perms) || !$perms) {
+                    // Source: WordPress Core.
+                    $stat = stat(dirname($image_path));
+                    $perms = $stat['mode'] & 0000666; // Same permissions as parent folder, strip off the executable bits.
+                }
+                @chmod($image_path, $perms);
+
+                $status = true;
+            }
+
+            return $status;
         }
 
         function optimizeImage($image_path, $type, $image_id, $throwException = false)
@@ -678,7 +701,6 @@ if (!class_exists('WPCheetahO')) {
                         exit();
                     }
                 }
-
 
                 //make image backup if not exist
                 cheetahoHelper::makeBackup($image_path, $image_id, $settings);
@@ -725,8 +747,10 @@ if (!class_exists('WPCheetahO')) {
                     if (file_exists($image_path)) {
                         $params['url'] = cheetahoMetaHelper::retinaName($params['url']);
                         $retinaData = $Cheetaho->url($params);
-                        //@TODO retina save check
-                        $this->replace_new_image($params['url'], $retinaData['destURL']);
+
+                        if(isset($retinaData['data']['destURL']) && $retinaData['data']['destURL'] != '') {
+                            $this->replace_new_image(cheetahoMetaHelper::retinaName($image_path), $retinaData['data']['destURL'], true);
+                        }
                     }
                 }
 

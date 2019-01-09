@@ -12,4 +12,12 @@
 			<directory prefix="test-" suffix=".php">./tests/</directory>
 		</testsuite>
 	</testsuites>
+	<groups>
+		<exclude>
+			<group>ajax</group>
+			<group>ms-files</group>
+			<group>ms-required</group>
+			<group>external-http</group>
+		</exclude>
+	</groups>
 </phpunit>
