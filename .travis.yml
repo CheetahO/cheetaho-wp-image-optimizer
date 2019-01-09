@@ -12,7 +12,6 @@ notifications:
 branches:
   only:
     - master
-    - dev
 
 cache:
   directories:
@@ -26,15 +25,12 @@ jobs:
   fast_finish: true
   include:
     - php: 7.2
-      #env: WP_VERSION=5.0 WP_MULTISITE=1 PHPLINT=1 PHPCS=1
       #env: WP_VERSION=latest WP_MULTISITE=1 WPSNIFF=1
       env: WP_VERSION=latest
-   # - php: 7.1
-   #   env: WP_VERSION=latest
    # - php: 7.0
   #    env: WP_VERSION=latest
-  #  - php: 5.6
-  #    env: WP_VERSION=3.2.1
+    - php: 5.6
+      env: WP_VERSION=3.2.1
   #  - php: 5.6
   #    env: WP_VERSION=trunk
     - stage: 🚀 deployment
@@ -47,7 +43,7 @@ jobs:
         script: bash ./bin/deploy.sh
         on:
           php: 7.2
-          branch: dev
+          branch: master
 
 before_script:
   - export PATH="$HOME/.composer/vendor/bin:$PATH"

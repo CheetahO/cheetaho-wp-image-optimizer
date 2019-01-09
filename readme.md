@@ -1,6 +1,6 @@
 # CheetahO Image Compression and Optimizer
 
-[![Build Status](https://travis-ci.org/CheetahO/cheetaho-wp-image-optimizer.svg?branch=dev)](https://travis-ci.org/CheetahO/cheetaho-wp-image-optimizer)
+[![Build Status](https://travis-ci.org/CheetahO/cheetaho-wp-image-optimizer.svg?branch=master)](https://travis-ci.org/CheetahO/cheetaho-wp-image-optimizer)
 [![WordPress Plugin Downloads](https://img.shields.io/wordpress/plugin/dt/cheetaho-image-optimizer.svg)](https://wordpress.org/plugins/cheetaho-image-optimizer/)
 [![WordPress Plugin Rating](https://img.shields.io/wordpress/plugin/r/cheetaho-image-optimizer.svg)](https://wordpress.org/support/plugin/cheetaho-image-optimizer/reviews/)
 [![WordPress Plugin Version](https://img.shields.io/wordpress/plugin/v/cheetaho-image-optimizer.svg)](https://wordpress.org/plugins/cheetaho-image-optimizer/)
