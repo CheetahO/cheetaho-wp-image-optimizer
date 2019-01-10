@@ -3,7 +3,7 @@
  * Plugin Name: CheetahO Image Optimizer
  * Plugin URI: http://cheetaho.com/
  * Description: CheetahO optimizes images automatically. Check your <a href="options-general.php?page=cheetaho" target="_blank">Settings &gt; CheetahO</a> page on how to start optimizing your image library and make your website load faster. Do not forget to update these settings after plugin update.
- * Version: 1.4.2.1
+ * Version: 1.4.2.2
  * Author: CheetahO
  * Author URI: http://cheetaho.com
  * Text Domain: cheetaho-image-optimizer
@@ -59,7 +59,7 @@ cio_fs()->add_filter('after_skip_url', 'cio_fs_settings_url');
 cio_fs()->add_filter('after_connect_url', 'cio_fs_settings_url');
 
 define('CHEETAHO_ASSETS_IMG_URL', realpath(plugin_dir_url(__FILE__) . 'img/') . '/img');
-define('CHEETAHO_VERSION', '1.4.2.1');
+define('CHEETAHO_VERSION', '1.4.2.2');
 define('CHEETAHO_APP_URL', 'https://app.cheetaho.com/');
 define('CHEETAHO_SETTINGS_LINK', admin_url('options-general.php?page=cheetaho'));
 
@@ -153,7 +153,7 @@ if (!class_exists('WPCheetahO')) {
             add_action('all_admin_notices', array(&$this, 'displayApiKeyAlert'));
             add_action('all_admin_notices', array(&$this, 'displayRateUsAlert'));
 
-            add_action('delete_attachment', array(&$this, 'deleteAttachmentInBackup'));
+            add_action('delete_attachment', array(&$this, 'deleteAttachmentImg'));
             add_action('admin_menu', array(&$this, 'registerBulkPage'));
         }
 
@@ -172,9 +172,10 @@ if (!class_exists('WPCheetahO')) {
         }
 
 
-        function deleteAttachmentInBackup($id)
+        function deleteAttachmentImg($id)
         {
             cheetahoHelper::handleDeleteAttachmentInBackup($id);
+            cheetahoHelper::handleDeleteAttachmentWebP($id);
         }
 
         function checkStatus($apiKey = false)
@@ -289,10 +290,6 @@ if (!class_exists('WPCheetahO')) {
                             }
 
                             if ($this->replace_new_image($image_path, $result['destURL'])) {
-                                if (isset($settings['create_webp']) && $settings['create_webp'] == 1 && $result['webPfileURL'] != false) {
-                                    //$this->createNewImage($image_path, $result['webPfileURL']);
-                                }
-
                                 $this->eventImageOptimized($settings, $image_id, $result);
 
                                 update_post_meta($image_id, '_cheetaho_size', $data);
@@ -623,7 +620,7 @@ if (!class_exists('WPCheetahO')) {
             return $rv;
         }
 
-        function replace_new_image($image_path, $new_url, $d = false)
+        function replace_new_image($image_path, $new_url)
         {
             $status = false;
 
@@ -735,7 +732,7 @@ if (!class_exists('WPCheetahO')) {
                 }
 
                 if (isset($settings['create_webp']) && $settings['create_webp'] == 1) {
-                    $params['createWebP'] = true;
+                    $params['createWebP'] = 1;
                 }
 
                 set_time_limit(400);
@@ -749,9 +746,13 @@ if (!class_exists('WPCheetahO')) {
                         $retinaData = $Cheetaho->url($params);
 
                         if(isset($retinaData['data']['destURL']) && $retinaData['data']['destURL'] != '') {
-                            $this->replace_new_image(cheetahoMetaHelper::retinaName($image_path), $retinaData['data']['destURL'], true);
+                            $this->replace_new_image(cheetahoMetaHelper::retinaName($image_path), $retinaData['data']['destURL']);
                         }
                     }
+                }
+
+                if (isset($settings['create_webp']) && $settings['create_webp'] == 1 && $data['data']['webPfileURL'] != false) {
+                    $this->createNewImage($image_path, $data['data']['webPfileURL']);
                 }
 
                 //few checks

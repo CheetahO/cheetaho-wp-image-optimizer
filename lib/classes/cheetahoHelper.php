@@ -360,6 +360,27 @@ class cheetahoHelper{
         }
     }
 
+    public static function handleDeleteAttachmentWebP($ID)
+    {
+        $file = get_attached_file($ID);
+        $meta = wp_get_attachment_metadata($ID);
+
+        if(self::isProcessable($ID) != false)
+        {
+            try {
+                $paths = self::getImagePaths($file);
+
+
+
+                $backupFile = CHEETAHO_BACKUP_FOLDER . '/' . $paths['fullSubDir'] ;
+                @rmdir($backupFile);
+
+            } catch(Exception $e) {
+                //what to do, what to do?
+            }
+        }
+    }
+
     public static function getNotOptimizedImagesIDs($settings) {
     	$data = self::getOptimizationStatistics($settings);
     	
@@ -395,4 +416,46 @@ class cheetahoHelper{
 				'height' => max ( 250, $height ) 
 		);
 	}
+
+    function createNewImage($imagePathToSave, $removeImageUrl)
+    {
+        $status = false;
+
+        if (!function_exists('download_url')) {
+            require_once(ABSPATH . '/wp-admin/includes/file.php');
+        }
+
+        $tempDownloadedFile = download_url($removeImageUrl);
+
+        if (!is_wp_error($tempDownloadedFile)) {
+            clearstatcache();
+            $perms = fileperms($image_path) & 0777;
+
+            // Replace the file.
+            $success = @rename($tempDownloadedFile, $image_path);
+
+            // If tempfile still exists, unlink it.
+            if (file_exists($tempDownloadedFile)) {
+                @unlink($tempDownloadedFile);
+            }
+
+            // If file renaming failed.
+            if (!$success) {
+                @copy($tempDownloadedFile, $image_path);
+                @unlink($tempDownloadedFile);
+            }
+
+            // Some servers are having issue with file permission, this should fix it.
+            if (empty($perms) || !$perms) {
+                // Source: WordPress Core.
+                $stat = stat(dirname($image_path));
+                $perms = $stat['mode'] & 0000666; // Same permissions as parent folder, strip off the executable bits.
+            }
+            @chmod($image_path, $perms);
+
+            $status = true;
+        }
+
+        return $status;
+    }
 }

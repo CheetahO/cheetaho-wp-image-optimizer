@@ -25,7 +25,9 @@ class CheetahoUI {
             $quality = isset( $settings['quality'] ) ? $settings['quality'] : 0;
           	$sizes = get_intermediate_image_sizes();
           	$backupFolderSize =  size_format(WPCheetahO::folderSize(CHEETAHO_BACKUP_FOLDER), 2);
-          	$keep_exif = isset($settings['keep_exif']) ? $settings['keep_exif'] : 1;
+            $optimize_retina = isset($settings['optimize_retina']) ? $settings['optimize_retina'] : 1;
+            $create_webp = isset($settings['create_webp']) ? $settings['create_webp'] : 1;
+            $keep_exif = isset($settings['keep_exif']) ? $settings['keep_exif'] : 1;
           	$resize = isset($settings['resize']) ? (int)$settings['resize'] : 0;
           	$maxHeight = isset($settings['maxHeight']) ? $settings['maxHeight'] : 0;
           	$maxWidth = isset($settings['maxWidth']) ? $settings['maxWidth'] : 0;
@@ -37,20 +39,6 @@ class CheetahoUI {
             $api_key = isset($settings['api_key']) ? $settings['api_key'] : '';
             $authUser = isset($settings['authUser']) ? $settings['authUser'] : '';
             $authPass = isset($settings['authPass']) ? $settings['authPass'] : '';
-            
-            // $status = $data->get_api_status( $api_key );
-            
-            $icon_url = admin_url() . 'images/';
-            /*
-             * if ( $status !== false && isset( $status['active'] ) && $status['active'] === true ) {
-             * $icon_url .= 'yes.png';
-             * $status_html = '<p class="apiStatus">Your credentials are valid <span class="apiValid" style="background:url(' . "'$icon_url') no-repeat 0 0" . '"></span></p>';
-             * } else {
-             * $icon_url .= 'no.png';
-             * $status_html = '<p class="apiStatus">There is a problem with your credentials <span class="apiInvalid" style="background:url(' . "'$icon_url') no-repeat 0 0" . '"></span></p>';
-             * }
-             */
-            
             ?>
            
 			
@@ -134,6 +122,24 @@ class CheetahoUI {
 									<input type="checkbox" id="keep_exif" name="_cheetaho_options[keep_exif]" value="1" <?php checked( 1, $keep_exif, true ); ?> />
 								</td>
 							</tr>
+                            <tr>
+                                <th scope="row">
+                                    <?php _e( 'Optimize the Retina images', 'cheetaho-image-optimizer')?>
+                                </th>
+                                <td>
+                                    <input type="checkbox" id="optimize_retina" name="_cheetaho_options[optimize_retina]" value="1" <?php checked( 1, $optimize_retina, true ); ?> />
+                                    <small><?php _e( 'If you have a Retina plugin that generates Retina-specific images (@2x), CheetahO plugin will try to find retina images and optimize them. Also if backup option is enabled, retina image backup will be done before optimization', 'cheetaho-image-optimizer')?> <a target="_blank" href="https://cheetaho.com/?p=1116"><?php _e( 'Read more', 'cheetaho-image-optimizer')?></a></small>
+                                </td>
+                            </tr>
+                         <?php /*   <tr>
+                                <th scope="row">
+                                    <?php _e( 'WebP Images:', 'cheetaho-image-optimizer')?>
+                                </th>
+                                <td>
+                                    <input type="checkbox" id="create_webp" name="_cheetaho_options[create_webp]" value="1" <?php checked( 1, $create_webp, true ); ?> />
+                                    <small><?php _e( 'Create WebP versions of the images. WebP images can be about 25% smaller than PNGs or JPGs. Choosing this option does not use up additional credits.', 'cheetaho-image-optimizer')?></small>
+                                </td>
+                            </tr> */?>
 							<tr class="with-tip">
 					        	<th scope="row"><?php _e( 'JPEG quality:', 'cheetaho-image-optimizer')?></th>
 					        	<td>

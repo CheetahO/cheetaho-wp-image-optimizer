@@ -101,7 +101,7 @@ if [ -d $SVNPATH/trunk/assets-wp-repo ]
 			then
 				svn stat | grep "^?" | awk '{print $2}' | xargs svn add --quiet # Add new assets
 				echo -en "Committing new assets..."
-###				svn commit --quiet --username=$SVNUSER -m "Updated assets"
+###				svn commit --quiet --username=$SVNUSER --password=$SVNPASS -m "Updated assets"
 				echo "Done."
 			else
 				echo "Unchanged."
@@ -151,11 +151,11 @@ rm /tmp/wppdcommitmsg.tmp
 echo "Done."
 
 echo -n "Committing new SVN version..."
-####svn commit --quiet --username=$SVNUSER -m "$COMMITMSG"
+####svn commit --quiet --username=$SVNUSER --password=$SVNPASS -m "$COMMITMSG"
 echo "Done."
 
 echo -n "Tagging and committing new SVN tag..."
-####svn copy $SVNURL/trunk $SVNURL/tags/$NEWVERSION1 --quiet --username=$SVNUSER -m "Tagging version $NEWVERSION1"
+####svn copy $SVNURL/trunk $SVNURL/tags/$NEWVERSION1 --quiet --username=$SVNUSER --password=$SVNPASS -m "Tagging version $NEWVERSION1"
 echo "Done."
 
 echo -n "Removing temporary directory $SVNPATH..."

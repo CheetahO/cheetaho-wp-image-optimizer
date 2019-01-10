@@ -19,7 +19,6 @@ class CheetahOCoreTest extends WP_UnitTestCase {
     public function setUp() {
         parent::setUp();
 
-
         $this->apiKey = CHEETAHO_API_KEY;
 
         $input['api_lossy'] = 1;
