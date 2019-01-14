@@ -128,7 +128,7 @@ class CheetahOCoreTest extends WP_UnitTestCase {
         $this->assertTrue(file_exists($paths['backupFile']));
 
         $cheetaho = new WPCheetahO();
-        $cheetaho->deleteAttachmentInBackup($attachment['attacment_id']);
+        $cheetaho->deleteAttachmentImg($attachment['attacment_id']);
 
         $this->assertFalse(file_exists($paths['backupFile']));
     }

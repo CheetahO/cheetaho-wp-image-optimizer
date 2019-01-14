@@ -53,42 +53,47 @@ class CheetahO
      */
     private function request($data, $url, $type = 'post')
     {
-        $curl = curl_init();
-        
-    	$auth = $this->auth;
-    	
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-            'Content-Type: application/json',
-        	'key: '.$auth['key']
-        ));
-        
-        curl_setopt($curl, CURLOPT_URL, $url);
-               
-        curl_setopt($curl, CURLOPT_USERAGENT, "cheetahoapi Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.85 Safari/537.36");
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        if ($type == 'post') {
-        	curl_setopt($curl, CURLOPT_POST, 1);
-        	curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-        }
-        curl_setopt($curl, CURLOPT_FAILONERROR, 0);
-        curl_setopt($curl, CURLOPT_TIMEOUT, 400);  
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 0); 
+        global $wp_version;
 
-        $response = json_decode(curl_exec($curl), true);
-		$httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-        $error = curl_error($curl);
-        
-        if ($response === null ) {
-   		 	$response = array('data' => array(
-               	"error" => array('fatal' => true, 'message' => 'cURL Error: '.$httpcode.' Message:' . $error))
-          	);
-    	} 
-      
-   
-        curl_close($curl);
-         
-        return $response;
+        $auth = $this->auth;
+
+        $args = array(
+            'timeout' => 400,
+            'redirection' => 5,
+            'httpversion' => '1.0',
+            'user-agent' => 'cheetahoapi Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.85 Safari/537.36 WordPress/' . $wp_version . '; ' . home_url(),
+            'blocking' => true,
+            'headers' => array(
+                'Content-Type' => 'application/json',
+                'key' => $auth['key']
+            ),
+            'cookies' => array(),
+            'body' => null,
+            'compress' => false,
+            'decompress' => true,
+            'sslverify' => true,
+            'stream' => false,
+            'filename' => null
+        );
+
+        if ($type == 'post') {
+            $args['body'] = $data;
+            $response = wp_remote_post($url, $args);
+        } else {
+            $response = wp_remote_get($url, $args);
+        }
+
+        $response_code = wp_remote_retrieve_response_code($response);
+        $response_message = wp_remote_retrieve_response_message($response);
+
+        $responseData = json_decode($response['body'], true);
+
+        if ($response === null || is_wp_error($response)) {
+            $responseData = array('data' => array(
+                "error" => array('fatal' => true, 'message' => 'cURL Error: ' . $response_code . ' Message:' . $response_message))
+            );
+        }
+
+        return $responseData;
     }
 }
