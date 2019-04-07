@@ -633,9 +633,9 @@ class CheetahO_Optimizer {
 	 * @since   1.4.3
 	 * @param int $image_id
 	 */
-	function cheetaho_uploader_callback( int $image_id ) {
+	function cheetaho_uploader_callback( $image_id ) {
 		try {
-			$this->image_id = $image_id;
+			$this->image_id = (int)$image_id;
 
 			if ( wp_attachment_is_image( $image_id ) ) {
 				$image_path = $this->get_image_path( $image_id );
