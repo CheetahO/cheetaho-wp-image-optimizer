@@ -34,7 +34,7 @@ class CheetahOCoreTest extends WP_UnitTestCase {
 		$input['api_key']         = $this->apiKey;
 
 		$this->cheetaho = new CheetahO();
-		$cheetaho       = new CheetahOSettings_Admin( $this->cheetaho );
+		$cheetaho       = new CheetahO_Settings( $this->cheetaho );
 		$result         = $cheetaho->validate_options_data( $input );
 
 		update_option( '_cheetaho_options', $result['valid'] );
@@ -49,7 +49,7 @@ class CheetahOCoreTest extends WP_UnitTestCase {
 	 * Change value of one options.
 	 */
 	function test_update_options_value() {
-		$cheetaho = new CheetahOSettings_Admin( $this->cheetaho );
+		$cheetaho = new CheetahO_Settings( $this->cheetaho );
 		$cheetaho->update_options_value( 'api_key', $this->apiKey );
 
 		$cheetaho = new CheetahO();
@@ -71,20 +71,20 @@ class CheetahOCoreTest extends WP_UnitTestCase {
 		$input['authPass']      = '';
 		$input['api_key']       = '';
 
-		$cheetaho = new CheetahOSettings_Admin( $this->cheetaho );
+		$cheetaho = new CheetahO_Settings( $this->cheetaho );
 		$result   = $cheetaho->validate_options_data( $input );
 
 		$this->assertEquals( $result['error'][0], 'Please enter API Credentials' );
 
 		$input['api_key'] = 'fake key';
 
-		$cheetaho = new CheetahOSettings_Admin( $this->cheetaho );
+		$cheetaho = new CheetahO_Settings( $this->cheetaho );
 		$result   = $cheetaho->validate_options_data( $input );
 		$this->assertEquals( $result['error'][0], 'Your API key is invalid. Check it here https://app.cheetaho.com/admin/api-credentials' );
 
 		$input['api_key'] = $this->apiKey;
 
-		$cheetaho = new CheetahOSettings_Admin( $this->cheetaho );
+		$cheetaho = new CheetahO_Settings( $this->cheetaho );
 		$result   = $cheetaho->validate_options_data( $input );
 		$this->assertTrue( $result['success'] );
 	}
@@ -143,7 +143,7 @@ class CheetahOCoreTest extends WP_UnitTestCase {
 		$input['include_size_large']     = 1;
 		$input['include_size_thumbnail'] = 1;
 
-		$cheetaho = new CheetahOSettings_Admin( $this->cheetaho );
+		$cheetaho = new CheetahO_Settings( $this->cheetaho );
 		$result   = $cheetaho->validate_options_data( $input );
 		update_option( '_cheetaho_options', $result['valid'] );
 
