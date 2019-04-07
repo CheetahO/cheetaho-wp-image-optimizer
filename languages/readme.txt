@@ -1,4 +1,4 @@
-LANGUAGE TRANSLATION FILES FOR IMSANITY
+LANGUAGE TRANSLATION FILES FOR CHEETAHO
 ---------------------------------------
 
 If you are interested in creating a language translation for CheetahO then

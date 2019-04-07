@@ -6,8 +6,8 @@
  */
 
 $_tests_dir = getenv( 'WP_TESTS_DIR' );
-putenv("CHEETAHO_TEST_MODE=true");
-putenv("TEST_JPG_IMAGE_REMOTE_PATH=https://app.cheetaho.com/storage/demo/underC.jpg");
+putenv( 'CHEETAHO_TEST_MODE=true' );
+putenv( 'TEST_JPG_IMAGE_REMOTE_PATH=https://app.cheetaho.com/storage/demo/underC.jpg' );
 
 
 if ( ! $_tests_dir ) {

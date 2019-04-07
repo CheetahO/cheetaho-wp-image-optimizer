@@ -2,8 +2,8 @@
 Contributors: cheetaho
 Tags: compressor, image, optimize, compress, performance, lossless, image optimiser, lossy, photo, pictures, optimize JPG, compress PNG, compress jpeg, optimize gif
 Requires at least: 3.2.1
-Tested up to: 5.0.3
-Stable tag: 1.4.2.2
+Tested up to: 5.1
+Stable tag: 1.4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 Donate link:  https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8EBKEZMR58UK4
@@ -152,11 +152,16 @@ We are here to help. <a href="https://cheetaho.com/contact-us/">Contact us</a>!
 
 
 == Changelog ==
-= 1.4.2.2 =
+= 1.4.3 =
 * Update readme
 * Retina image optimization improvement
 * Replace some code parts to WordPress functions
 * Add some additional tests
+* Refactor code for better performance
+
+= 1.4.2.2 =
+* Security fix
+* Fix error on api key save
 
 = 1.4.2.1 =
 * Update readme

@@ -3,9 +3,21 @@
     <description>Generally-applicable sniffs for WordPress plugins</description>
 
     <exclude-pattern>*/tests/*</exclude-pattern>
+    <exclude-pattern>*/freemius/*</exclude-pattern>
+    <exclude-pattern>*/languages/*</exclude-pattern>
+    <exclude-pattern>*/vendor/*</exclude-pattern>
 
     <rule ref="WordPress-Core" />
-    <rule ref="WordPress-Docs" />
+
+    <rule ref="PHPCompatibility.FunctionDeclarations.NewClosure.Found">
+        <exclude-pattern>*/src/*.php$</exclude-pattern>
+    </rule>
+
+    <rule ref="WordPress.WP.I18n">
+        <properties>
+            <property name="text_domain" value="cheetaho-image-optimizer"/>
+        </properties>
+    </rule>
 
     <rule ref="Squiz.PHP.CommentedOutCode">
         <exclude name="Squiz.PHP.CommentedOutCode.Found" />
@@ -17,15 +29,20 @@
 
     <rule ref="WordPress.PHP.NoSilencedErrors">
         <properties>
-            <property name="custom_whitelist" type="array" value="ini_get,exif_read_data,ob_end_flush"/>
+            <property name="custom_whitelist" type="array" value="chmod,copy,ini_get,exif_read_data,ob_end_flush"/>
         </properties>
     </rule>
     <rule ref="WordPress.NamingConventions.ValidVariableName">
         <properties>
-            <property name="customPropertiesWhitelist" type="array" value="formatOutput,imgQuality,parentNode,nextSibling,documentElement,imagePath,webimagePath,thumbPath,fileName,Version,Name" />
+            <property name="customPropertiesWhitelist" type="array" value="Cheetaho,formatOutput,imgQuality,parentNode,nextSibling,documentElement,imagePath,webimagePath,thumbPath,fileName,Version,Name" />
         </properties>
         <properties>
-            <property name="customVariablesWhitelist" type="array" value="formatOutput,parentNode,nextSibling,documentElement" />
+            <property name="customVariablesWhitelist" type="array" value="Cheetaho,formatOutput,parentNode,nextSibling,documentElement" />
         </properties>
     </rule>
+
+    <rule ref="WordPress.Files.FileName">
+        <exclude-pattern>*cheetaho.php</exclude-pattern>
+    </rule>
+
 </ruleset>

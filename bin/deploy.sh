@@ -117,6 +117,7 @@ echo -n "Delete GitHub specific files and deployment script..."
 rm -rf .git
 rm -rf bin/
 rm -rf tests/
+rm -rf vendor/
 rm -rf .phpcs.xml.dist
 rm -rf .travis.yml
 rm -rf phpunit.xml.dist

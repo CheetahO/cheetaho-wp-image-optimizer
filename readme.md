@@ -91,6 +91,19 @@ CheetahO - Getting Started
     ```shell
     phpunit
     ```
+4. add to path installed modules if you want to run phpcs  
+```shell  
+phpcs --config-set installed_paths /root/.config/composer/vendor/phpcompatibility/phpcompatibility-paragonie,/root/.config/composer/vendor/phpcompatibility/phpcompatibility-wp,/root/.config/composer/vendor/wp-coding-standards/wpcs,/root/.config/composer/vendor/phpcompatibility/php-compatibility, /root/.config/composer/vendor/phpcompatibility/phpcompatibility-wp/
+```
+
+5. run command:
+    ```shell
+    phpcs --standard=phpcs.ruleset.xml --extensions=php .;
+    ```
+6. fix codestyle issue 
+    ```shell
+    phpcbf ./;    
+    ```
 
 ## Frequently Asked Questions
 
