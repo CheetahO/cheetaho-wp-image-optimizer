@@ -1,7 +1,7 @@
 === CheetahO Image Compression and Optimizer ===
 Contributors: cheetaho
 Tags: compressor, image, optimize, compress, performance, lossless, image optimiser, lossy, photo, pictures, optimize JPG, compress PNG, compress jpeg, optimize gif
-Requires at least: 3.2.1
+Requires at least: 4.4
 Tested up to: 5.1
 Stable tag: 1.4.3
 License: GPLv2 or later
