@@ -32,7 +32,7 @@ jobs:
    - php: 7.0
       env: WP_VERSION=5.0
     - php: 5.6
-      env: WP_VERSION=3.2.1 
+      env: WP_VERSION=3.2.1
   #  - php: 5.6
   #    env: WP_VERSION=trunk
     - stage: 🚀 deployment
