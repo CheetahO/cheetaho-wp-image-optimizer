@@ -123,6 +123,11 @@ class CheetahO_Optimizer {
 		$this->update_image_cheetaho_sizes_meta( $image_id, $data );
 	}
 
+	function optimize_thumbnails_filter ($image_id)
+	{
+		$result = $this->optimize_thumbnails(  $image_id );
+	}
+
 
 	/**
 	 * Optimize thumbnail images

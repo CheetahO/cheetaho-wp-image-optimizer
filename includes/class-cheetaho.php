@@ -212,7 +212,7 @@ class CheetahO {
 
 		if ( ( false != $this->cheetaho_settings && ! empty( $this->cheetaho_settings ) && ! empty( $this->cheetaho_settings['auto_optimize'] ) ) || ( false != $this->cheetaho_settings && ! isset( $this->cheetaho_settings['auto_optimize'] ) ) ) {
 			$this->loader->add_action( 'add_attachment', $cheetaho_optimizer, 'cheetaho_uploader_callback' );
-			$this->loader->add_filter( 'wp_generate_attachment_metadata', $cheetaho_optimizer, 'optimize_thumbnails' );
+			$this->loader->add_filter( 'wp_generate_attachment_metadata', $cheetaho_optimizer, 'optimize_thumbnails_filter' );
 		}
 	}
 
