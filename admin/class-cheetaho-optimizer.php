@@ -665,7 +665,7 @@ class CheetahO_Optimizer {
 	 * @param string $image_path
 	 * @return mixed
 	 */
-	function generate_image_meta( array $result, int $image_id, string $image_path ) {
+	function generate_image_meta( array $result, $image_id, $image_path ) {
 		$settings                         = $this->cheetaho_settings;
 		$result                           = $result['data'];
 		$savings_percentage               = (int) $result['savedBytes'] / (int) $result['originalSize'] * 100;
