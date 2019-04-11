@@ -185,12 +185,14 @@ class CheetahOCoreTest extends WP_UnitTestCase {
 		$this->assertTrue( file_exists( $retinaImageUrl ) );
 		$this->assertTrue( CheetahO_Retina::is_retina_img( $retinaImageUrl ) );
 		$this->assertEquals( filesize( $retinaImageUrl ), 75503 );
-
+		clearstatcache();
+		
 		$cheetaho = new CheetahO_Optimizer( $this->cheetaho );
 
 		$cheetaho->cheetaho_uploader_callback( $attachment['attacment_id'] );
 
 		$this->assertEquals( filesize( $retinaImageUrl ), 16886 );
+		clearstatcache();
 
 		$paths = CheetahO_Helpers::get_image_paths( $file );
 
