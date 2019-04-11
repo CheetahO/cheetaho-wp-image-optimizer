@@ -1,0 +1,233 @@
+<?php
+
+/**
+ * The admin-specific functionality of the plugin.
+ *
+ * @link       https://cheetaho.com
+ * @since      1.4.3
+ * @package    CheetahO
+ * @subpackage CheetahO/admin
+ * @author     CheetahO <support@cheetaho.com>
+ */
+class CheetahO_Admin {
+
+	/**
+	 * The version of this plugin.
+	 *
+	 * @since    1.4.3
+	 * @access   private
+	 * @var      string $version The current version of this plugin.
+	 */
+	private $version;
+
+	/**
+	 * Settings data.
+	 *
+	 * @since    1.4.3
+	 * @access   private
+	 * @var      array $cheetaho_settings
+	 */
+	private $cheetaho_settings;
+
+	/**
+	 * Initialize the class and set its properties.
+	 *
+	 * @since    1.4.3
+	 * @param    string $plugin_name The name of this plugin.
+	 * @param    string $version The version of this plugin.
+	 */
+	public function __construct( $cheetaho ) {
+		$this->version           = $cheetaho->get_version();
+		$this->cheetaho_settings = $cheetaho->get_cheetaho_settings();
+	}
+
+	/**
+	 * Generate additional columns in media library
+	 *
+	 * @param array $columns
+	 * @return mixed
+	 */
+	function add_media_columns( $columns ) {
+		$columns['cheetaho'] = __( 'CheetahO', 'cheetaho-image-optimizer' );
+
+		return $columns;
+	}
+
+	/**
+	 * Fill media columns
+	 *
+	 * @param string $column_name
+	 * @param int    $id
+	 */
+	function fill_media_columns( $column_name, $id ) {
+		$options = get_option( '_cheetaho_options' );
+		$type    = isset( $options['api_lossy'] ) ? $options['api_lossy'] : 0;
+
+		if ( strcmp( $column_name, 'cheetaho' ) === 0 ) {
+			if ( wp_attachment_is_image( $id ) ) {
+				$meta = get_post_meta( $id, '_cheetaho_size', true );
+
+				// Is it optimized? Show some stats
+				if ( isset( $meta['cheetaho_size'] ) && empty( $meta['no_savings'] ) ) {
+					$output = CheetahO_Helpers::output_result( $id );
+
+					$output = json_decode( $output, true );
+
+					echo $output['html'];
+				} else {
+					// Were there no savings, or was there an error?
+					$image_url = wp_get_attachment_url( $id );
+					$filename  = basename( $image_url );
+
+					echo $this->show_optimize_button( $type, $id, $filename, $image_url );
+
+					if ( ! empty( $meta['no_savings'] ) ) {
+						echo '<div class="noSavings"><strong>' . __( 'No savings found', 'cheetaho-image-optimizer' ) . '</strong><br /><small>' . __( 'Type', 'cheetaho-image-optimizer' ) . ':&nbsp;' . $meta['type'] . '</small></div>';
+					} else {
+						if ( isset( $meta['error'] ) ) {
+							$error = $meta['error']['message'];
+							$txt   = __( 'Failed! Hover here', 'cheetaho-image-optimizer' );
+							echo '<div class="cheetahoErrorWrap"><a class="cheetahoError" title="' . $error . '">' . $txt . '<span>' . $error . '</span></a></div>';
+						}
+					}
+				}
+			} else {
+				echo 'n/a';
+			}
+		}
+	}
+
+	/**
+	 * Register the stylesheets for the admin area.
+	 *
+	 * @since   1.4.3
+	 */
+	public function enqueue_styles() {
+		wp_enqueue_style( CHEETAHO_PLUGIN_NAME, plugin_dir_url( __FILE__ ) . 'assets/css/cheetaho.css', array(), $this->version, 'all' );
+	}
+
+	/**
+	 * Register the JavaScript for the admin area.
+	 *
+	 * @since    1.4.3
+	 * @param $hook
+	 */
+	public function enqueue_scripts( $hook ) {
+		// For option page
+		if ( 'options-media.php' == $hook || 'upload.php' == $hook || 'settings_page_cheetaho' == $hook ) {
+			wp_enqueue_script( CHEETAHO_PLUGIN_NAME . '-async', plugin_dir_url( __FILE__ ) . 'assets/js/async.js', array( 'jquery' ), $this->version, false );
+			wp_enqueue_script( CHEETAHO_PLUGIN_NAME . '-cheetaho', plugin_dir_url( __FILE__ ) . 'assets/js/cheetaho.js', array( 'jquery' ), $this->version, false );
+
+			wp_localize_script(
+				CHEETAHO_PLUGIN_NAME . '-cheetaho',
+				'cheetaho_object',
+				array(
+					'url'                 => admin_url( 'admin-ajax.php' ),
+					'changeMLToListMode'  => __( 'In order to access the CheetahO Optimization actions and info, please change to ', 'cheetaho-image-optimizer' ),
+					'changeMLToListMode1' => __( 'List View', 'cheetaho-image-optimizer' ),
+					'changeMLToListMode2' => __( 'Dismiss', 'cheetaho-image-optimizer' ),
+					'resizeAlert1'        => __( 'Please do not set a {type} less than your largest website thumbnail. If you will do this you will need regenerate all your thumbnails in case you will ever need this.', 'cheetaho-image-optimizer' ),
+				)
+			);
+		}
+
+		// For media bulk page
+		if ( 'media_page_cheetaho-bulk' == $hook ) {
+			wp_enqueue_script( CHEETAHO_PLUGIN_NAME . '-bulk', plugin_dir_url( __FILE__ ) . 'assets/js/cheetahobulk.js', array( 'jquery' ), $this->version, false );
+
+			wp_localize_script(
+				CHEETAHO_PLUGIN_NAME . '-bulk',
+				'cheetahoBulk',
+				array(
+					'chAllDone'         => __( 'All images are processed', 'cheetaho-image-optimizer' ),
+					'chNoActionTaken'   => __( 'No action taken', 'cheetaho-image-optimizer' ),
+					'chBulkAction'      => __( 'Compress Images', 'cheetaho-image-optimizer' ),
+					'chCancelled'       => __( 'Cancelled', 'cheetaho-image-optimizer' ),
+					'chCompressing'     => __( 'Compressing', 'cheetaho-image-optimizer' ),
+					'chCompressed'      => __( 'compressed', 'cheetaho-image-optimizer' ),
+					'chFile'            => __( 'File', 'cheetaho-image-optimizer' ),
+					'chSizesOptimized'  => __( 'Sizes optimized', 'cheetaho-image-optimizer' ),
+					'chInitialSize'     => __( 'Initial size', 'cheetaho-image-optimizer' ),
+					'chCurrentSize'     => __( 'Current size', 'cheetaho-image-optimizer' ),
+					'chSavings'         => __( 'Savings', 'cheetaho-image-optimizer' ),
+					'chStatus'          => __( 'Status', 'cheetaho-image-optimizer' ),
+					'chShowMoreDetails' => __( 'Show more details', 'cheetaho-image-optimizer' ),
+					'chError'           => __( 'Error', 'cheetaho-image-optimizer' ),
+					'chLatestError'     => __( 'Latest error', 'cheetaho-image-optimizer' ),
+					'chInternalError'   => __( 'Internal error', 'cheetaho-image-optimizer' ),
+					'chOutOf'           => __( 'out of', 'cheetaho-image-optimizer' ),
+					'chWaiting'         => __( 'Waiting', 'cheetaho-image-optimizer' ),
+				)
+			);
+		}
+	}
+
+	/**
+	 * Reset media library images
+	 */
+	function media_library_reset() {
+		$image_id = (int) $_POST['id'];
+
+		$image_meta    = get_post_meta( $image_id, '_cheetaho_size', true );
+		$original_size = 0;
+
+		if ( ! empty( $image_meta ) ) {
+			$original_size = $image_meta['cheetaho_size'];
+			delete_post_meta( $image_id, '_cheetaho_size' );
+			delete_post_meta( $image_id, '_cheetaho_thumbs' );
+
+			CheetahO_Backup::restore_original_image( $image_id );
+			CheetahO_Helpers::reset_image_size_meta( $image_id, $image_meta );
+		}
+
+		echo json_encode(
+			array(
+				'success'       => true,
+				'original_size' => $original_size,
+				'html'          => $this->optimize_button_html_by_image_id( $image_id ),
+			)
+		);
+
+		wp_die();
+	}
+
+	function cheetaho_media_library_reset_batch(){}
+
+	function optimize_button_html_by_image_id( $id ) {
+		$image_url = wp_get_attachment_url( $id );
+		$filename  = basename( $image_url );
+		$settings  = $this->cheetaho_settings;
+
+		return $this->show_optimize_button( $settings['api_lossy'], $id, $filename, $image_url );
+	}
+
+	function show_optimize_button( $type, $id, $filename, $image_url ) {
+		include CHEETAHO_PLUGIN_ROOT . 'admin/views/parts/optimize-button.php';
+
+		return $html;
+	}
+
+	/**
+	 * Delete attachment by its ID
+	 *
+	 * @param int $id
+	 */
+	function delete_attachment_img( $id ) {
+		CheetahO_Helpers::handle_delete_attachment_in_backup( $id );
+		CheetahO_Helpers::handle_delete_attachment_web_p( $id );
+	}
+
+	/**
+	 * redirect after activation
+	 */
+	function cheetaho_redirect() {
+		if ( get_option( 'cheetaho_activation_redirect', false ) ) {
+			delete_option( 'cheetaho_activation_redirect' );
+
+			if ( ! isset( $_GET['activate-multi'] ) ) {
+				exit( wp_redirect( CHEETAHO_SETTINGS_LINK ) );
+			}
+		}
+	}
+
+}

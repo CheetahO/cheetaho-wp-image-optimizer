@@ -1,0 +1,75 @@
+sudo: false
+dist: trusty
+
+language: php
+
+notifications:
+  slack:
+    secure: cheetaho:nDKXE1Y604QWJ1fK2TnTPIgH
+    #secure: K/B2BYHyCCvJlYdfABvRFm7O+E53YnezbTcZqU7QXMNMQyl54oWe9k/GpXFRkF0sj3RsMNOSPa0v5Djwq4AJsXpwvACSHT/LADstHdJZwrr1MbYW9dlHgBRclbqYv8QjQrCv/KNrJ8C81o3w2QzRAMkUhS7bEfnEYTA8e8vZqmmZpKxZ5j+dUaOhkAZ5J5e65SHtAf64NBa+JujEeo/2WKH5vHruwJcOE+IWgyMdchML4qCfRCnd4X3Nlo6zaMwlpMy6DawluNJgdXrck7qqTk6b+T6p64VR1O+hbZJ2hMXkBibk9gUv5o3NESv44AocMGynVoXZC/kgj4D9GLdpZLkmJqVT4Fd6nJD2Mzds5x0Hl1/5bStdKIJhxaTOSy3JzQtiAoLnXZP6TmdtjZ06lLnl9wpqfyAUDymt8H/9zm3EAtAHkFAYmf8rJqr09Pu01bynA9K6TjV+LA6hTxPwlJcJ0twa4nm0nb4q1etBCKUCRxMhdVgZ6D0DHZOf56QT7udtvD4sryi3VyUBMgkyYsdeQrxrInND/9HTDI7Ohl5sZpB4OYgY/CYllvme2esu42r55CpQr5C3WM5MQJCVdbw6VL1FBw7Ujc+ADxnSijejD+7jExxywhO1g9Y+UZbOo3fD9w/4PafjhaBtwcab6INUGOX1EudW4L4PGpP64Ho=
+    on_success: always
+    on_failure: always
+  email:
+    on_success: always
+    on_failure: always
+
+branches:
+  only:
+    - master
+    - dev
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+stages:
+  - name: test
+  - 🚀 deployment
+
+jobs:
+  fast_finish: true
+  include:
+    - php: 7.3
+      #env: WP_VERSION=latest WP_MULTISITE=1 WPSNIFF=1
+      env: WP_VERSION=latest WP_MULTISITE=1
+    - php: 7.0
+      env: WP_VERSION=5.0
+    - php: 5.6
+      env: WP_VERSION=4.4
+  #  - php: 5.6
+  #    env: WP_VERSION=trunk
+    - stage: 🚀 deployment
+      name: "Deploy to WordPress"
+      php: 7.3
+      env: WP_VERSION=latest
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script: bash ./bin/deploy.sh
+        on:
+          php: 7.3
+          branch: master
+
+before_script:
+  - export PATH="$HOME/.composer/vendor/bin:$PATH"
+  - |
+    if [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ]; then
+      phpenv config-rm xdebug.ini
+    else
+      echo "xdebug.ini does not exist"
+    fi
+  - |
+    if [[ ! -z "$WP_VERSION" ]] ; then
+      bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION false $CHEETAHO_API_KEY
+      composer global require "phpunit/phpunit=4.8.*|5.7.*"
+    fi
+  - |
+    if [[ "$WPSNIFF" == "1" ]] ; then
+      composer global require wp-coding-standards/wpcs dealerdirect/phpcodesniffer-composer-installer
+      phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs
+    fi
+
+script:
+  - if [[ "$WPSNIFF" == "1" ]]; then phpcs --standard=phpcs.ruleset.xml --extensions=php .; fi
+  - phpunit
+

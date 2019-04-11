@@ -1,0 +1,5 @@
+{
+    "require-dev": {
+        "phpcompatibility/phpcompatibility-wp": "*"
+    }
+}
