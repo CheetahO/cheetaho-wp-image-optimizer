@@ -21,7 +21,7 @@ cache:
 
 stages:
   - name: test
-  - 🚀 deployment
+  - name: 🚀 deployment
     if: branch = "master"
 
 jobs:
