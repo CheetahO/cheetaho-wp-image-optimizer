@@ -65,7 +65,6 @@ fi
 cd $GITPATH
 
 echo -n "Delete specific files script..."
-rm -rf .git
 rm -rf bin/
 rm -rf tests/
 rm -rf vendor/
@@ -73,7 +72,6 @@ rm -rf .phpcs.xml.dist
 rm -rf .travis.yml
 rm -rf phpunit.xml.dist
 rm -rf .gitignore
-rm -rf .git/
 rm -rf phpcs.ruleset.xml
 rm -rf composer.json
 rm -rf composer.lock
@@ -129,7 +127,6 @@ fi
 cd $SVNPATH/trunk/
 
 echo -n "Delete GitHub specific files and deployment script..."
-rm -rf .git
 rm -rf bin/
 rm -rf tests/
 rm -rf vendor/
