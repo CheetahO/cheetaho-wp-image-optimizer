@@ -21,7 +21,8 @@ cache:
 
 stages:
   - name: test
-  - 🚀 deployment
+  - name: 🚀 deployment
+    if: branch = "master"
 
 jobs:
   fast_finish: true
