@@ -64,6 +64,21 @@ fi
 
 cd $GITPATH
 
+echo -n "Delete specific files script..."
+rm -rf .git
+rm -rf bin/
+rm -rf tests/
+rm -rf vendor/
+rm -rf .phpcs.xml.dist
+rm -rf .travis.yml
+rm -rf phpunit.xml.dist
+rm -rf .gitignore
+rm -rf .git/
+rm -rf phpcs.ruleset.xml
+rm -rf composer.json
+rm -rf composer.lock
+echo "Done."
+
 echo -n "Saving previous Git tag version..."
 PREVTAG=`git describe --tags \`git rev-list --tags --max-count=1\``
 echo "Done."
@@ -125,6 +140,8 @@ rm -rf readme.md
 rm -rf .gitignore
 rm -rf .git/
 rm -rf phpcs.ruleset.xml
+rm -rf composer.json
+rm -rf composer.lock
 echo "Done."
 
 echo -n "Adding new files..."
