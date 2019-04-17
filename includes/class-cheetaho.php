@@ -203,7 +203,10 @@ class CheetahO {
 
 		$cheetaho_optimizer = new CheetahO_Optimizer( $this );
 		$this->loader->add_action( 'wp_ajax_cheetaho_request', $cheetaho_optimizer, 'cheetaho_ajax_callback' );
-		$this->loader->add_action( 'wr2x_retina_file_added', $cheetaho_optimizer, 'optimize_after_wr2x_retina_file_added', 10, 3 );
+
+        if ($this->cheetaho_settings['optimize_retina'] == 1) {
+		    $this->loader->add_action( 'wr2x_retina_file_added', $cheetaho_optimizer, 'optimize_after_wr2x_retina_file_added', 10, 3 );
+		}
 
 		$plugin_admin_bulk = new CheetahO_Bulk( $this );
 		$this->loader->add_action( 'admin_menu', $plugin_admin_bulk, 'register_bulk_page' );

@@ -123,9 +123,11 @@ class CheetahO_Optimizer {
 		$this->update_image_cheetaho_sizes_meta( $image_id, $data );
 	}
 
-	function optimize_thumbnails_filter ($image_id)
+	function optimize_thumbnails_filter ($image_data)
 	{
-		$result = $this->optimize_thumbnails(  $image_id );
+        $image_data = $this->optimize_thumbnails(  $image_data );
+
+        return $image_data;
 	}
 
 
@@ -435,7 +437,7 @@ class CheetahO_Optimizer {
 
 			$image_meta_data = $this->update_image_meta_stats( $image_meta_data, $retina_data );
 
-			$this->event_image_optimized( $settings, $image_id, $data, $image_meta_data );
+			$this->event_image_optimized( $settings, $image_id, $data['data'], $image_meta_data );
 		} else {
 			return new WP_Error(
 				'cheetaho',

@@ -55,7 +55,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<tr>
 							<th scope="row"><label for="api_key"><?php _e( 'API Key', 'cheetaho-image-optimizer' ); ?></label></th>
 							<td>
-								<input name="_cheetaho_options[api_key]" type="text" value="<?php echo esc_attr( $api_key ); ?>" size="60" />
+								<input name="_cheetaho_options[api_key]" type="text" value="<?php echo esc_attr( $api_key ); ?>" size="60" /> <br/>
 								<?php _e( 'Do not have an API Key yet?', 'cheetaho-image-optimizer' ); ?>
 								<a href="https://app.cheetaho.com/" target="_blank" title="<?php _e( 'Log in to your Cheetaho account', 'cheetaho-image-optimizer' ); ?>">
 									<?php _e( 'Create one, it is FREE', 'cheetaho-image-optimizer' ); ?>
@@ -234,7 +234,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							<input autocomplete="off" name="_cheetaho_options[authPass]" type="password" id="authPass" value="<?php echo $auth_pass; ?>" data-val="<?php echo $auth_pass; ?>" placeholder="<?php _e( 'Password', 'cheetaho-image-optimizer' ); ?>">
 							<p class="settings-info">
 								<small>
-									<?php _e( 'Fill these fields if your site (front-end) is not publicly accessible and visitors need a user/pass to connect to it. If you don not know what is this or site is public then leave the fields empty', 'cheetaho-image-optimizer' ); ?>
+									<?php _e( 'Fill these fields if your site (front-end) is not publicly accessible and visitors need a user/pass to connect to it. If you do not know what is this or site is public then leave the fields empty', 'cheetaho-image-optimizer' ); ?>
 								</small>
 							</p>
 						</td>
@@ -255,7 +255,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 								<?php _e( 'Your backup folder size is now:', 'cheetaho-image-optimizer' ); ?>
 								<form action="" method="POST">
 									<?php echo( $backupfolder_size ); ?>
-									<input type="submit" style="margin-left: 15px; vertical-align: middle;" class="button button-secondary" name="empty_backup" onclick="confirm('<?php _e( 'Are you sure want to remove images from backup folder?', 'cheetaho-image-optimizer' ); ?>');" value="<?php _e( 'Empty backups', 'cheetaho-image-optimizer' ); ?>"/>
+									<input type="submit" style="margin-left: 15px; vertical-align: middle;" class="button button-secondary" name="empty_backup" onclick="return confirm('<?php _e( 'Are you sure want to remove images from backup folder?', 'cheetaho-image-optimizer' ); ?>');" value="<?php _e( 'Empty backups', 'cheetaho-image-optimizer' ); ?>"/>
 								</form>
 							</p>
 						</td>

@@ -155,9 +155,10 @@ We are here to help. <a href="https://cheetaho.com/contact-us/">Contact us</a>!
 = 1.4.3 =
 * Update readme
 * Retina image optimization improvement
-* Replace some code parts to WordPress functions
+* Replace some code parts to WordPress native functions
 * Add some additional tests
 * Refactor code for better performance
+* Fix clear images backup button alert popup
 
 = 1.4.2.2 =
 * Security fix

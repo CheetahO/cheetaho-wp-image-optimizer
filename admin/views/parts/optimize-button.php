@@ -14,5 +14,5 @@ $html = '<div class="buttonWrap">
         ' . __( 'Optimize This Image', 'cheetaho-image-optimizer' ) . '
     </button>
     <small class="cheetahoOptimizationType" style="display:none">' . $type . '</small>
-    <span class="cheetahoSpinner"></span>
+    <span class="cheetahoSpinner loading-icon"></span>
 </div>';

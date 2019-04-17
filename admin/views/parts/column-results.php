@@ -32,6 +32,6 @@ $html = "<div class='buttonWrap'><strong>" . __( 'Optimized Size', 'cheetaho-ima
 <?php
 $html .= "<br/>
 <small class='cheetahoReset' data-id='" . $id . "' title='" . __( 'Removes Cheetaho metadata associated with this image', 'cheetaho-image-optimizer' ) . "'>
-    " . __( 'Reset', 'cheetaho-image-optimizer' ) . "<span class='cheetahoSpinner'></span>
+    " . __( 'Reset', 'cheetaho-image-optimizer' ) . "<span class='cheetahoSpinner loading-icon'></span>
 </small>
 </div>";

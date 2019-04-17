@@ -155,9 +155,9 @@ class CheetahO_Settings {
 		$resize            = isset( $settings['resize'] ) ? (int) $settings['resize'] : 0;
 		$max_height        = isset( $settings['maxHeight'] ) ? $settings['maxHeight'] : 0;
 		$max_width         = isset( $settings['maxWidth'] ) ? $settings['maxWidth'] : 0;
-		$api_key           = isset( $settings['api_key'] ) ? $settings['api_key'] : '';
-		$auth_user         = isset( $settings['authUser'] ) ? $settings['authUser'] : '';
-		$auth_pass         = isset( $settings['authPass'] ) ? $settings['authPass'] : '';
+		$api_key           = isset( $settings['api_key'] ) ? trim($settings['api_key']) : '';
+		$auth_user         = isset( $settings['authUser'] ) ? trim($settings['authUser']) : '';
+		$auth_pass         = isset( $settings['authPass'] ) ? trim($settings['authPass']) : '';
 
 		foreach ( $sizes as $size ) {
 			$valid[ 'include_size_' . $size ] = isset( $settings[ 'include_size_' . $size ] ) ? $settings[ 'include_size_' . $size ] : 1;
