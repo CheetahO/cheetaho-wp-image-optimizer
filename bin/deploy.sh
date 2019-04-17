@@ -18,10 +18,9 @@ if [[ -z "$TRAVIS_BRANCH" || "$TRAVIS_BRANCH" != "master" ]]; then
 	echo "Build branch is required and must be 'master'" 1>&2
 	exit 0
 fi
-
 # main config
 PLUGINSLUG="cheetaho-image-optimizer"
-CURRENTDIR=`pwd`
+CURRENTDIR=$(pwd)
 MAINFILE="cheetaho.php"
 DEFAULT_EDITOR="/usr/bin/vim"
 
@@ -41,9 +40,9 @@ echo
 
 # Check version in readme.txt is the same as plugin file after translating both to unix
 # line breaks to work around grep's failure to identify mac line breaks
-NEWVERSION1=`grep "Stable tag: " "$GITPATH/readme.txt" | awk -F' ' '{print $NF}'`
+NEWVERSION1=$(grep "Stable tag: " "$GITPATH/readme.txt" | awk -F' ' '{print $NF}')
 echo "readme.txt version: $NEWVERSION1"
-NEWVERSION2=`grep "Version: " "$GITPATH/$MAINFILE" | awk -F' ' '{print $NF}'`
+NEWVERSION2=$(grep "Version: " "$GITPATH/$MAINFILE" | awk -F' ' '{print $NF}')
 echo "$MAINFILE version: $NEWVERSION2"
 
 if [ "$NEWVERSION1" != "$NEWVERSION2" ]
@@ -78,7 +77,7 @@ rm -rf composer.lock
 echo "Done."
 
 echo -n "Saving previous Git tag version..."
-PREVTAG=`git describe --tags \`git rev-list --tags --max-count=1\``
+PREVTAG=$(git describe --tags \`git rev-list --tags --max-count=1\`)
 echo "Done."
 
 echo -n "Tagging new Git version..."
@@ -142,7 +141,7 @@ rm -rf composer.lock
 echo "Done."
 
 echo -n "Adding new files..."
-SVNFILESTOADD=`svn stat | grep "^?" | awk '{print $2}' | xargs`
+SVNFILESTOADD=$(svn stat | grep "^?" | awk '{print $2}' | xargs)
 
 if [ "$SVNFILESTOADD" != "" ]; then
     echo -n "Add files ${SVNFILESTOADD}"
@@ -151,7 +150,7 @@ fi
 echo "Done."
 
 echo -n "Removing old files..."
-SVNFILESTOREMOVE=`svn stat | grep "^\!" | awk '{print $2}' | xargs`
+SVNFILESTOREMOVE=$(svn stat | grep "^\!" | awk '{print $2}' | xargs)
 
 if [ "$SVNFILESTOREMOVE" != "" ]; then
     echo -n "Removing files ${SVNFILESTOREMOVE}"
@@ -174,7 +173,7 @@ echo -n "Tagging and committing new SVN tag..."
 echo "Done."
 
 echo -n "Removing temporary directory $SVNPATH..."
-rm -rf $SVNPATH/
+rm -rf "${SVNPATH:?}/"
 echo "Done."
 
 echo
