@@ -26,7 +26,6 @@
     }
 
     //// cross-browser compatiblity functions ////
-
     var _each = function (arr, iterator) {
         if (arr.forEach) {
             return arr.forEach(iterator);
@@ -280,7 +279,7 @@
                 }
                 callback();
             });
-        }, function (err) {
+        }, function () {
             callback(_map(results.sort(function (a, b) {
                 return a.index - b.index;
             }), function (x) {
@@ -306,7 +305,7 @@
                 }
                 callback();
             });
-        }, function (err) {
+        }, function () {
             callback(_map(results.sort(function (a, b) {
                 return a.index - b.index;
             }), function (x) {
@@ -328,7 +327,7 @@
                     callback();
                 }
             });
-        }, function (err) {
+        }, function () {
             main_callback();
         });
     };
@@ -344,7 +343,7 @@
                 }
                 callback();
             });
-        }, function (err) {
+        }, function () {
             main_callback(false);
         });
     };
@@ -360,7 +359,7 @@
                 }
                 callback();
             });
-        }, function (err) {
+        }, function () {
             main_callback(true);
         });
     };

@@ -11,7 +11,7 @@ function removeInputValsIfNotSet() {
 
 jQuery(document).ready(function($) {
 	
-	setTimeout('removeInputValsIfNotSet()', 1000);
+	setTimeout(removeInputValsIfNotSet(), 1000);
 
 	setTimeout(function () {
 		if( jQuery('div.media-frame.mode-grid').length > 0) { 
@@ -35,7 +35,7 @@ jQuery(document).ready(function($) {
      $bottomActionDropdown = $(".tablenav.bottom .bulkactions select[name='action2']");
 
 	 
-	 var requestSuccess = function(data, textStatus, jqXHR) {
+	 var requestSuccess = function(data) {
         var $button = $(this),
             $parent = $(this).parent(),
             $cell = $(this).closest("td");
@@ -44,12 +44,8 @@ jQuery(document).ready(function($) {
 
             $button.text("Image optimized");
 
-            var type = data.type,
-            	cheetahoSize = data.cheetaho_size,
-                originalSize = data.original_size,
-                savingsPercent = data.savings_percent,
-                $originalSizeColumn = $(this).parent().prev("td.original_size"),
-                cheetahoData = '';
+            var originalSize = data.original_size,
+                $originalSizeColumn = $(this).parent().prev("td.original_size");
 
             $parent.fadeOut("fast", function() {
                 $cell.find(".noSavings, .cheetahoErrorWrap").remove();
@@ -83,11 +79,11 @@ jQuery(document).ready(function($) {
         }
     };
     
-    var requestFail = function(jqXHR, textStatus, errorThrown) {
+    var requestFail = function() {
         $(this).removeAttr("disabled");
     };
     
-    var requestComplete = function(jqXHR, textStatus, errorThrown) {
+    var requestComplete = function() {
         $(this).removeAttr("disabled");
         $(this)
             .parent()
@@ -95,7 +91,7 @@ jQuery(document).ready(function($) {
             .css("display", "none");
     };
 
-    var opts = '<option value="cheetaho-bulk-lossy">' + "Optimize all with CheetahO" + '</option>';
+    var opts = '<option value="cheetaho-bulk-lossy">Optimize all with CheetahO</option>';
 
     $topActionDropdown.find("option:last-child").before(opts);
     $bottomActionDropdown.find("option:last-child").before(opts);
@@ -139,21 +135,16 @@ jQuery(document).ready(function($) {
     		} else {
     			alert('No need to optimize selected files anymore.');
     		}
-    		
     };
     
     var bulkAction = function(bulkImageData) {
-
     	var selectedFiles = bulkImageData.length;
-    	
-    	var processed = 0; 
-        var jqxhr = null;
+    	var processed = 0;
 
         var q = async.queue(function(task, callback) {
-            var id = task.id,
-                filename = task.filename;
+            var id = task.id;
 
-            jqxhr = $.ajax({
+            $.ajax({
                 url: cheetaho_object.url,
                 data: {
                     'action': 'cheetaho_request',
@@ -162,7 +153,7 @@ jQuery(document).ready(function($) {
                 type: "post",
                 dataType: "json",
                 timeout: 360000
-            }).done(function(data, textStatus, jqXHR) {
+            }).done(function(data) {
                     if (typeof data.error === 'undefined') {
                     	processed++;  
                     	var percents = processed*100/selectedFiles;
@@ -195,9 +186,7 @@ jQuery(document).ready(function($) {
       
 
         // add some items to the queue (batch-wise)
-        q.push(bulkImageData, function(err) {
-
-        });
+        q.push(bulkImageData, function() {});
     };
     
     $btnApplyBulkAction.add($btnApplyBulkAction2)
@@ -220,15 +209,14 @@ jQuery(document).ready(function($) {
 
         $resetButton.find('.cheetahoSpinner').show();
 	
-	    var jqxhr = $.ajax({
+	    $.ajax({
 	            url: cheetaho_object.url,
 	            data: resetData,
 	            type: "post",
 	            dataType: "json",
 	            timeout: 360000
-	        }).done(function(data, textStatus, jqXHR) {
+	        }).done(function(data) {
 	            if (data.success == true) {
-
 	                $resetButton
 	                    .closest('.cheetaho.column-cheetaho')
 	                    .hide()
@@ -257,7 +245,7 @@ jQuery(document).ready(function($) {
 	         .css("display", "inline");
 	
 	
-	     var jqxhr = $.ajax({
+	     $.ajax({
 	         url: cheetaho_object.url,
 	         data: data,
 	         type: "post",

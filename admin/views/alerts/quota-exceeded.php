@@ -3,14 +3,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 ?>
+
 <?php
 $current_screen  = get_current_screen();
 $ignored_notices = get_user_meta( $GLOBALS['current_user']->ID, '_cheetaho_ignore_notices', true );
 
-if ( in_array( 'quota', (array) $ignored_notices ) ) {
-	return;
+if ($ignored_notices == '' || !in_array( 'quota', (array) $ignored_notices  )) {
+    return;
 }
-
 ?>
 
 <br/>
