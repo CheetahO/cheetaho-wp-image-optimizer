@@ -72,8 +72,7 @@ class CheetahO_Bulk {
 	 * @return mixed
 	 */
 	function render_cheetaho_bulk_page() {
-		$settings = $this->cheetaho_settings;
-		$images   = CheetahO_Helpers::get_not_optimized_images_ids( $settings );
+		$images   = CheetahO_Stats::get_not_optimized_images( );
 
 		include CHEETAHO_PLUGIN_ROOT . 'admin/views/bulk.php';
 	}

@@ -16,5 +16,6 @@ class Cheetaho_Activator {
 	 */
 	public static function activate() {
 		add_option( 'cheetaho_activation_redirect', true );
+		CheetahO_DB::check_custom_tables();
 	}
 }

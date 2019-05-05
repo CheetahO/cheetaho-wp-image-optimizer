@@ -37,6 +37,7 @@ class CheetahO_Backup {
 	 */
 	private $cheetaho_settings;
 
+
 	/**
 	 * Initialize the class and set its properties.
 	 *
@@ -81,52 +82,29 @@ class CheetahO_Backup {
 		}
 	}
 
-	public static function restore_original_image( $attachment_id, $meta = null ) {
-		$file = get_attached_file( $attachment_id );
+	public static function restore_images ($image_id) {
+		$images = (new CheetahO_Image_Metadata( new CheetahO_DB() ))->get_items($image_id);
 
-		$meta = wp_get_attachment_metadata( $attachment_id );
+		if (is_array($images) && count($images) > 0) {
+			foreach ( $images as $image ) {
 
-		$paths = CheetahO_Helpers::get_image_paths( $file );
+				if ( $image->backup_path != '' && file_exists( CheetahO_Helpers::get_abs_path( $image->backup_path ) ) ) {
 
-		$bk_file = $paths['backup_file'];
+					// first check if the file is readable by the current user - otherwise it will be unaccessible for the web browser
+					if ( ! CheetahO_Helpers::set_file_perms( CheetahO_Helpers::get_abs_path( $image->backup_path ) ) ) {
+						return false;
+					}
 
-		// first check if the file is readable by the current user - otherwise it will be unaccessible for the web browser
-		if ( ! CheetahO_Helpers::set_file_perms( $bk_file ) ) {
-			return false;
-		}
+					try {
+						// main file
+						CheetahO_Helpers::rename_file( CheetahO_Helpers::get_abs_path( $image->backup_path ),
+							CheetahO_Helpers::get_abs_path( $image->path ) );
 
-		$thumbs_paths = array();
-		if ( ! empty( $meta['file'] ) && is_array( $meta['sizes'] ) ) {
-			foreach ( $meta['sizes'] as $size => $image_data ) {
-				$original_image_path = dirname( $file ) . '/' . $image_data['file'];
-
-				$paths = CheetahO_Helpers::get_image_paths( $original_image_path );
-
-				$source = $paths['backup_file'];
-				if ( ! file_exists( $source ) ) {
-					continue; // if thumbs were not optimized, then the backups will not be there.
-				}
-				$thumbs_paths[ $source ] = $paths['original_image_path'];
-				if ( ! CheetahO_Helpers::set_file_perms( $source ) ) {
-					return false;
+					} catch ( Exception $e ) {
+						return false;
+					}
 				}
 			}
-		}
-
-		if ( file_exists( $bk_file ) ) {
-			try {
-				// main file
-				CheetahO_Helpers::rename_file( $bk_file, $file );
-
-				// overwriting thumbnails
-				foreach ( $thumbs_paths as $source => $destination ) {
-					CheetahO_Helpers::rename_file( $source, $destination );
-				}
-			} catch ( Exception $e ) {
-				return false;
-			}
-		} else {
-			return false;
 		}
 
 		return true;
@@ -139,7 +117,7 @@ class CheetahO_Backup {
 	 * @return WP_Error
 	 */
 	static function make_backup( $image_path, $image_id, $settings ) {
-		if ( isset( $settings['backup'] ) && 1 == $settings['backup'] || ! isset( $settings['backup'] ) ) {
+		if ( CheetahO_Helpers::can_do_backup($settings) === true) {
 			$original_image_path = get_attached_file( $image_id );
 
 			// reformat image path, because sometimes no thumbs
@@ -157,10 +135,6 @@ class CheetahO_Backup {
 
 			if ( ! file_exists( $paths['backup_file'] ) ) {
 				@copy( $paths['original_image_path'], $paths['backup_file'] );
-			}
-
-			if ( ! file_exists( CheetahO_Retina::get_retina_name( $paths['backup_file'] ) ) ) {
-				@copy( CheetahO_Retina::get_retina_name( $paths['original_image_path'] ), CheetahO_Retina::get_retina_name( $paths['backup_file'] ) );
 			}
 		}
 	}

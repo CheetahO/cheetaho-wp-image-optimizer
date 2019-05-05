@@ -13,16 +13,14 @@ $html = "<div class='buttonWrap'><strong>" . __( 'Optimized Size', 'cheetaho-ima
 </small>
 <br/>
 <small>
-    ' . __( 'Savings', 'cheetaho-image-optimizer' ) . ':&nbsp;' . $savings_percentage . '
+    ' . __( 'Savings', 'cheetaho-image-optimizer' ) . ':&nbsp;' . $savings_percentage . ' %
 </small>';?>
-<?php if ( ! empty( $thumbs_meta ) ) : ?>
 	<?php
 	$html .= '<br/>
     <small>
         ' . $thumbs_count . ' ' . __( 'thumbs optimized', 'cheetaho-image-optimizer' ) . '
     </small>';
 	?>
-<?php endif ?>
 	<?php
 	$html .= '<br/>
     <small>
@@ -31,7 +29,7 @@ $html = "<div class='buttonWrap'><strong>" . __( 'Optimized Size', 'cheetaho-ima
 	?>
 <?php
 $html .= "<br/>
-<small class='cheetahoReset' data-id='" . $id . "' title='" . __( 'Removes Cheetaho metadata associated with this image', 'cheetaho-image-optimizer' ) . "'>
+<small class='cheetahoReset' data-id='" . $attachment_id . "' title='" . __( 'Removes Cheetaho metadata associated with this image', 'cheetaho-image-optimizer' ) . "'>
     " . __( 'Reset', 'cheetaho-image-optimizer' ) . "<span class='cheetahoSpinner loading-icon'></span>
 </small>
 </div>";

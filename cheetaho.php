@@ -14,11 +14,12 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
-
+ini_set('display_errors', 1);
 /**
  * Currently plugin version.
  */
 define( 'CHEETAHO_VERSION', '1.4.3' );
+define( 'CHEETAHO_DB_VERSION', '1.0' );
 
 define( 'CHEETAHO_ASSETS_IMG_URL', realpath( plugin_dir_url( __FILE__ ) . 'img/' ) . '/img' );
 define( 'CHEETAHO_APP_URL', 'https://app.cheetaho.com/' );

@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $current_screen  = get_current_screen();
 $ignored_notices = get_user_meta( $GLOBALS['current_user']->ID, '_cheetaho_ignore_notices', true );
 
-if ($ignored_notices == '' || !in_array( 'quota', (array) $ignored_notices  )) {
+if ($ignored_notices == '' || in_array( 'quota', (array) $ignored_notices  )) {
     return;
 }
 ?>

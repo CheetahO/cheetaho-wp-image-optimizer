@@ -20,6 +20,8 @@ class CheetahOCoreTest extends WP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 
+		(new CheetahO_Image_Metadata( new CheetahO_DB() ))->create_or_update_tables();
+
 		$this->apiKey = CHEETAHO_API_KEY;
 
 		$input['api_lossy']       = 1;
@@ -170,12 +172,14 @@ class CheetahOCoreTest extends WP_UnitTestCase {
 	function test_cheetaho_uploader_callback() {
 		$this->cheetaho = new CheetahO();
 		$attachment     = self::upload_test_files( getenv( 'TEST_JPG_IMAGE_REMOTE_PATH' ) );
-		$imageData      = get_post_meta( $attachment['attacment_id'], '_cheetaho_size' );
+		$original_image_path = get_attached_file( $attachment['attacment_id'] );
 
-		$this->assertTrue( empty( $imageData ) );
+		$identifier = (new CheetahO_Image_Metadata( new CheetahO_DB() ))->get_identifier( $attachment['attacment_id'], array('path' => $original_image_path) );
+		$image_meta = (new CheetahO_Image_Metadata( new CheetahO_DB() ))->get_item($attachment['attacment_id'], $identifier);
+
+		$this->assertTrue( empty( $image_meta ) );
 
 		// fake retina image
-		$original_image_path = get_attached_file( $attachment['attacment_id'] );
 		$image_path          = wp_get_attachment_url( $attachment['attacment_id'] );
 		$file                = dirname( $original_image_path ) . '/' . basename( $image_path );
 
@@ -197,10 +201,11 @@ class CheetahOCoreTest extends WP_UnitTestCase {
 
 		$this->assertTrue( file_exists( $paths['backup_file'] ) );
 		$this->assertTrue( file_exists( CheetahO_Retina::get_retina_name( $paths['backup_file'] ) ) );
-		$imageData = get_post_meta( $attachment['attacment_id'], '_cheetaho_size' );
+
+		$image_meta = (new CheetahO_Image_Metadata( new CheetahO_DB() ))->get_item($attachment['attacment_id'], $identifier);
 
 		$this->assertEquals( filesize( CheetahO_Retina::get_retina_name( $paths['backup_file'] ) ), 75503 );
-		$this->assertEquals( $imageData[0]['newSize'], 33772 );
+		$this->assertEquals( $image_meta->image_size, 16886 );
 	}
 
 	/*
