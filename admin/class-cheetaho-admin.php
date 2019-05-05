@@ -30,6 +30,14 @@ class CheetahO_Admin {
 	private $cheetaho_settings;
 
 	/**
+	 * Image meta db table instance.
+	 *
+	 * @since    1.4.3
+	 * @access   private
+	 */
+	private $image_meta;
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.4.3
@@ -39,6 +47,18 @@ class CheetahO_Admin {
 	public function __construct( $cheetaho ) {
 		$this->version           = $cheetaho->get_version();
 		$this->cheetaho_settings = $cheetaho->get_cheetaho_settings();
+		$this->image_meta        = new CheetahO_Image_Metadata( new CheetahO_DB() );
+
+	}
+
+	/**
+	 * Do stuff when plugin loaded
+	 *
+	 * @since    1.4.3
+	 */
+	public function plugin_loaded () {
+		//check DB upgrade
+		CheetahO_DB::check_db_update();
 	}
 
 	/**
@@ -65,11 +85,22 @@ class CheetahO_Admin {
 
 		if ( strcmp( $column_name, 'cheetaho' ) === 0 ) {
 			if ( wp_attachment_is_image( $id ) ) {
-				$meta = get_post_meta( $id, '_cheetaho_size', true );
+				$meta = $this->image_meta->get_image_stats($id);
+
+				//migration tweak from older versions
+				$has_cheetaho_meta = false;
+				if ($meta == null) {
+					$meta = get_post_meta($id, '_cheetaho_size', true);
+
+					// Is it optimized? Show some stats
+					if (isset($meta['cheetaho_size'])) {
+						$has_cheetaho_meta = true;
+					}
+				}
 
 				// Is it optimized? Show some stats
-				if ( isset( $meta['cheetaho_size'] ) && empty( $meta['no_savings'] ) ) {
-					$output = CheetahO_Helpers::output_result( $id );
+				if ( $meta != null && $meta['status'] == 'success' || $has_cheetaho_meta == true) {
+					$output = CheetahO_Helpers::output_result( $meta, $has_cheetaho_meta );
 
 					$output = json_decode( $output, true );
 
@@ -167,23 +198,20 @@ class CheetahO_Admin {
 	 */
 	function media_library_reset() {
 		$image_id = (int) $_POST['id'];
+		$local_image_path    = get_attached_file( $image_id );
 
-		$image_meta    = get_post_meta( $image_id, '_cheetaho_size', true );
-		$original_size = 0;
+		$identifier = $this->image_meta->get_identifier( $image_id, array('path' => $local_image_path) );
+		$image_meta = $this->image_meta->get_item($image_id, $identifier);
 
 		if ( ! empty( $image_meta ) ) {
-			$original_size = $image_meta['cheetaho_size'];
-			delete_post_meta( $image_id, '_cheetaho_size' );
-			delete_post_meta( $image_id, '_cheetaho_thumbs' );
-
-			CheetahO_Backup::restore_original_image( $image_id );
+			CheetahO_Backup::restore_images( $image_id );
 			CheetahO_Helpers::reset_image_size_meta( $image_id, $image_meta );
+			$this->image_meta->delete_image_meta($image_id);
 		}
 
 		echo json_encode(
 			array(
 				'success'       => true,
-				'original_size' => $original_size,
 				'html'          => $this->optimize_button_html_by_image_id( $image_id ),
 			)
 		);
@@ -229,5 +257,4 @@ class CheetahO_Admin {
 			}
 		}
 	}
-
 }

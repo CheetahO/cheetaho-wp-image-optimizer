@@ -91,6 +91,7 @@ class CheetahO_API {
 				'data' => array(
 					'error' => array(
 						'fatal'   => true,
+						'code'    => $response_code,
 						'message' => 'cURL Error: ' . $response_code . ' Message:' . $response_message,
 					),
 				),

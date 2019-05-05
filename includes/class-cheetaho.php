@@ -78,6 +78,7 @@ class CheetahO {
 
 		if ( is_admin() ) {
 			$this->define_admin_hooks();
+			$this->after_plugin_loaded();
 		}
 	}
 
@@ -102,6 +103,7 @@ class CheetahO {
 	 * @access   private
 	 */
 	private function load_dependencies() {
+
 		/**
 		 * The class responsible for cheetaho helper functions
 		 */
@@ -117,6 +119,17 @@ class CheetahO {
 		 * of the plugin.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-cheetaho-i18n.php';
+
+		/**
+		 * The class responsible for CheetahO database tables.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/db/class-cheetaho-db.php';
+
+		/**
+		 * The class responsible for CheetahO database image metadata tables.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/db/class-cheetaho-image-metadata.php';
+
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
@@ -177,6 +190,17 @@ class CheetahO {
 	private function set_locale() {
 		$plugin_i18n = new CheetahO_I18n( $this->get_plugin_name() );
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
+	}
+
+	/**
+	 * Start some checks after plugin loaded.
+	 *
+	 * @since    1.4.3
+	 * @access   private
+	 */
+	private function after_plugin_loaded() {
+		$plugin_admin = new CheetahO_Admin( $this);
+		$this->loader->add_action( 'plugins_loaded', $plugin_admin, 'plugin_loaded' );
 	}
 
 	/**

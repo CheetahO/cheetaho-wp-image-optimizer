@@ -133,23 +133,53 @@ class CheetahO_Helpers {
 	 */
 	public static function set_file_perms( $file ) {
 		$perms = @fileperms( $file );
+
 		if ( ! ( $perms & 0x0100 ) || ! ( $perms & 0x0080 ) ) {
 			if ( ! @chmod( $file, $perms | 0x0100 | 0x0080 ) ) {
 				return false;
 			}
 		}
+
 		return true;
 	}
 
 
 	/**
 	 * @since 1.4.3
-	 * @param $bk_file
-	 * @param $file
+	 * @param $temp_image_file
+	 * @param $image_path
 	 */
-	public static function rename_file( $bk_file, $file ) {
-		@rename( $bk_file, $file );
-		@rename( CheetahO_Retina::get_retina_name( $bk_file ), CheetahO_Retina::get_retina_name( $file ) );
+	public static function rename_file( $temp_image_file, $image_path ) {
+		clearstatcache();
+		$perms = array();
+
+		if ( file_exists( $image_path ) ) {
+			$perms = fileperms( $image_path ) & 0777;
+		}
+
+		// Replace the file.
+		$success = @rename( $temp_image_file, $image_path );
+
+		// If file renaming failed.
+		if ( ! $success ) {
+			@copy( $temp_image_file, $image_path );
+		}
+
+		// If tempfile still exists, unlink it.
+		if ( file_exists( $temp_image_file ) ) {
+			@unlink( $temp_image_file );
+		}
+
+		// Some servers are having issue with file permission, this should fix it.
+		if ( empty( $perms ) || ! $perms ) {
+			// Source: WordPress Core.
+			$stat  = stat( dirname( $image_path ) );
+			$perms = $stat['mode'] & 0000666; // Same permissions as parent folder, strip off the executable bits.
+		}
+
+		@chmod( $image_path, $perms );
+
+		return true;
 	}
 
 	/**
@@ -161,9 +191,9 @@ class CheetahO_Helpers {
 	public static function reset_image_size_meta( $image_id, $cheetaho_data ) {
 		$image_data = wp_get_attachment_metadata( $image_id );
 
-		if ( $image_data['width'] < $cheetaho_data['meta']['width'] || $image_data['height'] < $cheetaho_data['meta']['height'] ) {
-			$image_data['width']  = $cheetaho_data['meta']['width'];
-			$image_data['height'] = $cheetaho_data['meta']['height'];
+		if ( $image_data['width'] < $cheetaho_data->width || $image_data['height'] < $cheetaho_data->height ) {
+			$image_data['width']  = $cheetaho_data->width;
+			$image_data['height'] = $cheetaho_data->height;
 
 			wp_update_attachment_metadata( $image_id, $image_data );
 		}
@@ -190,52 +220,40 @@ class CheetahO_Helpers {
 	 * @param int $id
 	 * @return string
 	 */
-	public static function output_result( $id ) {
-		$image_meta    = get_post_meta( $id, '_cheetaho_size', true );
-		$thumbs_meta   = get_post_meta( $id, '_cheetaho_thumbs', true );
-		$cheetaho_size = self::convert_to_kb( $image_meta['newSize'] );
-		$type          = $image_meta['type'];
-		$thumbs_count  = count( $thumbs_meta );
+	public static function output_result( $meta, $has_cheetaho_meta = false ) {
 
-		$retina_count = ( isset( $image_meta['retina'] ) && ! empty( $image_meta['retina'] ) ) ? 1 : 0;
+		$attachment_id = ( isset( $meta['attachment_id'] ) ) ? $meta['attachment_id'] : null;
+		$image_size = ( isset( $meta['image_size'] ) ) ? $meta['image_size']  : 0;
+        $cheetaho_size = self::convert_to_kb( $image_size );
+		$type          = ( isset( $meta['level'] ) ) ? $meta['level'] : '';
+		$thumbs_count  = ( isset( $meta['thumbs_images_count'] ) ) ? $meta['thumbs_images_count'] : 0;
+		$retina_count  = ( isset( $meta['retina_images_count'] ) ) ? $meta['retina_images_count'] : 0;
+        $original_images_size = ( isset( $meta['original_images_size'] ) ) ?  $meta['original_images_size'] : 0;
+        $original_size = self::convert_to_kb($original_images_size);
+		$savings_percentage = (( isset( $meta['savings_percentage'] ) ) ? $meta['savings_percentage'] : 0);
+		$image_meta['original_size_front'] = $original_size;
+		$image_meta['cheetaho_size_front'] = $cheetaho_size;
+		$image_meta['saved_bytes_front'] = self::convert_to_kb(round($original_images_size - $image_size, 2));
 
-		if ( is_array( $thumbs_meta ) ) {
-			foreach ( $thumbs_meta as $item ) {
-				if ( isset( $item['retina'] ) && ! empty( $item['retina'] ) ) {
-					$retina_count++;
-				}
-			}
-		}
-
-		if ( isset( $image_meta['originalImagesSize'] ) ) {
-			$original_size = self::convert_to_kb( $image_meta['originalImagesSize'] );
+		if ($has_cheetaho_meta == false) {
+			include CHEETAHO_PLUGIN_ROOT . 'admin/views/parts/column-results.php';
 		} else {
-			$file = get_attached_file( $id );
-
-			$original_size = ( file_exists( $file ) != false ) ? filesize( $file ) : 0;
-			$original_size = self::convert_to_kb( $original_size );
+			include CHEETAHO_PLUGIN_ROOT . 'admin/views/parts/column-results-old.php';
 		}
-		$saved_bytes        = $image_meta['originalImagesSize'] - $image_meta['newSize'];
-		$savings_percentage = round( $saved_bytes / (int) $image_meta['originalImagesSize'] * 100, 2 ) . '%';
-
-		include CHEETAHO_PLUGIN_ROOT . 'admin/views/parts/column-results.php';
 		$image_meta['html'] = $html;
 
+		$original_size = ( isset( $meta['original_images_size'] ) ) ? $meta['original_images_size'] : 0;
+		$cheetaho_size = ( isset( $meta['image_size'] ) ) ? $meta['image_size'] : 0;
+
+		$image_meta['success'] = true;
+		$image_meta['optimized_image'] = 1;
+		$image_meta['original_size'] = $original_size;
+		$image_meta['cheetaho_size'] = $cheetaho_size;
+		$image_meta['saved_percent'] = $savings_percentage;
+		$image_meta['saved_bytes'] = round($original_images_size - $image_size, 2);
+		$image_meta['optimized_images'] = $thumbs_count + $retina_count + 1;
+
 		return json_encode( $image_meta );
-	}
-
-	/**
-	 * @since 1.4.3
-	 * @param $settings
-	 * @return array
-	 */
-	public static function get_not_optimized_images_ids( $settings ) {
-		$data = CheetahO_Stats::get_optimization_statistics( $settings );
-
-		return array(
-			'uploadedImages'  => $data['totalToOptimizeCount'],
-			'uploaded_images' => $data['availableForOptimization'],
-		);
 	}
 
 	/**
@@ -305,5 +323,28 @@ class CheetahO_Helpers {
 				// what to do, what to do?
 			}
 		}
+	}
+
+
+	/**
+	 * @since 1.4.3
+	 * @param $settings
+	 */
+	public static function can_do_backup ($settings)
+	{
+		if ( isset( $settings['backup'] ) && 1 == $settings['backup'] || ! isset( $settings['backup'] ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * @since 1.4.3
+	 * @param $settings
+	 */
+	public static function get_abs_path ($img_path)
+	{
+		return ABSPATH.$img_path;
 	}
 }

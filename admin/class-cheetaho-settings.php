@@ -211,10 +211,11 @@ class CheetahO_Settings {
 				$error[] = __( 'Your API key is invalid. Check it here', 'cheetaho-image-optimizer' ) . ' https://app.cheetaho.com/admin/api-credentials';
 			} else {
 				$alert = new CheetahO_Alert();
+
 				if ( isset( $status['data']['quota']['exceeded'] ) && false == $status['data']['quota']['exceeded'] ) {
-					$alert->cheetaho_update_notice( 'quota', 0, 2 );
-				} else {
 					$alert->cheetaho_update_notice( 'quota', 0, 1 );
+				} else {
+					$alert->cheetaho_update_notice( 'quota', 0, 2 );
 				}
 			}
 

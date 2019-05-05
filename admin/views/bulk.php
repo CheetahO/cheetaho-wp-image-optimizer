@@ -12,8 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</p>
 		</div>
 		<div class="settings-tab">
-			<?php $total_to_optimize = $images['uploadedImages']; ?>
-			<?php if ( 0 == $total_to_optimize || 0 == count( $images['uploaded_images'] ) ) : ?>
+			<?php $total_to_optimize = count( $images['images_ids_to_optimize'] ) ; ?>
+			<?php if ( 0 == $total_to_optimize ) : ?>
 				<div class="cheetaho-alert-success"><?php _e( 'Congratulations! Your media library has been successfully optimized! Come back here when you will have new images to optimize', 'cheetaho-image-optimizer' ); ?></div>
 			<?php else : ?>
 				<div class="cheetaho-bulk-info"><?php _e( 'Here you can start optimizing your entire library. Press the big button to start improving your website speed instantly! We can optimize your original images size and', 'cheetaho-image-optimizer' ); ?> <b><?php _e( 'thumbnails', 'cheetaho-image-optimizer' ); ?></b> <a href="#"  class="info-btn"><i>i</i></a>.
@@ -43,16 +43,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<input type="submit" name="id-cancelling" id="id-cancelling" class="button button-primary button-hero red" value="<?php _e( 'Cancelling...', 'cheetaho-image-optimizer' ); ?>">
 					</div>
 				</div>
-				<p><b><?php _e( 'Remember', 'cheetaho-image-optimizer' ); ?>:</b> <?php _e( 'For the plugin to do the work, you need to keep this page open. But no worries: if ir will stop, you can continue where you left off!', 'cheetaho-image-optimizer' ); ?></p>
+				<p><b><?php _e( 'Remember', 'cheetaho-image-optimizer' ); ?>:</b> <?php _e( 'For the plugin to do the work, you need to keep this page open. But no worries: if it will stop, you can continue where you left off!', 'cheetaho-image-optimizer' ); ?></p>
 
 			<?php endif; ?>
 
 		</div>
-		<?php if ( $total_to_optimize > 0 && count( $images['uploaded_images'] ) > 0 ) : ?>
+		<?php if ( $total_to_optimize > 0) : ?>
 			<script type="text/javascript">
 				<?php
 
-				echo 'jQuery(function() { bulkOptimization(' . json_encode( $images['uploaded_images'] ) . ')})';
+				echo 'jQuery(function() { bulkOptimization(' . json_encode( $images['images_ids_to_optimize'] ) . ')});';
 
 				?>
 			</script>
@@ -60,7 +60,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<table class="wp-list-table widefat fixed striped media whitebox" id="optimization-items" >
 				<thead>
 				<tr>
-					<?php // column-author WP 3.8-4.2 mobile view ?>
 					<th class="thumbnail"></th>
 					<th class="column-primary" ><?php esc_html_e( 'File', 'cheetaho-image-optimizer' ); ?></th>
 					<th class="column"><?php esc_html_e( 'Original size', 'cheetaho-image-optimizer' ); ?></th>

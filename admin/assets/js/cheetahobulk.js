@@ -25,12 +25,11 @@
 	    jQuery(jQuery("#optimization-items tr td.status.todo")).html(cheetahoBulk.chCancelled);
 	    jQuery("div#bulk-actions input").removeClass("visible");
 	    jQuery("div#bulk-actions input#id-cancelling").addClass("visible");
-	    
-	    setTimeout( function(){
-	    	jQuery("div#bulk-actions  input").removeClass("visible");
-	    	jQuery("div#bulk-actions  input#id-start").addClass("visible");
-	    	jQuery("td.status").html(jQuery("td.status").html().replace('Compressing',cheetahoBulk.chCancelled));
-	    }, 4000);
+	    jQuery("div#bulk-actions  input").removeClass("visible");
+	    jQuery("div#bulk-actions  input#id-start").addClass("visible");
+	    jQuery("td.status").html(jQuery("td.status").html().replace('Compressing', cheetahoBulk.chCancelled));
+
+	    return;
 	}
 	
 
@@ -65,15 +64,17 @@
 
 	function updateRowAfterCompression(row, data) {
 		
-		var successFullCompressions = parseInt(data.optimizedImages);
-		var successFullSaved = parseInt(data.size_change);
-		var newHumanReadableLibrarySize = data.humanReadableLibrarySize;
+		var successFullCompressions = parseInt(data.optimized_image);
+		var successFullSaved = parseInt(data.saved_bytes);
+
 		if (successFullCompressions == 0) {
 			row.find(".status").html(cheetahoBulk.chNoActionTaken)
 		} else {
-			row.find(".status").html(successFullCompressions + " " + cheetahoBulk.chCompressed);
+
+			row.find(".status").html(parseInt(data.optimized_images) + " " + cheetahoBulk.chCompressed);
 			handleProgressBar(successFullCompressions);
-			updateSavings(successFullCompressions, successFullSaved, data.newSize, data.originalImagesSize);
+
+			updateSavings(parseInt(data.optimized_images), successFullSaved, data.cheetaho_size, data.original_size);
 		}
 	}
 	
@@ -91,24 +92,25 @@
 	
 	function updateSavings(successFullCompressions, successFullSaved, optimizedSize, originalImagesSize) {
 
-	    window.currentLibraryBytes = window.currentLibraryBytes + successFullSaved;
+	    window.currentLibraryBytes = window.currentLibraryBytes + optimizedSize;
 
 	    var imagesSizedOptimized = parseInt(jQuery("#optimized-images").text()) + successFullCompressions;
 	    var initialLibraryBytes = parseInt(jQuery("#original-images-size").data("bytes"));
-	    var percentage = (1 - window.currentLibraryBytes / initialLibraryBytes);
 	    var newOriginalImagesSize = initialLibraryBytes + originalImagesSize;
+       // var percentage = (1 - window.currentLibraryBytes / newOriginalImagesSize);
+        var percentage = (( newOriginalImagesSize - window.currentLibraryBytes) / newOriginalImagesSize) ;
 
-	    jQuery("#optimized-images").html(imagesSizedOptimized);
+
+        jQuery("#optimized-images").html(imagesSizedOptimized);
 	    jQuery("#optimized-size").attr("data-bytes", window.currentLibraryBytes);
 	   
 	    jQuery("#original-images-size").html(formatBytes(newOriginalImagesSize, 1));
-	    jQuery("#original-images-size").attr("data-bytes", newOriginalImagesSize);
+	    jQuery("#original-images-size").data("bytes", newOriginalImagesSize);
 
-	    optimizedSize = parseInt(jQuery("#optimized-size").data("bytes"))	+ optimizedSize;
+	    optimizedSize = parseInt(jQuery("#optimized-size").data("bytes")) + optimizedSize;
 	    jQuery("#optimized-size").html(formatBytes(optimizedSize, 1));
-	    jQuery("#savings-percentage").html(Math.round(percentage * 1000) / 10 + "%");
-
-	  }
+	    jQuery("#savings-percentage").html((Math.round(percentage * 1000) / 10) + "%");
+	}
 
 	function bulkOptimizationCallback(error, data, items, i) {
 	    if (window.optimizationCancelled) {
@@ -125,14 +127,15 @@
 	      row.addClass("failed");
 	      row.find(".status").html(cheetahoBulk.chCancelled);
 	    } else if (data.error) {
-	       if (data.error.http_code == 403) {
-	    		//cancelAction();
+	       if (data.error.type != undefined && data.error.type == 'quota_exceeded') {
+	    		cancelAction();
 	       }
 	      row.addClass("failed");
 	      row.find(".status").addClass('failed').html("<b>" + cheetahoBulk.chError + ":</b>" + data.error.message);
 	      row.find(".status").attr("title", data.error.message);
 	    } else {
 	      row.addClass("success");
+
 	      updateRowAfterCompression(row, data);
 	    }
 
@@ -148,14 +151,14 @@
 	        data.cheetaho_size = "-";
 	    }
 	    if (!data.saved_percent) {
-	        data.saved_percent = "0 %";
+	        data.saved_percent = "0 ";
 	    }
 	   
-	   // row.find(".thumbnail").html('<img src="'+data.thumbnail+'" width="30" />');
-	    row.find(".sizes-optimized").html(data.original_size);
-	    row.find(".initial-size").html(data.saved_bytes);
-	    row.find(".optimized-size").html(data.cheetaho_size);
-	    row.find(".savings").html(data.saved_percent);
+	    //row.find(".thumbnail").html('<img src="'+data.thumbnail+'" width="30" />');
+	    row.find(".sizes-optimized").html(data.original_size_front);
+	    row.find(".initial-size").html(data.saved_bytes_front);
+	    row.find(".optimized-size").html(data.cheetaho_size_front);
+	    row.find(".savings").html(data.saved_percent + ' %');
 
 	    if (items[++i]) {
 	      if (!window.optimizationCancelled) {
@@ -172,6 +175,9 @@
 	    }
 	  }
 
+	function handleCancellation() {
+		return;
+	}
 
 	function startBulkOptimization(items) {
 		jQuery("#optimization-items tbody").html('');
@@ -190,10 +196,11 @@
 	      return;
 	    }
 
-	    var item = items[i]
-	    var row = jQuery("#optimization-items tr").eq(parseInt(i)+1)
-	    row.find(".status").removeClass("todo")
-	    row.find(".status").html(cheetahoBulk.chCompressing)
+	    var item = items[i];
+	    var row = jQuery("#optimization-items tr").eq(parseInt(i)+1);
+	    row.find(".status").removeClass("todo");
+	    row.find(".status").html(cheetahoBulk.chCompressing);
+
 	    jQuery.ajax({
 	      url: ajaxurl,
 	      type: "POST",
@@ -201,7 +208,7 @@
 	      data: {
 	        _nonce: cheetahoBulk.nonce,
 	        action: "cheetaho_request",
-	        id: items[i].ID, 
+	        id: item.ID,
 	       // current_size: window.currentLibraryBytes
 	      },
 	      success: function(data) { bulkOptimizationCallback(null, data, items, i);},
