@@ -30,7 +30,7 @@ GITPATH="$CURRENTDIR/" # this file should be in the base of your git repository
 # svn config
 SVNPATH="/tmp/$PLUGINSLUG" # Path to a temp SVN repo. No trailing slash required.
 SVNURL="http://plugins.svn.wordpress.org/$PLUGINSLUG/" # Remote SVN repo on wordpress.org
-SVNUSER="nerijuso" # Your SVN username
+SVNUSER="$SVNUSER" # Your SVN username
 
 # Let's begin...
 echo
@@ -78,6 +78,10 @@ echo "Done."
 
 echo -n "Saving previous Git tag version..."
 PREVTAG=$(git describe --tags \`git rev-list --tags --max-count=1\`)
+echo "Done."
+
+echo -n "Committing new Git tag version..."
+git commit -a -m "Committing version $NEWVERSION1"
 echo "Done."
 
 echo -n "Tagging new Git version..."

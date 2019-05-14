@@ -140,7 +140,11 @@ class CheetahO_Optimizer {
 	}
 
 	function optimize_thumbnails_filter( $image_data ) {
-		$image_data = $this->optimize_thumbnails( $image_data );
+		$image_data_response = $this->optimize_thumbnails( $image_data );
+
+		if ( is_wp_error( $image_data_response ) ) {
+			return $image_data;
+		}
 
 		return $image_data;
 	}
@@ -209,8 +213,15 @@ class CheetahO_Optimizer {
 						$result = $this->optimize( $file, $image_id, $settings );
 
 						if ( is_wp_error( $result ) ) {
+							$error_data = $result->get_error_data('cheetaho');
+
+							if (isset($error_data['type']) && $error_data['type'] == 'nosavings') {
+								continue;
+							}
+
 							return new WP_Error( 'cheetaho', $result->get_error_message(),
-								$result->get_error_data('cheetaho'));
+								$error_data
+							);
 						}
 
 						$dest_url = $result['data']['destURL'];
@@ -234,38 +245,6 @@ class CheetahO_Optimizer {
 			return $image_data;
 		}
 	}
-
-	/**
-	 * @param $thumbs_optimized_store
-	 * @param $image_id
-	 */
-	public function update_thumbnails_meta( $thumbs_optimized_store, $image_id ) {
-		if ( ! empty( $thumbs_optimized_store ) ) {
-			$data = get_post_meta( $image_id, '_cheetaho_size', true );
-
-			$data['thumbs_data']     = $thumbs_optimized_store;
-			$data['optimizedImages'] = $data['optimizedImages'] + count( $thumbs_optimized_store );
-
-			foreach ( $thumbs_optimized_store as &$th ) {
-				$data['size_change']        = $data['size_change'] + ( $th['original_size'] - $th['cheetaho_size'] );
-				$data['originalImagesSize'] = $data['originalImagesSize'] + $th['original_size'];
-				$data['newSize']            = $data['newSize'] + $th['cheetaho_size'];
-
-				// sum retina info to image meta
-				if ( ! empty( $th['retina'] ) ) {
-					$data['size_change']        = $data['size_change'] + ( $th['retina']['data']['originalSize'] - $th['retina']['data']['newSize'] );
-					$data['originalImagesSize'] = $data['originalImagesSize'] + $th['retina']['data']['originalSize'];
-					$data['newSize']            = $data['newSize'] + $th['retina']['data']['newSize'];
-				}
-			}
-
-			$data['humanReadableLibrarySize'] = size_format( $data['size_change'], 2 );
-
-			$this->update_image_cheetaho_sizes_meta( $image_id, $data );
-			update_post_meta( $image_id, '_cheetaho_thumbs', $thumbs_optimized_store, false );
-		}
-	}
-
 
 	/**
 	 * Return image size to optimize
@@ -551,15 +530,24 @@ class CheetahO_Optimizer {
 		if ( isset( $data['error'] ) ) {
 			if ( isset( $data['error']['message'] ) ) {
 				$msg = $data['error']['message'];
+
+				if (strpos($msg, 'You do not need to optimize this') !== false) {
+					$error_type = 'nosavings';
+				} else {
+					$error_type = 'error';
+				}
+
 			} else {
 				$msg = __( 'System error!', 'cheetaho-image-optimizer' );
+				$error_type = 'system_error';
 			}
 
 			if ( 403 == $data['error']['http_code'] && 'Upps! Your subscription quota exceeded.' == $data['error']['message'] ) {
 				$this->set_quota_exceeded_message();
+				$error_type = 'quota_exceeded';
 			}
 
-			return new WP_Error( 'cheetaho', $msg, array('type' => 'quota_exceeded') );
+			return new WP_Error( 'cheetaho', $msg, array('type' => $error_type) );
 		}
 
 		if ( isset( $data['data']['originalSize'] ) && isset( $data['data']['newSize'] ) && 0 == (int) $data['data']['originalSize'] && 0 == (int) $data['data']['newSize'] ) {

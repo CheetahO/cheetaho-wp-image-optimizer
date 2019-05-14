@@ -50,13 +50,16 @@ class CheetahO_Stats {
 				wp_postmeta.post_id,
 				wp_postmeta.meta_value AS unique_attachment_name,
 				cheetaho_meta.attachment_id,
-				cheetaho_meta.status
+				cheetaho_meta.status,
+				cheetaho_meta_old.meta_key as cheetaho_meta_old_key
 			FROM $wpdb->posts
 			LEFT JOIN $wpdb->postmeta as wp_postmeta
 				ON $wpdb->posts.ID = wp_postmeta.post_id
 					AND wp_postmeta.meta_key = '_wp_attached_file'
 			LEFT JOIN {$wpdb->prefix}cheetaho_image_metadata AS cheetaho_meta
-				ON $wpdb->posts.ID = cheetaho_meta.attachment_id 		
+				ON $wpdb->posts.ID = cheetaho_meta.attachment_id 
+			LEFT JOIN $wpdb->postmeta as cheetaho_meta_old 
+				ON $wpdb->posts.ID = cheetaho_meta_old.post_id AND cheetaho_meta_old.meta_key = '_cheetaho_size'			
 			WHERE $wpdb->posts.post_type = 'attachment'
 				AND (
 					$wpdb->posts.post_mime_type = 'image/jpeg' OR
@@ -64,7 +67,7 @@ class CheetahO_Stats {
 					$wpdb->posts.post_mime_type = 'image/gif'
 				)
 				AND wp_postmeta.meta_key = '_wp_attached_file'
-				AND (cheetaho_meta.attachment_id is null OR cheetaho_meta.status != 'success')
+				AND (cheetaho_meta_old.meta_key is null AND ( cheetaho_meta.attachment_id is null OR cheetaho_meta.status != 'success') )
 				
 			GROUP BY unique_attachment_name
 			ORDER BY ID DESC",

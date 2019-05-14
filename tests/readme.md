@@ -1,3 +1,0 @@
-sql for testing
-
-explain SELECT dw_posts.ID, dw_posts.post_title, dw_posts.guid, wp_postmeta.post_id, wp_postmeta.meta_value AS unique_attachment_name, cheetaho_meta.attachment_id, cheetaho_meta.status FROM dw_posts LEFT JOIN dw_postmeta as wp_postmeta ON dw_posts.ID = wp_postmeta.post_id AND wp_postmeta.meta_key = '_wp_attached_file' LEFT JOIN dw_cheetaho_image_metadata AS cheetaho_meta ON dw_posts.ID = cheetaho_meta.attachment_id WHERE dw_posts.post_type = 'attachment' AND ( dw_posts.post_mime_type = 'image/jpeg' OR dw_posts.post_mime_type = 'image/png' OR dw_posts.post_mime_type = 'image/gif' ) AND wp_postmeta.meta_key = '_wp_attached_file' AND (cheetaho_meta.attachment_id is null or cheetaho_meta.status != 'success') GROUP BY unique_attachment_name ORDER BY ID DESC
