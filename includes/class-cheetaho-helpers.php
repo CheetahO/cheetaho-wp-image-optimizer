@@ -240,6 +240,7 @@ class CheetahO_Helpers {
 		} else {
 			include CHEETAHO_PLUGIN_ROOT . 'admin/views/parts/column-results-old.php';
 		}
+
 		$image_meta['html'] = $html;
 
 		$original_size = ( isset( $meta['original_images_size'] ) ) ? $meta['original_images_size'] : 0;
@@ -263,6 +264,7 @@ class CheetahO_Helpers {
 	 */
 	public static function is_processable( $id ) {
 		$path = get_attached_file( $id );// get the full file PATH
+		
 		return self::is_processable_path( $path );
 	}
 

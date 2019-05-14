@@ -249,7 +249,7 @@ class CheetahO_Image_Metadata {
 	}
 
 	/**
-	 * Get item by attachment id and image identifier
+	 * Get item stats
 	 *
 	 * @param $image_id
 	 * @param $identifier

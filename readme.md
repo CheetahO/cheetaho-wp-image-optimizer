@@ -43,8 +43,7 @@ Set a max width and height and large images will scale down as they are being co
 > * Compress/resize images even your site is not public.
 > * Compatible with WP Retina 2x – all retina images are automatically compressed.
 
-
-> Need more? Have a look at our plans: https://cheetaho.com/pricing/
+> Need more? Have a look at our plans: [https://cheetaho.com/pricing/](https://cheetaho.com/pricing/)
 
 
 ## About the plugin
