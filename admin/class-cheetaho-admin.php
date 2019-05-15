@@ -243,6 +243,7 @@ class CheetahO_Admin {
 	function delete_attachment_img( $id ) {
 		CheetahO_Helpers::handle_delete_attachment_in_backup( $id );
 		CheetahO_Helpers::handle_delete_attachment_web_p( $id );
+        $this->image_meta->delete_image_meta($id);
 	}
 
 	/**
