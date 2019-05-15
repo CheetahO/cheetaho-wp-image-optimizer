@@ -429,7 +429,7 @@ class CheetahO_Optimizer {
 				array('type' => 'bad_permissions')
 			);
 		}
-		
+
 		return $data;
 	}
 
@@ -690,7 +690,7 @@ class CheetahO_Optimizer {
 
 		$data['backup_path'] = $not_abs_backup_path;
 
-		if ( isset( $settings['optimize_retina'] ) && 1 == $settings['optimize_retina']) {
+		if ( isset( $settings['resize'] ) && 1 == $settings['resize']) {
 			$data['width']  = isset($result['data']['imageWidth']) ? $result['data']['imageWidth'] : 0;
 			$data['height'] = isset($result['data']['imageHeight']) ? $result['data']['imageHeight'] : 0;
 		}
