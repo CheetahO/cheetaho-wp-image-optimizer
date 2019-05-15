@@ -404,6 +404,11 @@ class CheetahO_Optimizer {
 		}
 
 		$data = $this->optimize( $image_path, $image_id, $settings );
+		$image_meta_data = wp_get_attachment_metadata( $image_id );
+
+		$data['image_size_name'] = 'full';
+		$data['width'] = $image_meta_data['width'];
+        $data['height'] = $image_meta_data['height'];
 
 		if ( is_wp_error( $data ) ) {
 			return new WP_Error( 'cheetaho', $data->get_error_message(), $data->get_error_data('cheetaho'));
@@ -424,7 +429,7 @@ class CheetahO_Optimizer {
 				array('type' => 'bad_permissions')
 			);
 		}
-
+		
 		return $data;
 	}
 
