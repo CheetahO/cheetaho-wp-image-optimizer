@@ -162,7 +162,7 @@ class CheetahO_Image_Metadata {
 
 		$path = str_replace( ABSPATH, '', $meta['path'] );
 
-		return md5( $image_id . $path );
+		return md5( $image_id . $path. $meta['image_size_name'] );
 	}
 
 	/**

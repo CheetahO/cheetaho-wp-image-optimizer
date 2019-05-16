@@ -99,7 +99,7 @@ class CheetahO_Admin {
 				}
 
 				// Is it optimized? Show some stats
-				if ( $meta != null && $meta['status'] == 'success' || $has_cheetaho_meta == true) {
+				if ( $meta != null && (isset($meta['status']) && 'success' == $meta['status'])  || $has_cheetaho_meta == true) {
 					$output = CheetahO_Helpers::output_result( $meta, $has_cheetaho_meta );
 
 					$output = json_decode( $output, true );

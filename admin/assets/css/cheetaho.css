@@ -496,7 +496,7 @@ a.cheetahoError:hover span {
     width: 30px;
 }
 
-.cheetaho-bulk  table.whitebox th.column {
+.cheetaho-bulk  table.whitebox .column {
     width: auto;
 }
  
