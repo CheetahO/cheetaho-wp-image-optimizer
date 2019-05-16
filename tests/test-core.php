@@ -174,7 +174,7 @@ class CheetahOCoreTest extends WP_UnitTestCase {
 		$attachment     = self::upload_test_files( getenv( 'TEST_JPG_IMAGE_REMOTE_PATH' ) );
 		$original_image_path = get_attached_file( $attachment['attacment_id'] );
 
-		$identifier = (new CheetahO_Image_Metadata( new CheetahO_DB() ))->get_identifier( $attachment['attacment_id'], array('path' => $original_image_path) );
+		$identifier = (new CheetahO_Image_Metadata( new CheetahO_DB() ))->get_identifier( $attachment['attacment_id'], array('path' => $original_image_path, 'image_size_name' => 'full') );
 		$image_meta = (new CheetahO_Image_Metadata( new CheetahO_DB() ))->get_item($attachment['attacment_id'], $identifier);
 
 		$this->assertTrue( empty( $image_meta ) );
