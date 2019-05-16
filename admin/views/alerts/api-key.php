@@ -10,6 +10,7 @@ $ignored_notices = get_user_meta( $GLOBALS['current_user']->ID, '_cheetaho_ignor
 if ( ( isset( $current_screen ) && ( 'settings_page_cheetaho' === $current_screen->base || 'settings_page_cheetaho-network' === $current_screen->base ) ) || in_array( 'welcome', (array) $ignored_notices ) || ( isset( $settings['api_key'] ) && '' != $settings['api_key'] ) ) {
 	return;
 }
+
 ?>
 <div class="cheetaho-welcome">
 	<div class="cheetaho-title">
