@@ -228,7 +228,7 @@ class CheetahO {
 		$cheetaho_optimizer = new CheetahO_Optimizer( $this );
 		$this->loader->add_action( 'wp_ajax_cheetaho_request', $cheetaho_optimizer, 'cheetaho_ajax_callback' );
 
-        if ($this->cheetaho_settings['optimize_retina'] == 1) {
+        if (isset($this->cheetaho_settings['optimize_retina']) && 1 == $this->cheetaho_settings['optimize_retina']) {
 		    $this->loader->add_action( 'wr2x_retina_file_added', $cheetaho_optimizer, 'optimize_after_wr2x_retina_file_added', 10, 3 );
 		}
 
