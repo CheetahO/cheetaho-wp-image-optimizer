@@ -19,9 +19,9 @@ WP_TESTS_DIR=${WP_TESTS_DIR-$TMPDIR/wordpress-tests-lib}
 WP_CORE_DIR=${WP_CORE_DIR-$TMPDIR/wordpress/}
 
 download() {
-    if [ $(which curl) ]; then
+    if [ `which curl` ]; then
         curl -s "$1" > "$2";
-    elif [ $(which wget) ]; then
+    elif [ `which wget` ]; then
         wget -nv -O "$2" "$1"
     fi
 }
@@ -78,7 +78,7 @@ install_wp() {
 				LATEST_VERSION=${WP_VERSION%??}
 			else
 				# otherwise, scan the releases and get the most up to date minor version of the major release
-				local VERSION_ESCAPED=$(echo $WP_VERSION | sed 's/\./\\\\./g')
+				local VERSION_ESCAPED=`echo $WP_VERSION | sed 's/\./\\\\./g'`
 				LATEST_VERSION=$(grep -o '"version":"'$VERSION_ESCAPED'[^"]*' $TMPDIR/wp-latest.json | sed 's/"version":"//' | head -1)
 			fi
 			if [[ -z "$LATEST_VERSION" ]]; then
