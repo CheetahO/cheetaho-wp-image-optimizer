@@ -156,7 +156,7 @@ class CheetahOCoreTest extends WP_UnitTestCase {
 	}
 
 	function test_cheetaho_update_notice() {
-		$cheetaho = new CheetahO_Alert();
+		$cheetaho = new CheetahO_Alert($this->cheetaho);
 		$cheetaho->cheetaho_update_notice( 'quota', 1, 1 );
 		$ignored_notices = get_user_meta( 1, '_cheetaho_ignore_notices', true );
 

@@ -514,7 +514,7 @@ class CheetahO_Optimizer {
 		$cheetaho = new CheetahO_API( array( 'api_key' => $settings['api_key'] ) );
 		$status   = $cheetaho->status();
 
-		$alert = new CheetahO_Alert();
+		$alert = new CheetahO_Alert($this->cheetaho);
 
 		if ( true == $status['data']['quota']['exceeded'] ) {
 			$alert->cheetaho_update_notice( 'quota', 0, 2 );
