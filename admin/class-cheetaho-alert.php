@@ -11,13 +11,23 @@
  */
 class CheetahO_Alert {
 
+    /**
+     * Settings data.
+     *
+     * @since    1.4.3
+     * @access   private
+     * @var      array $cheetaho_settings
+     */
+    private $cheetaho_settings;
 
 	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.4.3
 	 */
-	public function __construct() {
+	public function __construct($cheetaho) {
+        $this->cheetaho_settings = $cheetaho->get_cheetaho_settings();
+
 		add_action( 'all_admin_notices', array( &$this, 'display_quota_exceeded_alert' ) );
 		add_action( 'admin_post_cheetahOCloseNotice', array( &$this, 'cheetaho_close_notice' ) );
 		add_action( 'all_admin_notices', array( &$this, 'display_api_key_alert' ) );
@@ -25,14 +35,17 @@ class CheetahO_Alert {
 	}
 
 	public function display_quota_exceeded_alert() {
+        $settings = $this->cheetaho_settings;
 		include CHEETAHO_PLUGIN_ROOT . 'admin/views/alerts/quota-exceeded.php';
 	}
 
 	public function display_api_key_alert() {
+        $settings = $this->cheetaho_settings;
 		include CHEETAHO_PLUGIN_ROOT . 'admin/views/alerts/api-key.php';
 	}
 
 	public function display_rate_us_alert() {
+        $settings = $this->cheetaho_settings;
 		include CHEETAHO_PLUGIN_ROOT . 'admin/views/alerts/rate-us.php';
 	}
 

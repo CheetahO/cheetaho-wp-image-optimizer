@@ -164,7 +164,7 @@ echo "Done."
 
 echo -n "Enter a commit message for this new SVN version..."
 #$DEFAULT_EDITOR /tmp/wppdcommitmsg.tmp
-COMMITMSG=`cat /tmp/wppdcommitmsg.tmp`
+COMMITMSG=$(cat /tmp/wppdcommitmsg.tmp)
 rm /tmp/wppdcommitmsg.tmp
 echo "Done."
 

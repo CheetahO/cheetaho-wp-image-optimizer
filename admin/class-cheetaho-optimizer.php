@@ -404,6 +404,11 @@ class CheetahO_Optimizer {
 		}
 
 		$data = $this->optimize( $image_path, $image_id, $settings );
+		$image_meta_data = wp_get_attachment_metadata( $image_id );
+
+		$data['image_size_name'] = 'full';
+		$data['width'] = $image_meta_data['width'];
+        $data['height'] = $image_meta_data['height'];
 
 		if ( is_wp_error( $data ) ) {
 			return new WP_Error( 'cheetaho', $data->get_error_message(), $data->get_error_data('cheetaho'));
@@ -509,7 +514,7 @@ class CheetahO_Optimizer {
 		$cheetaho = new CheetahO_API( array( 'api_key' => $settings['api_key'] ) );
 		$status   = $cheetaho->status();
 
-		$alert = new CheetahO_Alert();
+		$alert = new CheetahO_Alert($this->cheetaho);
 
 		if ( true == $status['data']['quota']['exceeded'] ) {
 			$alert->cheetaho_update_notice( 'quota', 0, 2 );
@@ -685,7 +690,7 @@ class CheetahO_Optimizer {
 
 		$data['backup_path'] = $not_abs_backup_path;
 
-		if ( isset( $settings['optimize_retina'] ) && 1 == $settings['optimize_retina']) {
+		if ( isset( $settings['resize'] ) && 1 == $settings['resize']) {
 			$data['width']  = isset($result['data']['imageWidth']) ? $result['data']['imageWidth'] : 0;
 			$data['height'] = isset($result['data']['imageHeight']) ? $result['data']['imageHeight'] : 0;
 		}
