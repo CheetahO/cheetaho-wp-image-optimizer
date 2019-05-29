@@ -2,8 +2,8 @@
 Contributors: cheetaho
 Tags: compressor, image, optimize, compress, performance, lossless, image optimiser, lossy, photo, pictures, optimize JPG, compress PNG, compress jpeg, optimize gif
 Requires at least: 4.4
-Tested up to: 5.1
-Stable tag: 1.4.3
+Tested up to: 5.2
+Stable tag: 1.4.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 Donate link:  https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8EBKEZMR58UK4
