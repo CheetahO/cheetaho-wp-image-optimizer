@@ -169,7 +169,8 @@ rm /tmp/wppdcommitmsg.tmp
 echo "Done."
 
 echo -n "Committing new SVN version..."
-svn commit --quiet --no-auth-cache --no-auth-cache --username=$SVNUSER --password=$SVNPASS -m "$COMMITMSG"
+echo -n "$COMMITMSG"
+svn commit --quiet --no-auth-cache --no-auth-cache --username=$SVNUSER --password=$SVNPASS -m "Commiting new version: $NEWVERSION1. $COMMITMSG"
 echo "Done."
 
 echo -n "Tagging and committing new SVN tag..."
