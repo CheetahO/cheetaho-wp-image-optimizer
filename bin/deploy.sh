@@ -117,7 +117,7 @@ if [ -d $SVNPATH/trunk/assets-wp-repo ]
 			then
 				svn stat | grep "^?" | awk '{print $2}' | xargs svn add --quiet # Add new assets
 				echo -en "Committing new assets..."
-###				svn commit --quiet --username=$SVNUSER --password=$SVNPASS -m "Updated assets"
+				svn commit --quiet --username=$SVNUSER --password=$SVNPASS -m "Updated assets"
 				echo "Done."
 			else
 				echo "Unchanged."
