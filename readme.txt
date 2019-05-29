@@ -88,6 +88,7 @@ CheetahO - Getting Started
 1. Cheetaho.com wordpress plugin settings page. You must enter your credentials, and select your optimization mode from there. `/assets/screenshot-1.png`
 2. Media library with optimization button.  `/assets/screenshot-2.png`
 3. Bulk image optimization page.  `/assets/screenshot-3.png`
+3. Bulk image optimization in media library.  `/assets/screenshot-4.png`
 
 == Frequently Asked Questions ==
 
