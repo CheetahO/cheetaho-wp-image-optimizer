@@ -407,8 +407,8 @@ class CheetahO_Optimizer {
 		$image_meta_data = wp_get_attachment_metadata( $image_id );
 
 		$data['image_size_name'] = 'full';
-		$data['width'] = $image_meta_data['width'];
-        $data['height'] = $image_meta_data['height'];
+		$data['width'] = isset($image_meta_data['width']) ? $image_meta_data['width'] : $data['data']['imageWidth'];
+        $data['height'] = isset($image_meta_data['height']) ? $image_meta_data['height'] : $data['data']['imageHeight'];
 
 		if ( is_wp_error( $data ) ) {
 			return new WP_Error( 'cheetaho', $data->get_error_message(), $data->get_error_data('cheetaho'));

@@ -3,10 +3,10 @@ Contributors: cheetaho
 Tags: compressor, image, optimize, compress, performance, lossless, image optimiser, lossy, photo, pictures, optimize JPG, compress PNG, compress jpeg, optimize gif
 Requires at least: 4.4
 Tested up to: 5.2
-Stable tag: 1.4.3.2
+Stable tag: 1.4.3.3
+Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
-Donate link:  https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8EBKEZMR58UK4
 
 This plugin allows you to compress and optimize your WordPress images through the CheetahO API. Your website will be faster, keeping the images high quality.
 
@@ -14,7 +14,7 @@ This plugin allows you to compress and optimize your WordPress images through th
 
 This plugin allows you to resize/scale images down to your specified size, optimize and compress new and existing Wordpress image uploads through CheetahO Image [optimizer](https://cheetaho.com/) API. You can choose lossless or lossy optimization modes. At this moment supported filetypes are JPEG, PNG, GIF.
 Smaller image sizes on your website means faster page loads and less bandwidth usage. The faster your site loads, the more Google, Yahoo, Bing and other search engines will like it.
-You can try a **live demo** <a href="https://addendio.com/try-plugin/?slug=cheetaho-image-optimizer" target="_blank">here</a> (via addendio.com).
+You can try a **live demo** <a href="http://poopy.life/create?url=/wp-admin/admin.php?page=sandbox" target="_blank">here</a> (via poopy.life).
 
 Set a max width and height and large images will scale down as they are being compressed. CheetahO compress images uses proprietary algorithm & blazing fast servers to quickly compress images & optimize images. Also cuts all the unnecessary data without slowing down your website/blog which helps to boost seo & performance.
 
@@ -153,6 +153,9 @@ We are here to help. <a href="https://cheetaho.com/contact-us/">Contact us</a>!
 
 
 == Changelog ==
+= 1.4.3.3 =
+* Fix php notice
+
 = 1.4.3 =
 * Update readme
 * Retina image optimization improvement
