@@ -85,7 +85,8 @@ class CheetahO_Optimizer {
 			$result = $this->optimize_image( $image_path, $image_id );
 
 			if ( is_wp_error( $result ) ) {
-				$this->update_image_cheetaho_sizes_meta_with_error( $image_id, $result->get_error_message() );
+
+				$this->update_image_cheetaho_sizes_meta_with_error( $image_id, $result->get_error_message(), $result->get_error_data('cheetaho') );
 
 				echo json_encode(
 					array(
@@ -101,11 +102,13 @@ class CheetahO_Optimizer {
 				wp_die();
 			}
 
-			$this->optimize_thumbnails( wp_get_attachment_metadata( $image_id ) );
+            $this->optimize_thumbnails( wp_get_attachment_metadata( $image_id ) );
 
 			$meta = $this->image_meta->get_image_stats($image_id);
 
-			echo CheetahO_Helpers::output_result( $meta );
+            do_action( 'cheetaho_attachment_optimized', $image_id);
+
+            echo CheetahO_Helpers::output_result( $meta );
 
 			die();
 		}
@@ -129,12 +132,12 @@ class CheetahO_Optimizer {
 	 * @param $image_id
 	 * @param $data
 	 */
-	function update_image_cheetaho_sizes_meta_with_error( $image_id, $msg ) {
+	function update_image_cheetaho_sizes_meta_with_error( $image_id, $msg, $error_data = array() ) {
 
 		$local_image_path    = get_attached_file( $image_id );
 		$data           = $this->generate_image_meta( array(), $local_image_path );
-		$data['results']    = array( 'message' => $msg );
-		$data['status'] = 'error';
+		$data['results']    = array_merge_recursive(array( 'message' => $msg),  $error_data );
+		$data['status'] = isset($error_data['type']) ? $error_data['type'] : 'error';
 
 		$this->update_image_cheetaho_sizes_meta( $image_id, $data );
 	}
@@ -146,7 +149,11 @@ class CheetahO_Optimizer {
 			return $image_data;
 		}
 
-		return $image_data;
+		if(is_numeric($this->image_id)) {
+            do_action('cheetaho_attachment_optimized', $this->image_id);
+        }
+
+        return $image_data;
 	}
 
 
@@ -210,7 +217,7 @@ class CheetahO_Optimizer {
 							$file = dirname( $path[0] ) . '/' . $size['file'];
 						}
 
-						$result = $this->optimize( $file, $image_id, $settings );
+						$result = $this->optimize( $file, $image_id, $settings, $key );
 
 						if ( is_wp_error( $result ) ) {
 							$error_data = $result->get_error_data('cheetaho');
@@ -330,7 +337,7 @@ class CheetahO_Optimizer {
 	 *
 	 * @return WP_Error
 	 */
-	private function optimize( $image_path, $image_id, $settings ) {
+	private function optimize( $image_path, $image_id, $settings, $image_size_name = false ) {
 		// make image backup if not exist
 		CheetahO_Backup::make_backup( $image_path, $image_id, $settings );
 
@@ -364,6 +371,7 @@ class CheetahO_Optimizer {
 		set_time_limit( 400 );
 
 		$data = $cheetaho->url( $params );
+        $data['image_size_name'] = $image_size_name;
 
 		$validation_data = $this->validate_if_image_optimized_successfully( $data );
 
@@ -403,16 +411,19 @@ class CheetahO_Optimizer {
 			return new WP_Error( 'cheetaho', $validation_data->get_error_message(), $validation_data->get_error_data('cheetaho') );
 		}
 
-		$data = $this->optimize( $image_path, $image_id, $settings );
-		$image_meta_data = wp_get_attachment_metadata( $image_id );
+		$image_size_name = 'full';
 
-		$data['image_size_name'] = 'full';
-		$data['width'] = isset($image_meta_data['width']) ? $image_meta_data['width'] : $data['data']['imageWidth'];
-        $data['height'] = isset($image_meta_data['height']) ? $image_meta_data['height'] : $data['data']['imageHeight'];
+		$data = $this->optimize( $image_path, $image_id, $settings, $image_size_name);
 
 		if ( is_wp_error( $data ) ) {
 			return new WP_Error( 'cheetaho', $data->get_error_message(), $data->get_error_data('cheetaho'));
 		}
+
+        $image_meta_data = wp_get_attachment_metadata( $image_id );
+
+        $data['image_size_name'] = $image_size_name;
+        $data['width'] = isset($image_meta_data['width']) ? $image_meta_data['width'] : $data['data']['imageWidth'];
+        $data['height'] = isset($image_meta_data['height']) ? $image_meta_data['height'] : $data['data']['imageHeight'];
 
 		$local_image_path    = get_attached_file( $image_id );
 		$image_meta_data     = $this->generate_image_meta( $data, $local_image_path );
@@ -456,7 +467,7 @@ class CheetahO_Optimizer {
 			$settings['create_webp'] = 0;
 			$image_path              = CheetahO_Retina::get_retina_name( $image_path );
 
-			$data = $this->optimize( $image_path, $image_id, $settings );
+			$data = $this->optimize( $image_path, $image_id, $settings, $image_size_name );
 
 			if ( ! is_wp_error( $data ) && isset( $data['data']['destURL'] ) && '' != $data['data']['destURL'] ) {
 				$optimization_status = $this->replace_new_image( $local_image_path, $data['data']['destURL'] );
@@ -641,9 +652,12 @@ class CheetahO_Optimizer {
 				$result     = $this->optimize_image( $image_path, $image_id );
 
 				if ( is_wp_error( $result ) ) {
-					$this->update_image_cheetaho_sizes_meta_with_error( $image_id, $result->get_error_message() );
+					$this->update_image_cheetaho_sizes_meta_with_error( $image_id, $result->get_error_message(), $result->get_error_data('cheetaho')  );
 				}
-			}
+
+                do_action( 'cheetaho_attachment_optimized', $image_id);
+
+            }
 		} catch ( Exception $e ) {
 			new WP_Error( 'cheetaho', $e->getMessage(),
 				array('type' => 'exeption'));

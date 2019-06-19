@@ -248,6 +248,22 @@ class CheetahO_Image_Metadata {
 		return $this->db->query( $sql, array( $image_id, $identifier ), true );
 	}
 
+    /**
+     * Get item by attachment id and image size
+     *
+     * @param $image_id
+     * @param $identifier
+     *
+     * @since 1.4.3
+     *
+     * @return mixed
+     */
+    public function get_item_by_size( $image_id, $size ) {
+        $sql = "SELECT * FROM " . $this->db->get_prefix() . $this->table_name . "  WHERE attachment_id = '%d' AND image_size_name = '%s'";
+
+        return $this->db->query( $sql, array( $image_id, $size ), true );
+    }
+
 	/**
 	 * Get item stats
 	 *
@@ -350,6 +366,7 @@ class CheetahO_Image_Metadata {
 				'thumbs_images_count'  => count( $thumbs_images ),
 				'savings_percentage'   => round( $savings_perc,2 ),
                 'status'               => $item->status,
+                'results'              => json_decode($item->results),
 			);
 		}
 

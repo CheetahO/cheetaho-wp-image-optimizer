@@ -67,7 +67,7 @@ class CheetahO_Stats {
 					$wpdb->posts.post_mime_type = 'image/gif'
 				)
 				AND wp_postmeta.meta_key = '_wp_attached_file'
-				AND (cheetaho_meta_old.meta_key is null AND ( cheetaho_meta.attachment_id is null OR cheetaho_meta.status != 'success') )
+				AND (cheetaho_meta_old.meta_key is null AND ( cheetaho_meta.attachment_id is null OR (cheetaho_meta.status != 'success' AND cheetaho_meta.status != 'nosavings')) )
 				
 			GROUP BY unique_attachment_name
 			ORDER BY ID DESC",

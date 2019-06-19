@@ -239,6 +239,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 							</p>
 						</td>
 					</tr>
+                    <tr>
+                        <th scope="row">
+                            <?php _e( 'CloudFlare credentials:', 'cheetaho-image-optimizer' ); ?>
+                        </th>
+                        <td>
+                            <input autocomplete="off" type="text" name="_cheetaho_options[<?php echo CheetahO_Settings::CLOUDFLARE_EMAIL; ?>]" id="<?php echo CheetahO_Settings::CLOUDFLARE_EMAIL; ?>" value="<?php echo $cloudflare_email; ?>" class="option-control form-control" placeholder="<?php _e( 'Email', 'cheetaho-image-optimizer' ); ?>">
+                            <br/>
+                            <input autocomplete="off" type="text" name="_cheetaho_options[<?php echo CheetahO_Settings::CLOUDFLARE_API_KEY; ?>]" id="<?php echo CheetahO_Settings::CLOUDFLARE_API_KEY; ?>" value="<?php echo $cloudflare_api_key; ?>" class="option-control form-control" placeholder="<?php _e( 'API Key', 'cheetaho-image-optimizer' ); ?>">
+                            <br/>
+                            <input autocomplete="off" type="text" name="_cheetaho_options[<?php echo CheetahO_Settings::CLOUDFLARE_ZONE; ?>]" id="<?php echo CheetahO_Settings::CLOUDFLARE_ZONE; ?>" value="<?php echo $cloudflare_zone; ?>" class="option-control form-control" placeholder="<?php _e( 'Zone ID', 'cheetaho-image-optimizer' ); ?>">
+
+                            <p class="settings-info">
+                                <small>
+                                    <?php _e( 'If you are running using CloudFlare APIs and or any WordPress CloudFlare plugins enter your details to be able to purge the cached urls of the files that CheetahO optimizes.', 'cheetaho-image-optimizer' ); ?>
+                                </small>
+                            </p>
+                        </td>
+                    </tr>
 
 					<tr>
 						<th scope="row">
