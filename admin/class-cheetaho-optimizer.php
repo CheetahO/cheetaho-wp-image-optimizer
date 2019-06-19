@@ -665,24 +665,9 @@ class CheetahO_Optimizer {
 	 * @param int $image_id
 	 */
 	function cheetaho_uploader_callback( $image_id ) {
-		try {
-			$this->image_id = (int) $image_id;
 
-		/*	if ( wp_attachment_is_image( $image_id ) ) {
-				$image_path = $this->get_image_path( $image_id );
-				$result     = $this->optimize_image( $image_path, $image_id );
+	    $this->image_id = (int) $image_id;
 
-				if ( is_wp_error( $result ) ) {
-					$this->update_image_cheetaho_sizes_meta_with_error( $image_id, $result->get_error_message(), $result->get_error_data('cheetaho')  );
-				}
-
-                do_action( 'cheetaho_attachment_optimized', $image_id);
-
-            }*/
-		} catch ( Exception $e ) {
-			new WP_Error( 'cheetaho', $e->getMessage(),
-				array('type' => 'exeption'));
-		}
 	}
 
 
