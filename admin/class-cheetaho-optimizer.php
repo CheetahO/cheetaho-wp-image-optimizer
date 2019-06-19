@@ -149,7 +149,11 @@ class CheetahO_Optimizer {
 			return $image_data;
 		}
 
-		return $image_data;
+		if(is_numeric($this->image_id)) {
+            do_action('cheetaho_attachment_optimized', $this->image_id);
+        }
+
+        return $image_data;
 	}
 
 
