@@ -249,8 +249,8 @@ class CheetahO {
 		$plugin_admin_alert = new CheetahO_Alert( $this );
 
 		if ( ( false != $this->cheetaho_settings && ! empty( $this->cheetaho_settings ) && ! empty( $this->cheetaho_settings['auto_optimize'] ) ) || ( false != $this->cheetaho_settings && ! isset( $this->cheetaho_settings['auto_optimize'] ) ) ) {
-			$this->loader->add_action( 'add_attachment', $cheetaho_optimizer, 'cheetaho_uploader_callback' );
-			$this->loader->add_filter( 'wp_generate_attachment_metadata', $cheetaho_optimizer, 'optimize_thumbnails_filter' );
+			$this->loader->add_action( 'add_attachment', $cheetaho_optimizer, 'cheetaho_uploader_callback', 99999 );
+			$this->loader->add_filter( 'wp_generate_attachment_metadata', $cheetaho_optimizer, 'optimize_thumbnails_filter' , 999, 2);
 		}
 
         $cloudflare = new CheetahO_Cloudflare_Hooks( $this );
