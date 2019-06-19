@@ -255,7 +255,9 @@ class CheetahO {
 
         $cloudflare = new CheetahO_Cloudflare_Hooks( $this );
         $this->loader->add_action( 'cheetaho_attachment_optimized', $cloudflare, 'cheetaho_cloudflare_purge' );
-	}
+        $this->loader->add_action( 'cheetaho_attachment_reset', $cloudflare, 'cheetaho_cloudflare_purge' );
+
+    }
 
 	/**
 	 * Run the loader to execute all of the hooks with WordPress.
