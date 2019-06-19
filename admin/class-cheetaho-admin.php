@@ -211,7 +211,9 @@ class CheetahO_Admin {
 			CheetahO_Backup::restore_images( $image_id );
 			CheetahO_Helpers::reset_image_size_meta( $image_id, $image_meta );
 			$this->image_meta->delete_image_meta($image_id);
-		}
+
+            do_action( 'cheetaho_attachment_reset', $image_id);
+        }
 
 		echo json_encode(
 			array(

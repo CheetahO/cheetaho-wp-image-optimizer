@@ -3,7 +3,7 @@
  * Plugin Name: CheetahO Image Optimizer
  * Plugin URI: https://cheetaho.com/
  * Description: CheetahO optimizes images automatically. Check your <a href="options-general.php?page=cheetaho-image-optimizer" target="_blank">Settings &gt; CheetahO</a> page on how to start optimizing your image library and make your website load faster. Do not forget to update these settings after plugin update.
- * Version: 1.4.3.4
+ * Version: 1.4.3.5
  * Author: CheetahO
  * Author URI: https://cheetaho.com
  * Text Domain: cheetaho-image-optimizer
@@ -14,11 +14,11 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
-ini_set('display_errors', 1);
+
 /**
  * Currently plugin version.
  */
-define( 'CHEETAHO_VERSION', '1.4.3.4' );
+define( 'CHEETAHO_VERSION', '1.4.3.5' );
 define( 'CHEETAHO_DB_VERSION', '1.0' );
 
 define( 'CHEETAHO_ASSETS_IMG_URL', realpath( plugin_dir_url( __FILE__ ) . 'img/' ) . '/img' );

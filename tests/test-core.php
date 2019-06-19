@@ -192,7 +192,9 @@ class CheetahOCoreTest extends WP_UnitTestCase {
 		clearstatcache();
 		$cheetaho = new CheetahO_Optimizer( $this->cheetaho );
 
-		$cheetaho->cheetaho_uploader_callback( $attachment['attacment_id'] );
+        $wp_image_meta_data = wp_get_attachment_metadata( $attachment['attacment_id']);
+
+        $cheetaho->optimize_thumbnails_filter($wp_image_meta_data,  $attachment['attacment_id'] );
 
 		$this->assertEquals( filesize( $retinaImageUrl ), 16886 );
 		clearstatcache();
