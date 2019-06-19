@@ -110,7 +110,7 @@ class CheetahO_Admin {
 					$image_url = wp_get_attachment_url( $id );
 					$filename  = basename( $image_url );
 
-					echo $this->show_optimize_button( $type, $id, $filename, $image_url );
+					echo $this->show_optimize_button( $type, $id, $filename, $image_url, $meta );
 
 					if ( ! empty( $meta['no_savings'] ) ) {
 						echo '<div class="noSavings"><strong>' . __( 'No savings found', 'cheetaho-image-optimizer' ) . '</strong><br /><small>' . __( 'Type', 'cheetaho-image-optimizer' ) . ':&nbsp;' . $meta['type'] . '</small></div>';
@@ -200,8 +200,12 @@ class CheetahO_Admin {
 		$image_id = (int) $_POST['id'];
 		$local_image_path    = get_attached_file( $image_id );
 
-		$identifier = $this->image_meta->get_identifier( $image_id, array('path' => $local_image_path) );
+		$identifier = $this->image_meta->get_identifier( $image_id, array('path' => $local_image_path, 'image_size_name' => 'full') );
 		$image_meta = $this->image_meta->get_item($image_id, $identifier);
+
+		if($image_meta === null) {
+            $image_meta = $this->image_meta->get_item_by_size($image_id, 'full');
+        }
 
 		if ( ! empty( $image_meta ) ) {
 			CheetahO_Backup::restore_images( $image_id );
@@ -229,7 +233,7 @@ class CheetahO_Admin {
 		return $this->show_optimize_button( $settings['api_lossy'], $id, $filename, $image_url );
 	}
 
-	function show_optimize_button( $type, $id, $filename, $image_url ) {
+	function show_optimize_button( $type, $id, $filename, $image_url, $meta = array() ) {
 		include CHEETAHO_PLUGIN_ROOT . 'admin/views/parts/optimize-button.php';
 
 		return $html;

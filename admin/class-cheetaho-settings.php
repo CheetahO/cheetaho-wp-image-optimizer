@@ -9,50 +9,13 @@
  * @subpackage CheetahO/admin
  * @author     CheetahO <support@cheetaho.com>
  */
-class CheetahO_Settings {
+class CheetahO_Settings extends Cheetaho_Base {
 
+    const CLOUDFLARE_EMAIL = 'cloudflare_email';
+    const CLOUDFLARE_API_KEY = 'cloudflare_api_key';
+    const CLOUDFLARE_ZONE = 'cloudflare_zone';
 
-	/**
-	 * The version of this plugin.
-	 *
-	 * @since    1.4.3
-	 * @access   private
-	 * @var      string $version The current version of this plugin.
-	 */
-
-	private $version;
-
-	/**
-	 * For main cheetaho data object
-	 *
-	 * @var object $cheetaho
-	 */
-	private $cheetaho;
-
-	/**
-	 * Settings data.
-	 *
-	 * @since    1.4.3
-	 * @access   private
-	 * @var      array $cheetaho_settings
-	 */
-	private $cheetaho_settings;
-
-	/**
-	 * Initialize the class and set its properties.
-	 *
-	 * @since   1.4.3
-	 * @param   string $plugin_name The name of this plugin.
-	 * @param   string $version The version of this plugin.
-	 * @param   array  $settings
-	 */
-	public function __construct( $cheetaho ) {
-		$this->version           = $cheetaho->get_version();
-		$this->cheetaho_settings = $cheetaho->get_cheetaho_settings();
-		$this->cheetaho          = $cheetaho;
-	}
-
-	/**
+    /**
 	 * Add settings action link to the plugins page.
 	 *
 	 * @since  1.4.3
@@ -120,6 +83,19 @@ class CheetahO_Settings {
 		$this->update_settings( $settings );
 	}
 
+
+    /**
+     * Get cheetaho settings options if no, set default value
+     *
+     * @param string $key
+     * @param int    $value
+     */
+    function get_options_value( $key, $default_value = 0 ) {
+        $settings = $this->cheetaho_settings;
+
+        return isset( $settings[ $key ] ) ? $settings[ $key ] : $default_value;
+    }
+
 	/**
 	 * Render settings page html
 	 *
@@ -158,6 +134,9 @@ class CheetahO_Settings {
 		$api_key           = isset( $settings['api_key'] ) ? trim($settings['api_key']) : '';
 		$auth_user         = isset( $settings['authUser'] ) ? trim($settings['authUser']) : '';
 		$auth_pass         = isset( $settings['authPass'] ) ? trim($settings['authPass']) : '';
+        $cloudflare_email  = $this->get_options_value(self::CLOUDFLARE_EMAIL, '');
+        $cloudflare_api_key  = $this->get_options_value(self::CLOUDFLARE_API_KEY, '');
+        $cloudflare_zone  = $this->get_options_value(self::CLOUDFLARE_ZONE, '');
 
 		foreach ( $sizes as $size ) {
 			$valid[ 'include_size_' . $size ] = isset( $settings[ 'include_size_' . $size ] ) ? $settings[ 'include_size_' . $size ] : 1;
@@ -185,6 +164,19 @@ class CheetahO_Settings {
 		$valid['create_webp']     = isset( $input['create_webp'] ) ? 1 : 0;
 		$valid['authUser']        = $input['authUser'];
 		$valid['authPass']        = $input['authPass'];
+
+        $valid[self::CLOUDFLARE_EMAIL]  = isset($input[self::CLOUDFLARE_EMAIL]) ? $input[self::CLOUDFLARE_EMAIL] : '';
+        $valid[self::CLOUDFLARE_API_KEY]= isset($input[self::CLOUDFLARE_API_KEY]) ? $input[self::CLOUDFLARE_API_KEY] : '';
+        $valid[self::CLOUDFLARE_ZONE]   = isset($input[self::CLOUDFLARE_ZONE]) ? $input[self::CLOUDFLARE_ZONE] : '';
+
+        $cloudflare_params = strlen(implode(array($valid[self::CLOUDFLARE_EMAIL], $valid[self::CLOUDFLARE_API_KEY], $valid[self::CLOUDFLARE_ZONE])));
+
+        if ($cloudflare_params > 0 && ($valid[self::CLOUDFLARE_EMAIL] == '' || $valid[self::CLOUDFLARE_API_KEY] == '' || $valid[self::CLOUDFLARE_ZONE] == '')) {
+            $error[] = __( 'Not all CloudFlare credentials are in place', 'cheetaho-image-optimizer' );
+            $valid[self::CLOUDFLARE_EMAIL]  = '';
+            $valid[self::CLOUDFLARE_API_KEY]= '';
+            $valid[self::CLOUDFLARE_ZONE]   = '';
+        }
 
 		if ( 1 == $valid['resize'] ) {
 			$valid['maxWidth']  = ( isset( $input['maxWidth'] ) && $input['maxWidth'] > 0 ) ? (int) $input['maxWidth'] : 0;

@@ -523,3 +523,14 @@ a.cheetahoError:hover span {
 .cheetaho.column-cheetaho .buttonWrap{
     position:relative;
 }
+
+.cheetaho-columns .col-1-12 {
+    padding-left: 28px;
+    width:100%;
+    padding-right:28px;
+    box-sizing: border-box;
+}
+
+.cheetaho-columns h4 {
+    margin-bottom:5px;
+}

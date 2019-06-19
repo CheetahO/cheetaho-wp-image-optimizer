@@ -102,7 +102,12 @@ class CheetahO {
 	 * @since    1.4.3
 	 * @access   private
 	 */
-	private function load_dependencies() {
+	private function load_dependencies()
+    {
+        /**
+         * The class responsible for CheetahO base class functions
+         */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-cheetaho-base.php';
 
 		/**
 		 * The class responsible for cheetaho helper functions
@@ -175,6 +180,12 @@ class CheetahO {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-cheetaho-retina.php';
 
+        /**
+         * The class responsible for CloudFlare image purge.
+         */
+        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/thirdparties/cloudflare/class-cheetaho-cloudflare.php';
+        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/thirdparties/cloudflare/class-cheetaho-cloudflare-hooks.php';
+
 		$this->loader = new CheetahO_Loader();
 	}
 
@@ -241,6 +252,9 @@ class CheetahO {
 			$this->loader->add_action( 'add_attachment', $cheetaho_optimizer, 'cheetaho_uploader_callback' );
 			$this->loader->add_filter( 'wp_generate_attachment_metadata', $cheetaho_optimizer, 'optimize_thumbnails_filter' );
 		}
+
+        $cloudflare = new CheetahO_Cloudflare_Hooks( $this );
+        $this->loader->add_action( 'cheetaho_attachment_optimized', $cloudflare, 'cheetaho_cloudflare_purge' );
 	}
 
 	/**

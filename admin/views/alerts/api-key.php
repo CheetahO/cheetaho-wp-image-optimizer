@@ -44,5 +44,12 @@ if ( ( isset( $current_screen ) && ( 'settings_page_cheetaho' === $current_scree
 				</div>
 			</div>
 		</div>
+        <div class="cheetaho-columns counter">
+            <div class="col-1-12">
+                <hr />
+                <h4><?php _e( 'Referral program', 'cheetaho-image-optimizer')?></h4>
+                <p><?php printf( __( 'Tell your friends about CheetahO by sharing your <a target="_blank" href="%1$s">referral url</a> and we will add for <b>both 50 images</b> for new user registration and <b>200 images</b> for every referred your friend that signs up for a paid plan. There is no limit to the amount of images you can earn.', 'cheetaho-image-optimizer'), 'https://app.cheetaho.com/admin/referral')?></p>
+            </div>
+        </div>
 	</div>
 </div>

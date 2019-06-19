@@ -42,6 +42,7 @@ Set a max width and height and large images will scale down as they are being co
 > * Images can be automatically resized before being optimized. No need to install additional plugins like Imsanity or Resize Image After Upload
 > * Compress/resize images even your site is not public.
 > * Compatible with WP Retina 2x – all retina images are automatically compressed.
+> * Supports Cloudflare. Purge the image automatically from CloudFlare cache after it is optimized.
 
 > Need more? Have a look at our plans: [https://cheetaho.com/pricing/](https://cheetaho.com/pricing/)
 
@@ -157,7 +158,7 @@ CheetahO - Getting Started
 
 - **I can not optimize image. Got error "Requested file size too large". How fix this?**
 
-    CheetahO lets to optimize image up to 4 MB with free subscription plan. If you would like to optimize bigger files, you will need to take other plans from [here](http://app.cheetaho.com/admin/billing/plans) 
+    CheetahO lets to optimize image up to 4 MB with free subscription plan. If you would like to optimize bigger files, you will need to take other plans from [here](https://app.cheetaho.com/admin/billing/plans) 
 
 ---
 
@@ -188,6 +189,12 @@ CheetahO - Getting Started
 - **Can this plugin resize images?**
 
     If you choose the option to resize your images and set max with and height then the image can be resized to a predefined size while keeping its aspect and proportions intact.
+
+---
+
+- **Will CheetahO work with CloudFlare?**
+
+    Yes! You need to use the CloudFlare plugin or setup credentials in the CheetahO Settings page. If the credentials are correct, the plugin will automatically purge image cache from the CloudFlare when they are optimized.
 
 ---
 
