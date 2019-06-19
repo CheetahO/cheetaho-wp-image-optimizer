@@ -160,7 +160,7 @@ class CheetahO_Optimizer {
 
 		if ( is_wp_error( $image_data_response ) ) {
             remove_filter( 'wp_generate_attachment_metadata', array( &$this, 'optimize_thumbnails_filter'), 999, 2 );
-            
+
             return $image_data;
 		}
 
