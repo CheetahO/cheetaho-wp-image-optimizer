@@ -417,6 +417,8 @@ class CheetahO_Optimizer {
 	 */
 	private function optimize_image( $image_path, $image_id, $wp_image_meta_data = array() )
     {
+        $this->removeWCommerceFilters();
+
 		$first_img_time = get_option( '_cheetaho_first_opt_images' );
 
 		if ( false == $first_img_time ) {
@@ -725,6 +727,7 @@ class CheetahO_Optimizer {
 	 */
 	function optimize_after_wr2x_retina_file_added( $attachment_id, $local_image_path = false, $size_name ) {
 		if ( false !== $local_image_path ) {
+            $this->removeWCommerceFilters();
 			$image_path = wp_get_attachment_image_src( $attachment_id, $size_name ); // get the file URL
 
 			if ( ! empty( $image_path ) && isset( $image_path[0] ) ) {
@@ -732,4 +735,10 @@ class CheetahO_Optimizer {
 			}
 		}
 	}
+
+	function removeWCommerceFilters()
+    {
+        add_filter( 'woocommerce_resize_images', '__return_false' );
+        add_filter( 'woocommerce_background_image_regeneration', '__return_false' );
+    }
 }

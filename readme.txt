@@ -3,7 +3,7 @@ Contributors: cheetaho
 Tags: compressor, image, optimize, image optimizer, compress, performance, lossless, image optimiser, lossy, optimize JPG, compress PNG, compress jpeg, optimize gif
 Requires at least: 4.4
 Tested up to: 5.2
-Stable tag: 1.4.3.5
+Stable tag: 1.4.3.6
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
@@ -157,6 +157,9 @@ Yes! You need to use the CloudFlare plugin or setup credentials in the CheetahO 
 
 
 == Changelog ==
+= 1.4.3.6 =
+* Small improvements in admin interface
+* Fix performance issue when website is using woocommerce plugin
 
 = 1.4.3.5 =
 * Fix meta data on image upload
