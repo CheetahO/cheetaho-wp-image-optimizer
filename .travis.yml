@@ -27,9 +27,11 @@ stages:
 jobs:
   fast_finish: true
   include:
+    - php: 7.4
+      env: WP_VERSION=latest WP_MULTISITE=1
     - php: 7.3
       #env: WP_VERSION=latest WP_MULTISITE=1 WPSNIFF=1
-      env: WP_VERSION=latest WP_MULTISITE=1
+      env: WP_VERSION=latest
     - php: 7.0
       env: WP_VERSION=5.0
     - php: 5.6
