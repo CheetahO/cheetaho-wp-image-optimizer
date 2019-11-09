@@ -2,8 +2,8 @@
 Contributors: cheetaho
 Tags: compressor, image, optimize, image optimizer, compress, performance, lossless, image optimiser, lossy, optimize JPG, compress PNG, compress jpeg, optimize gif
 Requires at least: 4.4
-Tested up to: 5.2
-Stable tag: 1.4.3.6
+Tested up to: 5.2.4
+Stable tag: 1.4.3.7
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
@@ -155,8 +155,15 @@ We are here to help. <a href="https://cheetaho.com/contact-us/">Contact us</a>!
 = Will CheetahO work with CloudFlare? =
 Yes! You need to use the CloudFlare plugin or setup credentials in the CheetahO Settings page. If the credentials are correct, the plugin will automatically purge image cache from the CloudFlare when they are optimized.
 
+= Will CheetahO work with front-end image submission? =
+Yes if theme use native WordPress image upload functions. For example tested WPResidence theme.
+
 
 == Changelog ==
+= 1.4.3.7 =
+* Small fix for original image optimization.
+* Compatibility check with newest WordPress version.
+
 = 1.4.3.6 =
 * Small improvements in admin interface
 * Fix performance issue when website is using woocommerce plugin
