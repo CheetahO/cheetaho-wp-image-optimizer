@@ -198,6 +198,11 @@ CheetahO - Getting Started
 
 ---
 
+- **Will CheetahO work with front-end image submission?**
+Yes if theme use native WordPress image upload functions. For example tested WPResidence theme.
+
+---
+
 ## Have questions or need help?
 We are here to help. <a href="https://cheetaho.com/contact-us/">Contact us</a>! Contact us by email: support (at) cheetaho dot com.
 
