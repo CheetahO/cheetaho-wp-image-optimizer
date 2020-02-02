@@ -5,7 +5,7 @@ Author URI: https://cheetaho.com/
 Contributors: cheetaho
 Tags: performance, optimize image, image compression, optimize jpg, image optimiser, lossy, lossless, compress PNG, compress jpeg, optimize gif
 Requires at least: 4.4
-Tested up to: 5.2.4
+Tested up to: 5.3.2
 Stable tag: 1.4.3.8
 Requires PHP: 5.6
 License: GPLv2 or later
