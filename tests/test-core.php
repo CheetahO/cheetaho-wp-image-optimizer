@@ -82,6 +82,7 @@ class CheetahOCoreTest extends WP_UnitTestCase {
 
 		$cheetaho = new CheetahO_Settings( $this->cheetaho );
 		$result   = $cheetaho->validate_options_data( $input );
+
 		$this->assertEquals( $result['error'][0], 'Your API key is invalid. Check it here https://app.cheetaho.com/api-credentials' );
 
 		$input['api_key'] = $this->apiKey;

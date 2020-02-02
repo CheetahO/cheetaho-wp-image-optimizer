@@ -86,7 +86,7 @@ class CheetahO_API {
 
 		$response_data = json_decode( $response['body'], true );
 
-		if ( null === $response || is_wp_error( $response ) ) {
+		if ( null === $response || is_wp_error( $response ) || $response_code != 200 ) {
 			$response_data = array(
 				'data' => array(
 					'error' => array(
