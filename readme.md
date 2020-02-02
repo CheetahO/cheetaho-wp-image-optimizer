@@ -53,7 +53,7 @@ Set a max width and height and large images will scale down as they are being co
 * All images already present in the media library can be optimized individually, or using the Bulk Action.
 * All optimization is carried out by sending images to CheetahO, and pulling the optimized files to your Wordpress installation.
 * All full size images can be resized/rescaled before optimization by setting maximum width and height.
-* To use this plugin, you must obtain a full API key from CheetahO [panel](https://app.cheetaho.com/admin/api-credentials).
+* To use this plugin, you must obtain a full API key from CheetahO [panel](https://app.cheetaho.com/api-credentials).
 
 Once you have obtained your credentials, from your Wordpress admin, go to the settings page and there you can enter your API credentials, and select your optimization preferences. Once you have done this, click on **Save**. If everything is in order, it will simply say "settings saved" and give you a reassuring green tick that your credentials are valid. You can now start optimizing images from within Media Library. Any image you upload from now on, through any of the media upload screens will be optimized on-the-fly.
 
@@ -108,7 +108,7 @@ CheetahO - Getting Started
 
 - **Where can I get an API key?**
 
-    From cheetago panel, right [here](https://app.cheetaho.com/admin/api-credentials).
+    From cheetago panel, right [here](https://app.cheetaho.com/api-credentials).
     
 ---
 
@@ -158,7 +158,7 @@ CheetahO - Getting Started
 
 - **I can not optimize image. Got error "Requested file size too large". How fix this?**
 
-    CheetahO lets to optimize image up to 4 MB with free subscription plan. If you would like to optimize bigger files, you will need to take other plans from [here](https://app.cheetaho.com/admin/billing/plans) 
+    CheetahO lets to optimize image up to 4 MB with free subscription plan. If you would like to optimize bigger files, you will need to take other plans from [here](https://app.cheetaho.com/billing/plans) 
 
 ---
 

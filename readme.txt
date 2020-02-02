@@ -1,9 +1,12 @@
-=== CheetahO Image Compression and Optimizer ===
+=== WordPress Image Compression and Optimizer Plugin – CheetahO ===
+Plugin Name: WordPress Image Compression and Optimizer Plugin – CheetahO
+Author: cheetaho
+Author URI: https://cheetaho.com/
 Contributors: cheetaho
-Tags: compressor, image, optimize, image optimizer, compress, performance, lossless, image optimiser, lossy, optimize JPG, compress PNG, compress jpeg, optimize gif
+Tags: performance, optimize image, image compression, optimize jpg, image optimiser, lossy, lossless, compress PNG, compress jpeg, optimize gif
 Requires at least: 4.4
 Tested up to: 5.2.4
-Stable tag: 1.4.3.7
+Stable tag: 1.4.3.8
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
@@ -55,7 +58,7 @@ Set a max width and height and large images will scale down as they are being co
 * All images already present in the media library can be optimized individually, or using the Bulk Action.
 * All optimization is carried out by sending images to CheetahO, and pulling the optimized files to your Wordpress installation.
 * All full size images can be resized/rescaled before optimization by setting maximum width and height.
-* To use this plugin, you must obtain a full API key from CheetahO [panel](https://app.cheetaho.com/admin/api-credentials).
+* To use this plugin, you must obtain a full API key from CheetahO [panel](https://app.cheetaho.com/api-credentials).
 
 Once you have obtained your credentials, from your Wordpress admin, go to the settings page and there you can enter your API credentials, and select your optimization preferences. Once you have done this, click on **Save**. If everything is in order, it will simply say "settings saved" and give you a reassuring green tick that your credentials are valid. You can now start optimizing images from within Media Library. Any image you upload from now on, through any of the media upload screens will be optimized on-the-fly.
 
@@ -95,7 +98,7 @@ CheetahO - Getting Started
 
 = Where can I get an API key? =
 
-From cheetago panel, right [here](https://app.cheetaho.com/admin/api-credentials).
+From cheetago panel, right [here](https://app.cheetaho.com/api-credentials).
 
 = Can I test/use Cheetaho image optimization plugin for free?
 
@@ -129,7 +132,7 @@ Yes. All processed files in our servers are stored only for a few hours.
 For now, Cheetaho supports JPEG, GIF, and PNG formats.
 
 = I can not optimize image. Got error "Requested file size too large". How fix this? =
-CheetahO lets to optimize image up to 4 MB with free subscription plan. If you would like to optimize bigger files, you will need to take other plans from [here](https://app.cheetaho.com/admin/billing/plans)
+CheetahO lets to optimize image up to 4 MB with free subscription plan. If you would like to optimize bigger files, you will need to take other plans from [here](https://app.cheetaho.com/billing/plans)
 
 = On how many websites can I use the plugin? =
 You can use the plugin on as many sites as you wish. The only limit is the optimization quota of your account.
@@ -160,6 +163,10 @@ Yes if theme use native WordPress image upload functions. For example tested WPR
 
 
 == Changelog ==
+= 1.4.3.8 =
+* Test compatibility check with newest WordPress version.
+* Update some broken links.
+
 = 1.4.3.7 =
 * Small fix for original image optimization.
 * Compatibility check with newest WordPress version.

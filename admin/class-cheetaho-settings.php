@@ -200,7 +200,7 @@ class CheetahO_Settings extends Cheetaho_Base {
 			$status   = $cheetaho->status();
 
 			if ( isset( $status['error'] ) ) {
-				$error[] = __( 'Your API key is invalid. Check it here', 'cheetaho-image-optimizer' ) . ' https://app.cheetaho.com/admin/api-credentials';
+				$error[] = __( 'Your API key is invalid. Check it here', 'cheetaho-image-optimizer' ) . ' https://app.cheetaho.com/api-credentials';
 			} else {
 				$alert = new CheetahO_Alert($this->cheetaho);
 
