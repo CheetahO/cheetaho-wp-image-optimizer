@@ -15,7 +15,7 @@ This plugin allows you to compress and optimize your WordPress images through th
 
 == Description ==
 
-This plugin allows you to resize/scale images down to your specified size, optimize and compress new and existing Wordpress image uploads through CheetahO Image [optimizer](https://cheetaho.com/) API. You can choose lossless or lossy optimization modes. At this moment supported filetypes are JPEG, PNG, GIF.
+This plugin allows you to resize/scale images down to your specified size, optimize and compress new and existing Wordpress image uploads through CheetahO Image [optimizer](https://cheetaho.com/?utm_source=wordpress-plugin&utm_medium=readme) API. You can choose lossless or lossy optimization modes. At this moment supported filetypes are JPEG, PNG, GIF.
 Smaller image sizes on your website means faster page loads and less bandwidth usage. The faster your site loads, the more Google, Yahoo, Bing and other search engines will like it.
 You can try a **live demo** <a href="http://poopy.life/create?url=/wp-admin/admin.php?page=sandbox" target="_blank">here</a> (via poopy.life).
 
@@ -23,7 +23,7 @@ Set a max width and height and large images will scale down as they are being co
 
 > **Get your FREE account with us**
 
-> Sign up for your FREE CheetahO.com [Account](https://app.cheetaho.com/) and try out CheetahO image optimization tool. We suggest:
+> Sign up for your FREE CheetahO.com [Account](https://app.cheetaho.com/?utm_source=wordpress-plugin&utm_medium=readme) and try out CheetahO image optimization tool. We suggest:
 
 > * Free 500 images every month (can buy more)
 > * Max file size 4 MiB (with paid plan get more)
@@ -49,7 +49,7 @@ Set a max width and height and large images will scale down as they are being co
 > * Supports Cloudflare. Purge the image automatically from CloudFlare cache after it is optimized.
 
 
-> Need more? Have a look at our plans: https://cheetaho.com/pricing/
+> Need more? Have a look at our plans: [https://cheetaho.com/pricing/](https://cheetaho.com/pricing/?utm_source=wordpress-plugin&utm_medium=readme)
 
 
 = About the plugin =
@@ -58,7 +58,7 @@ Set a max width and height and large images will scale down as they are being co
 * All images already present in the media library can be optimized individually, or using the Bulk Action.
 * All optimization is carried out by sending images to CheetahO, and pulling the optimized files to your Wordpress installation.
 * All full size images can be resized/rescaled before optimization by setting maximum width and height.
-* To use this plugin, you must obtain a full API key from CheetahO [panel](https://app.cheetaho.com/api-credentials).
+* To use this plugin, you must obtain a full API key from CheetahO [panel](https://app.cheetaho.com/api-credentials?utm_source=wordpress-plugin&utm_medium=readme).
 
 Once you have obtained your credentials, from your Wordpress admin, go to the settings page and there you can enter your API credentials, and select your optimization preferences. Once you have done this, click on **Save**. If everything is in order, it will simply say "settings saved" and give you a reassuring green tick that your credentials are valid. You can now start optimizing images from within Media Library. Any image you upload from now on, through any of the media upload screens will be optimized on-the-fly.
 
@@ -70,7 +70,7 @@ Once you have obtained your credentials, from your Wordpress admin, go to the se
 Please send bug reports, problems, feature requests and so on to support (at) cheetaho dot com, or directly to the author of this plugin.
 
 = Connect with CheetahO.com =
-* Website: https://cheetaho.com/contact-us/
+* Website: [https://cheetaho.com/](https://cheetaho.com/contact-us/?utm_source=wordpress-plugin&utm_medium=readme)
 * [Twitter](https://twitter.com/cheetahocom "@cheetahocom")
 
 
@@ -98,7 +98,7 @@ CheetahO - Getting Started
 
 = Where can I get an API key? =
 
-From cheetago panel, right [here](https://app.cheetaho.com/api-credentials).
+From cheetago panel, right [here](https://app.cheetaho.com/api-credentials/?utm_source=wordpress-plugin&utm_medium=readme).
 
 = Can I test/use Cheetaho image optimization plugin for free?
 
@@ -132,7 +132,7 @@ Yes. All processed files in our servers are stored only for a few hours.
 For now, Cheetaho supports JPEG, GIF, and PNG formats.
 
 = I can not optimize image. Got error "Requested file size too large". How fix this? =
-CheetahO lets to optimize image up to 4 MB with free subscription plan. If you would like to optimize bigger files, you will need to take other plans from [here](https://app.cheetaho.com/billing/plans)
+CheetahO lets to optimize image up to 4 MB with free subscription plan. If you would like to optimize bigger files, you will need to take other plans from [here](https://app.cheetaho.com/billing/plans?utm_source=wordpress-plugin&utm_medium=readme)
 
 = On how many websites can I use the plugin? =
 You can use the plugin on as many sites as you wish. The only limit is the optimization quota of your account.
@@ -141,7 +141,7 @@ You can use the plugin on as many sites as you wish. The only limit is the optim
 You can resize/scale images by setting maximum width and height in Cheetaho settings page. CheetahO will resize only original (full size) images to a predefined size while keeping its aspect and proportions intact. The thumbnails will not be touched.
 
 = Do you have an API? =
-Yes, we have API. More information you can find here: https://cheetaho.com/api-documentation/
+Yes, we have API. More information you can find here: [https://cheetaho.com/api-documentation/](https://cheetaho.com/api-documentation/?utm_source=wordpress-plugin&utm_medium=readme)
 
 = My site is DEV mode on localhost. Can I use plugin on a localhost installation? =
 You can not use plugin on a localhost. Your site is not public and our servers can not download images to optimize.
@@ -153,7 +153,7 @@ If you choose the option to resize your images and set max with and height then 
 Yes, all the images are optimized in our Cloud. This takes the load off of your server and allows us to produce the best results.
 
 = Have questions or need help? =
-We are here to help. <a href="https://cheetaho.com/contact-us/">Contact us</a>!
+We are here to help. <a href="https://cheetaho.com/contact-us/?utm_source=wordpress-plugin&utm_medium=readme">Contact us</a>!
 
 = Will CheetahO work with CloudFlare? =
 Yes! You need to use the CloudFlare plugin or setup credentials in the CheetahO Settings page. If the credentials are correct, the plugin will automatically purge image cache from the CloudFlare when they are optimized.

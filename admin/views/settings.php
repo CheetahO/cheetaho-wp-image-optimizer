@@ -57,7 +57,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							<td>
 								<input name="_cheetaho_options[api_key]" type="text" value="<?php echo esc_attr( $api_key ); ?>" size="60" /> <br/>
 								<?php _e( 'Do not have an API Key yet?', 'cheetaho-image-optimizer' ); ?>
-								<a href="https://app.cheetaho.com/" target="_blank" title="<?php _e( 'Log in to your Cheetaho account', 'cheetaho-image-optimizer' ); ?>">
+								<a href="https://app.cheetaho.com/?utm_source=wordpress-plugin&utm_medium=settings-page" target="_blank" title="<?php _e( 'Log in to your Cheetaho account', 'cheetaho-image-optimizer' ); ?>">
 									<?php _e( 'Create one, it is FREE', 'cheetaho-image-optimizer' ); ?>
 								</a>
 							</td>
@@ -111,7 +111,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							<?php _e( 'Keep EXIF metadata:', 'cheetaho-image-optimizer' ); ?>
 							<br/>
 							<small>
-								<a target="_blank" href="https://cheetaho.com/?p=378">
+								<a target="_blank" href="https://cheetaho.com/?p=378&utm_source=wordpress-plugin&utm_medium=settings-page">
 									<?php _e( 'What is EXIF metadata?', 'cheetaho-image-optimizer' ); ?>
 								</a>
 							</small>
@@ -128,7 +128,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							<input type="checkbox" id="optimize_retina" name="_cheetaho_options[optimize_retina]" value="1" <?php checked( 1, $optimize_retina, true ); ?> />
 							<small>
 								<?php _e( 'If you have a Retina plugin that generates Retina-specific images (@2x), CheetahO plugin will try to find retina images and optimize them. Also if backup option is enabled, retina image backup will be done before optimization', 'cheetaho-image-optimizer' ); ?>
-								<a target="_blank" href="https://cheetaho.com/?p=1116">
+								<a target="_blank" href="https://cheetaho.com/?p=1116&utm_source=wordpress-plugin&utm_medium=settings-page">
 									<?php _e( 'Read more', 'cheetaho-image-optimizer' ); ?>
 								</a>
 							</small>
