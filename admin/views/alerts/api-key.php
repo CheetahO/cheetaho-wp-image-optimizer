@@ -25,7 +25,7 @@ if ( ( isset( $current_screen ) && ( 'settings_page_cheetaho' === $current_scree
 				<div class="cheetaho-col-content">
 					<p class="cheetaho-col-title"><?php _e( 'Create CheetahO Account', 'cheetaho-image-optimizer' ); ?></p>
 					<p class="cheetaho-col-desc"><?php _e( 'Don\'t have an CheetahO account? Create account in few seconds and optimize your images!', 'cheetaho-image-optimizer' ); ?></p>
-					<p><a target="_blank" href="<?php echo CHEETAHO_APP_URL; ?>register" class="button button-primary"><?php _e( 'Sign up, It\'s FREE!', 'cheetaho-image-optimizer' ); ?></a></p>
+					<p><a target="_blank" href="<?php echo CHEETAHO_APP_URL; ?>register/?utm_source=wordpress-plugin&utm_medium=alert-message" class="button button-primary"><?php _e( 'Sign up, It\'s FREE!', 'cheetaho-image-optimizer' ); ?></a></p>
 				</div>
 			</div>
 			<div class="col-1-3">
@@ -33,7 +33,7 @@ if ( ( isset( $current_screen ) && ( 'settings_page_cheetaho' === $current_scree
 					<p class="cheetaho-col-title"><?php _e( 'Get API Key', 'cheetaho-image-optimizer' ); ?></p>
 					<p class="cheetaho-col-desc"><?php printf( __( 'Go to CheetahO API key page. Copy key and come back here.', 'cheetaho-image-optimizer' ) ); ?></p>
 					<p>
-						<a href="<?php echo CHEETAHO_APP_URL; ?>api-credentials" class="button button-primary"><?php _e( 'Get API key', 'cheetaho-image-optimizer' ); ?></a></p>
+						<a href="<?php echo CHEETAHO_APP_URL; ?>api-credentials/?utm_source=wordpress-plugin&utm_medium=alert-message" class="button button-primary"><?php _e( 'Get API key', 'cheetaho-image-optimizer' ); ?></a></p>
 				</div>
 			</div>
 			<div class="col-1-3">
@@ -48,7 +48,7 @@ if ( ( isset( $current_screen ) && ( 'settings_page_cheetaho' === $current_scree
             <div class="col-1-12">
                 <hr />
                 <h4><?php _e( 'Referral program', 'cheetaho-image-optimizer')?></h4>
-                <p><?php printf( __( 'Tell your friends about CheetahO by sharing your <a target="_blank" href="%1$s">referral url</a> and we will add for <b>both 50 images</b> for new user registration and <b>200 images</b> for every referred your friend that signs up for a paid plan. There is no limit to the amount of images you can earn.', 'cheetaho-image-optimizer'), 'https://app.cheetaho.com/referral')?></p>
+                <p><?php printf( __( 'Tell your friends about CheetahO by sharing your <a target="_blank" href="%1$s">referral url</a> and we will add for <b>both 50 images</b> for new user registration and <b>200 images</b> for every referred your friend that signs up for a paid plan. There is no limit to the amount of images you can earn.', 'cheetaho-image-optimizer'), 'https://app.cheetaho.com/referral?utm_source=wordpress-plugin&utm_medium=alert-message')?></p>
             </div>
         </div>
 	</div>
