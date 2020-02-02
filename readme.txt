@@ -45,7 +45,7 @@ Set a max width and height and large images will scale down as they are being co
 > * Able to compress WOOCOMMERCE products images.
 > * Images can be automatically resized before being optimized. No need to install additional plugins like Imsanity or Resize Image After Upload
 > * Compress/resize images even your site is not public.
-> * Compatible with WP Retina 2x â€“ all retina images are automatically compressed.
+> * Compatible with WP Retina 2x. All retina images are automatically compressed.
 > * Supports Cloudflare. Purge the image automatically from CloudFlare cache after it is optimized.
 
 
