@@ -45,7 +45,7 @@ jQuery(document).ready(function($) {
                         "reason": jQuery('.cheetaho-reason:checked').val(),
                         "msg": jQuery('#cheetaho-deactivate-details').val(),
                     }
-                }).done(function (response) {
+                }).done(function () {
                      window.location.href = url
                 });
             } else {
