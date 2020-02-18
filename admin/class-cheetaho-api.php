@@ -112,4 +112,15 @@ class CheetahO_API {
 
 		return $response;
 	}
+
+	public function send_feedback($params)
+    {
+        $data = array(
+            'reason' => $params['reason'],
+            'message' => $params['message'],
+            'server_name' => $_SERVER['SERVER_NAME']
+        );
+
+        self::request( $data, 'http://api.cheetaho.com/api/v2/feedback', 'post' );
+    }
 }

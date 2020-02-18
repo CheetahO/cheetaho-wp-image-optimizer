@@ -58,17 +58,14 @@ jQuery(document).ready(function($) {
 
             var $error = $(errorTpl).attr("title", data.error.message);
             $error
-            .find("span").html( data.error.message)
-            ;
+            .find("span").html( data.error.message);
             
             $parent
                 .closest("td")
                 .find(".cheetahoErrorWrap")
                 .remove();
- 
-
+            
             $parent.after($error);
-           
 
             $button
                 .text("Retry request")
@@ -218,7 +215,7 @@ jQuery(document).ready(function($) {
 	        }).done(function(data) {
 	            if (data.success == true) {
 	                $resetButton
-	                    .closest('.cheetaho.column-cheetaho')
+	                    .closest('.buttonWrap')
 	                    .hide()
 	                    .html(data.html).fadeIn();
 	            }
