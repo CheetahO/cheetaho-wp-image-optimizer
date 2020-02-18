@@ -320,7 +320,12 @@ class CheetahO_Optimizer {
             }
 
 			if ( ( isset( $image_data['width'] ) && isset( $image_data['height'] ) && (int) $image_data['width'] > 0 && (int) $image_data['height'] > 0 && $image_data['width'] > $cheetaho_data['imageWidth'] && $image_data['height'] > $cheetaho_data['imageHeight'] ) || ( ! isset( $image_data['width'] ) && ! isset( $image_data['height'] ) ) ) {
-			    $image_data['width']  = $cheetaho_data['imageWidth'];
+
+			    if (!isset($image_data['width']) && !isset($image_data['height'])) {
+                    $image_data = array();
+                }
+
+                $image_data['width']  = $cheetaho_data['imageWidth'];
 				$image_data['height'] = $cheetaho_data['imageHeight'];
 				wp_update_attachment_metadata( $image_id, $image_data );
 			}
@@ -488,7 +493,10 @@ class CheetahO_Optimizer {
 		if ( isset( $settings['optimize_retina'] ) && 1 == $settings['optimize_retina'] && file_exists( $local_image_path ) == true ) {
 			unset( $settings['resize'] );
 			$settings['create_webp'] = 0;
-			$image_path              = CheetahO_Retina::get_retina_name( $image_path );
+
+            if ( CheetahO_Retina::is_retina_img( $image_path ) === false ) {
+                $image_path              = CheetahO_Retina::get_retina_name( $image_path );
+            }
 
 			$data = $this->optimize( $image_path, $image_id, $settings, $image_size_name );
 

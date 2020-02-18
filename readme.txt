@@ -3,10 +3,10 @@ Plugin Name: WordPress Image Compression and Optimizer Plugin – CheetahO
 Author: cheetaho
 Author URI: https://cheetaho.com/
 Contributors: cheetaho
-Tags: performance, optimize image, image compression, optimize jpg, image optimiser, lossy, lossless, compress PNG, compress jpeg, optimize gif
+Tags: image compression, performance, optimize, optimize jpg, lossy, image optimiser, lossless, compress PNG, compress jpeg, optimize gif
 Requires at least: 4.4
 Tested up to: 5.3.2
-Stable tag: 1.4.3.8
+Stable tag: 1.4.4
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
@@ -92,7 +92,9 @@ CheetahO - Getting Started
 1. Cheetaho.com wordpress plugin settings page. You must enter your credentials, and select your optimization mode from there. `/assets/screenshot-1.png`
 2. Media library with optimization button.  `/assets/screenshot-2.png`
 3. Bulk image optimization page.  `/assets/screenshot-3.png`
-3. Bulk image optimization in media library.  `/assets/screenshot-4.png`
+4. Bulk image optimization in media library.  `/assets/screenshot-4.png`
+5. Image optimization directly in image edit page.  `/assets/screenshot-5.png`
+
 
 == Frequently Asked Questions ==
 
@@ -163,6 +165,11 @@ Yes if theme use native WordPress image upload functions. For example tested WPR
 
 
 == Changelog ==
+= 1.4.4 =
+* Fix image width and height php warning in image upload step.
+* Implement image optimization in images edit page.
+* Implement user feedback form for better understanding of what users expecting.
+
 = 1.4.3.8 =
 * Test compatibility check with newest WordPress version.
 * Update some broken links.

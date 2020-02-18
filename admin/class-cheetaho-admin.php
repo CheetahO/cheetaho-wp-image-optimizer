@@ -145,7 +145,13 @@ class CheetahO_Admin {
 	 */
 	public function enqueue_scripts( $hook ) {
 		// For option page
-		if ( 'options-media.php' == $hook || 'upload.php' == $hook || 'settings_page_cheetaho' == $hook ) {
+        $showScripts = false;
+
+        if ('post.php' == $hook && get_post_type() === 'attachment'){
+            $showScripts = true;
+        }
+
+		if ( 'options-media.php' == $hook || 'upload.php' == $hook || 'settings_page_cheetaho' == $hook || $showScripts === true) {
 			wp_enqueue_script( CHEETAHO_PLUGIN_NAME . '-async', plugin_dir_url( __FILE__ ) . 'assets/js/async.js', array( 'jquery' ), $this->version, false );
 			wp_enqueue_script( CHEETAHO_PLUGIN_NAME . '-cheetaho', plugin_dir_url( __FILE__ ) . 'assets/js/cheetaho.js', array( 'jquery' ), $this->version, false );
 
@@ -264,4 +270,29 @@ class CheetahO_Admin {
 			}
 		}
 	}
+
+
+    /** Meta box for cheetaho in view image
+     * @hook add_meta_boxes
+     */
+    function cheetaho_info_box()
+    {
+        if(get_post_type( ) == 'attachment') {
+            add_meta_box(
+                'cheetaho_info_box',          // this is HTML id of the box on edit screen
+                __('CheetahO Info', 'cheetaho-image-optimizer'),    // title of the box
+                array( &$this, 'cheetaho_info_box_content'),   // function to be called to display the info
+                null, // on which edit screen the box should appear
+                'side'//'normal',      // part of page where the box should appear
+            );
+        }
+    }
+
+    /**
+     * Meta box for view image
+     */
+    function cheetaho_info_box_content($post)
+    {
+        $this->fill_media_columns( 'cheetaho', $post->ID, true );
+    }
 }

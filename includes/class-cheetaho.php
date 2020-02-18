@@ -181,6 +181,11 @@ class CheetahO {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-cheetaho-retina.php';
 
         /**
+         * Plugin feedback form on deactivate process
+         */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-cheetaho-feedback.php';
+
+        /**
          * The class responsible for CloudFlare image purge.
          */
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/thirdparties/cloudflare/class-cheetaho-cloudflare.php';
@@ -231,8 +236,10 @@ class CheetahO {
 		$this->loader->add_action( 'wp_ajax_cheetaho_reset', $plugin_admin, 'media_library_reset' );
 		$this->loader->add_action( 'wp_ajax_cheetaho_reset_all', $plugin_admin, 'cheetaho_media_library_reset_batch' );
 		$this->loader->add_action( 'delete_attachment', $plugin_admin, 'delete_attachment_img' );
+        //Edit media meta box
+        $this->loader->add_action( 'add_meta_boxes', $plugin_admin, 'cheetaho_info_box'); // the info box in edit-media
 
-		$plugin_admin_settings = new CheetahO_Settings( $this );
+        $plugin_admin_settings = new CheetahO_Settings( $this );
 		$this->loader->add_filter( 'plugin_action_links_' . plugin_basename( CHEETAHO_PLUGIN_FILE ), $plugin_admin_settings, 'plugin_action_links' );
 		$this->loader->add_action( 'admin_menu', $plugin_admin_settings, 'register_settings_page' );
 
@@ -256,6 +263,11 @@ class CheetahO {
         $cloudflare = new CheetahO_Cloudflare_Hooks( $this );
         $this->loader->add_action( 'cheetaho_attachment_optimized', $cloudflare, 'cheetaho_cloudflare_purge' );
         $this->loader->add_action( 'cheetaho_attachment_reset', $cloudflare, 'cheetaho_cloudflare_purge' );
+
+        $plugin_admin_feedback = new CheetahO_Feedback( $this );
+        $this->loader->add_action( 'plugin_action_links_' . plugin_basename( CHEETAHO_PLUGIN_FILE ), $plugin_admin_feedback, 'filter_action_links' );
+        $this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin_feedback, 'enqueue_feedback_scripts' );
+        $this->loader->add_action( 'wp_ajax_cheetaho_uninstall', $plugin_admin_feedback, 'send_feedback_ajax' );
 
     }
 
