@@ -67,8 +67,7 @@ before_script:
     fi
   - which phpunit
   - whereis phpunit
-  - phpunit --version
 
 script:
   - if [[ "$WPSNIFF" == "1" ]]; then phpcs --standard=phpcs.ruleset.xml --extensions=php .; fi
-  - phpunit
+  - ./vendor/bin/phpunit
