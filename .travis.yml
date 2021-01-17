@@ -33,7 +33,6 @@ stages:
 jobs:
   fast_finish: true
   include:
-    - php: 8.0
       env: WP_VERSION=latest
     - php: 7.4
       env: WP_VERSION=latest WP_MULTISITE=1
@@ -63,7 +62,7 @@ before_script:
     if [[ ${TRAVIS_PHP_VERSION:0:2} == "5." ]]; then
       composer global require phpunit/phpunit ^5
     else
-      composer global require phpunit/phpunit ^7
+      composer global require phpunit/phpunit:"7.5.*" --ignore-platform-reqs
     fi
   - |
     if [[ "$WPSNIFF" == "1" ]] ; then
@@ -73,6 +72,7 @@ before_script:
   - which phpunit
   - whereis phpunit
   - phpunit --version
+  - ${TRAVIS_PHP_VERSION:0:2}
 
 script:
   - if [[ "$WPSNIFF" == "1" ]]; then phpcs --standard=phpcs.ruleset.xml --extensions=php .; fi
