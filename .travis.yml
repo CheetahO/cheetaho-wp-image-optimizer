@@ -31,7 +31,6 @@ env:
 jobs:
   fast_finish: true
   include:
-      env: WP_VERSION=latest
     - php: 7.4
       env: WP_VERSION=latest WP_MULTISITE=1
     - php: 7.3
