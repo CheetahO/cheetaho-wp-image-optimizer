@@ -82,4 +82,4 @@ before_script:
 
 script:
   - if [[ "$WPSNIFF" == "1" ]]; then phpcs --standard=phpcs.ruleset.xml --extensions=php .; fi
-  - vendor/bin/phpunit
+  - phpunit
