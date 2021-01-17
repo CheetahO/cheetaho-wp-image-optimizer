@@ -68,7 +68,6 @@ before_script:
   - which phpunit
   - whereis phpunit
   - phpunit --version
-  - ${TRAVIS_PHP_VERSION:0:2}
 
 script:
   - if [[ "$WPSNIFF" == "1" ]]; then phpcs --standard=phpcs.ruleset.xml --extensions=php .; fi
