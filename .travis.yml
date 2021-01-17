@@ -42,7 +42,7 @@ jobs:
     - php: 5.6
       env: WP_VERSION=4.4
     - stage: 🚀 deployment
-      name: "Deploy to WordPress"
+      name: "Deploy to the WordPress"
       php: 7.4
       env: WP_VERSION=latest
       deploy:
