@@ -351,7 +351,9 @@ class CheetahO_Folder
         $timestamp = gmdate('Y-m-d H:i:s');
 
         // Temporary increase the limit.
-        wp_raise_memory_limit('image');
+        if (function_exists('wp_raise_memory_limit')) {
+            wp_raise_memory_limit('image');
+        }
 
         if (!is_array($paths)) {
             $paths = array($paths);
