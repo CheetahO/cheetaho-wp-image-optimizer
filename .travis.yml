@@ -66,12 +66,8 @@ before_script:
       bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION false $CHEETAHO_API_KEY
     fi
   - |
-    echo [[ $(phpenv version-name) == "5." ]]
-  - |
     if [[ $(phpenv version-name) == "7." ]]; then
       composer global require "phpunit/phpunit^5"
-    elseif [[ $(phpenv version-name) == "8." ]]; then
-      composer global require "phpunit/phpunit^8"
     else
       composer global require "phpunit/phpunit:^7"
     fi
