@@ -25,6 +25,8 @@ stages:
   - name: test
   - name: 🚀 deployment
     if: branch = "master"
+env:
+  - WP_VERSION=latest WP_MULTISITE=0
 
 jobs:
   fast_finish: true
