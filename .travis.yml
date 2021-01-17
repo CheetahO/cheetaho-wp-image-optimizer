@@ -24,10 +24,17 @@ stages:
   - name: 🚀 deployment
     if: branch = "master"
 
+php:
+  - 8.0.0
+  - 7.4
+  - 7.3
+  - 7.0
+  - 5.6
+
 jobs:
   fast_finish: true
   include:
-    - php: 8.0.0
+    - php: 8.0
       env: WP_VERSION=latest
     - php: 7.4
       env: WP_VERSION=latest WP_MULTISITE=1
@@ -40,14 +47,14 @@ jobs:
       env: WP_VERSION=4.4
     - stage: 🚀 deployment
       name: "Deploy to WordPress"
-      php: 7.3
+      php: 7.4
       env: WP_VERSION=latest
       deploy:
         provider: script
         skip_cleanup: true
         script: bash ./bin/deploy.sh
         on:
-          php: 7.3
+          php: 7.4
           branch: master
 
 before_script:
