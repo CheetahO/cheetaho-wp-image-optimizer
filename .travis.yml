@@ -70,15 +70,17 @@ before_script:
     echo ${TRAVIS_PHP_VERSION:0:2}
   - |
     if [[ ${TRAVIS_PHP_VERSION:0:2} == "5." ]]; then
-      composer global require phpunit/phpunit ^4
+      composer global require "phpunit/phpunit:^4"
     else
-      composer global require phpunit/phpunit ^7
+      composer global require "phpunit/phpunit:^7"
     fi
   - |
     if [[ "$WPSNIFF" == "1" ]] ; then
       composer global require wp-coding-standards/wpcs dealerdirect/phpcodesniffer-composer-installer
       phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs
     fi
+  - |
+    phpunit --version
 
 script:
   - if [[ "$WPSNIFF" == "1" ]]; then phpcs --standard=phpcs.ruleset.xml --extensions=php .; fi
