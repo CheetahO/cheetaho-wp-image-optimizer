@@ -15,6 +15,9 @@ branches:
     - master
     - dev
 
+services:
+  - mysql
+
 cache:
   directories:
     - $HOME/.composer/cache
