@@ -38,7 +38,7 @@ class CheetahO_Stats {
 	 *
 	 * @since      1.4.3
 	 */
-	public static function get_not_optimized_images( )
+	public static function get_not_optimized_images($settings)
 	{
 		global $wpdb;
 
@@ -57,9 +57,9 @@ class CheetahO_Stats {
 				ON $wpdb->posts.ID = wp_postmeta.post_id
 					AND wp_postmeta.meta_key = '_wp_attached_file'
 			LEFT JOIN {$wpdb->prefix}cheetaho_image_metadata AS cheetaho_meta
-				ON $wpdb->posts.ID = cheetaho_meta.attachment_id 
-			LEFT JOIN $wpdb->postmeta as cheetaho_meta_old 
-				ON $wpdb->posts.ID = cheetaho_meta_old.post_id AND cheetaho_meta_old.meta_key = '_cheetaho_size'			
+				ON $wpdb->posts.ID = cheetaho_meta.attachment_id
+			LEFT JOIN $wpdb->postmeta as cheetaho_meta_old
+				ON $wpdb->posts.ID = cheetaho_meta_old.post_id AND cheetaho_meta_old.meta_key = '_cheetaho_size'
 			WHERE $wpdb->posts.post_type = 'attachment'
 				AND (
 					$wpdb->posts.post_mime_type = 'image/jpeg' OR
@@ -68,7 +68,7 @@ class CheetahO_Stats {
 				)
 				AND wp_postmeta.meta_key = '_wp_attached_file'
 				AND (cheetaho_meta_old.meta_key is null AND ( cheetaho_meta.attachment_id is null OR (cheetaho_meta.status != 'success' AND cheetaho_meta.status != 'nosavings')) )
-				
+
 			GROUP BY unique_attachment_name
 			ORDER BY ID DESC",
 			ARRAY_A
@@ -77,7 +77,9 @@ class CheetahO_Stats {
 		$items = array();
 
 		foreach($result as $item) {
-			$items[] = array('ID' => $item['ID'], 'title' => $item['post_title'], 'thumbnail' => $item['guid']);
+            if ( CheetahO_Helpers::is_excluded_file( $item['guid'], CheetahO_Helpers::convert_exclude_file_patterns_to_array($settings) ) === false ) {
+                $items[] = array('ID' => $item['ID'], 'title' => $item['post_title'], 'thumbnail' => $item['guid']);
+            }
 		}
 
 		return array('images_ids_to_optimize' => $items);

@@ -11,6 +11,15 @@
  */
 class CheetahO_Loader {
 
+    /**
+     * The array of loaded constructs.
+     *
+     * @since    1.4.5
+     * @access   protected
+     * @var      array    $modules
+     */
+    public $modules;
+
 	/**
 	 * The array of actions registered with WordPress.
 	 *
@@ -97,4 +106,14 @@ class CheetahO_Loader {
 		}
 	}
 
+    public function add_modules( $modules = array() ) {
+
+        $this->modules = new StdClass();
+
+	    foreach ($modules as $key => $module) {
+            $this->modules->{$key} = $module;
+        }
+
+        return $this->modules;
+    }
 }

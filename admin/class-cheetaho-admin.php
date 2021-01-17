@@ -151,7 +151,7 @@ class CheetahO_Admin {
             $showScripts = true;
         }
 
-		if ( 'options-media.php' == $hook || 'upload.php' == $hook || 'settings_page_cheetaho' == $hook || $showScripts === true) {
+        if ( 'options-media.php' == $hook || 'upload.php' == $hook || 'settings_page_cheetaho' == $hook || $showScripts === true) {
 			wp_enqueue_script( CHEETAHO_PLUGIN_NAME . '-async', plugin_dir_url( __FILE__ ) . 'assets/js/async.js', array( 'jquery' ), $this->version, false );
 			wp_enqueue_script( CHEETAHO_PLUGIN_NAME . '-cheetaho', plugin_dir_url( __FILE__ ) . 'assets/js/cheetaho.js', array( 'jquery' ), $this->version, false );
 
@@ -242,9 +242,15 @@ class CheetahO_Admin {
 	}
 
 	function show_optimize_button( $type, $id, $filename, $image_url, $meta = array() ) {
-		include CHEETAHO_PLUGIN_ROOT . 'admin/views/parts/optimize-button.php';
 
-		return $html;
+        if ( CheetahO_Helpers::is_excluded_file($image_url, CheetahO_Helpers::convert_exclude_file_patterns_to_array($this->cheetaho_settings) ) === false ) {
+
+            include CHEETAHO_PLUGIN_ROOT . 'admin/views/parts/optimize-button.php';
+
+            return $html;
+        }
+
+        return __( 'Image can not be optimized', 'cheetaho-image-optimizer' );
 	}
 
 	/**

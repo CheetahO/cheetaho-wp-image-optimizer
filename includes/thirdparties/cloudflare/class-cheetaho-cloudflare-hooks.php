@@ -17,7 +17,7 @@ if (!defined('ABSPATH')) {
 class CheetahO_Cloudflare_Hooks extends Cheetaho_Base
 {
     /**
-     * Purge clouflare files cache
+     * Purge Cloudflare files cache
      * @param $image_id
      * @since    1.4.3
      */
@@ -34,6 +34,30 @@ class CheetahO_Cloudflare_Hooks extends Cheetaho_Base
                 foreach ($images as $image) {
                     array_push($urls_to_purge, get_site_url() . '/' . $image->path);
                 }
+
+                if (!empty($urls_to_purge)) {
+                    $cloudflare->purge_files($urls_to_purge);
+                }
+            }
+        }
+    }
+
+    /**
+     * Purge Cloudflare files cache
+     * @since    1.5
+     * @param $meta_id
+     */
+    public function cheetaho_cloudflare_purge_custom_file($meta_id)
+    {
+        $cloudflare = new CheetahO_Cloudflare($this->cheetaho);
+
+        if ($cloudflare->valid_credentials()) {
+            $urls_to_purge = array();
+
+            $image = (new CheetahO_Image_Metadata(new CheetahO_DB()))->get_image_meta_by_meta_id($meta_id);
+
+            if ($image !== null) {
+                array_push($urls_to_purge, get_site_url() . '/' . $image->path);
 
                 if (!empty($urls_to_purge)) {
                     $cloudflare->purge_files($urls_to_purge);

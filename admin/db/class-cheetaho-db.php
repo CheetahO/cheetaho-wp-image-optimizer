@@ -48,10 +48,16 @@ class CheetahO_DB {
 
 					$spMetaDao = new CheetahO_Image_Metadata( new self( $prefix ) );
 					$spMetaDao->create_or_update_tables();
+
+                    $spMetaDao = new CheetahO_Folders( new self( $prefix ) );
+                    $spMetaDao->create_or_update_tables();
 				}
 
 			} else {
 				$spMetaDao = new CheetahO_Image_Metadata( new self() );
+				$spMetaDao->create_or_update_tables();
+
+				$spMetaDao = new CheetahO_Folders( new self() );
 				$spMetaDao->create_or_update_tables();
 			}
 
@@ -109,7 +115,7 @@ class CheetahO_DB {
 		global $wpdb;
 
 		$updated = $wpdb->update( $table, $params, $where, $format, $where_format );
-
+     
 		return $updated;
 
 	}

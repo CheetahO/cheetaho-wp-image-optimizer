@@ -19,8 +19,8 @@ class CheetahOCoreTest extends WP_UnitTestCase {
 
 	public function setUp() {
 		parent::setUp();
-
-		(new CheetahO_Image_Metadata( new CheetahO_DB() ))->create_or_update_tables();
+        (new CheetahO_Image_Metadata( new CheetahO_DB() ))->create_or_update_tables();
+        (new CheetahO_Folders( new CheetahO_DB() ))->create_or_update_tables();
 
 		$this->apiKey = CHEETAHO_API_KEY;
 
@@ -97,8 +97,9 @@ class CheetahOCoreTest extends WP_UnitTestCase {
 	 */
 	function test_empty_backup() {
 		$attachment      = self::upload_test_files( $this->jpgFile );
-		$image_path      = wp_get_attachment_url( $attachment['attacment_id'] );
-		$cheetaho_backup = new CheetahO_Backup( $this->cheetaho );
+        $image_path      = get_attached_file( $attachment['attacment_id'] );
+
+        $cheetaho_backup = new CheetahO_Backup( $this->cheetaho );
 
 		$cheetaho_backup->make_backup( $image_path, $attachment['attacment_id'], $this->cheetaho_settings );
 
@@ -119,8 +120,8 @@ class CheetahOCoreTest extends WP_UnitTestCase {
 	 */
 	function test_delete_attachment_in_backup() {
 		$attachment      = self::upload_test_files( $this->jpgFile );
-		$image_path      = wp_get_attachment_url( $attachment['attacment_id'] );
-		$cheetaho_backup = new CheetahO_Backup( $this->cheetaho );
+        $image_path      = get_attached_file( $attachment['attacment_id'] );
+        $cheetaho_backup = new CheetahO_Backup( $this->cheetaho );
 
 		$cheetaho_backup->make_backup( $image_path, $attachment['attacment_id'], $this->cheetaho_settings );
 
@@ -155,6 +156,73 @@ class CheetahOCoreTest extends WP_UnitTestCase {
 		$sizes          = $cheetaho->get_sizes_to_optimize();
 		$this->assertFalse( empty( $sizes ) );
 	}
+
+    function test_exclude_optimize_images() {
+        $input = $this->cheetaho_settings;
+        $input['exclude_file_by_patterns'] = 'path:/\/wp-content\//';
+
+        $cheetaho = new CheetahO_Settings( $this->cheetaho );
+        $result   = $cheetaho->validate_options_data( $input );
+        update_option( '_cheetaho_options', $result['valid'] );
+
+        $this->cheetaho = new CheetahO();
+        $attachment     = self::upload_test_files( getenv( 'TEST_JPG_IMAGE_REMOTE_PATH' ) );
+        $original_image_path = get_attached_file( $attachment['attacment_id'] );
+
+        $identifier = (new CheetahO_Image_Metadata( new CheetahO_DB() ))->get_identifier( $attachment['attacment_id'], array('path' => $original_image_path, 'image_size_name' => 'full') );
+        $image_meta = (new CheetahO_Image_Metadata( new CheetahO_DB() ))->get_item($attachment['attacment_id'], $identifier);
+
+        $this->assertTrue( empty( $image_meta ) );
+
+        // fake retina image
+        $image_path          = wp_get_attachment_url( $attachment['attacment_id'] );
+        $file                = dirname( $original_image_path ) . '/' . basename( $image_path );
+
+        $retinaImageUrl = CheetahO_Retina::get_retina_name( $file );
+        copy( $file, $retinaImageUrl );
+
+        $this->assertTrue( file_exists( $retinaImageUrl ) );
+        $this->assertTrue( CheetahO_Retina::is_retina_img( $retinaImageUrl ) );
+        $this->assertEquals( filesize( $retinaImageUrl ), 75503 );
+        clearstatcache();
+        $cheetaho = new CheetahO_Optimizer( $this->cheetaho );
+
+        $wp_image_meta_data = wp_get_attachment_metadata( $attachment['attacment_id']);
+
+        $cheetaho->optimize_thumbnails_filter($wp_image_meta_data,  $attachment['attacment_id'] );
+
+        $this->assertEquals( filesize( $retinaImageUrl ), 75503 );
+        clearstatcache();
+
+        $paths = CheetahO_Helpers::get_image_paths( $file );
+
+        $this->assertTrue( !file_exists( $paths['backup_file'] ) );
+        $this->assertTrue( !file_exists( CheetahO_Retina::get_retina_name( $paths['backup_file'] ) ) );
+    }
+
+    function test_optimize_custom_images() {
+        $input = $this->cheetaho_settings;
+        $input['custom_folder'] = '/tmp/wordpress/wp-content/themes/twentytwentyone/assets/images/';
+        $input['authUser']        = 'test';
+        $input['authPass']        = 'test';
+
+        $cheetaho = new CheetahO_Settings( $this->cheetaho );
+        $result   = $cheetaho->validate_options_data( $input );
+        update_option( '_cheetaho_options', $result['valid'] );
+
+        $this->cheetaho->get_loader()->modules->cheetaho_folder->save_dir($input['custom_folder']);
+
+        $images = $this->cheetaho->get_loader()->modules->cheetaho_folder->get_custom_images();
+        $paths = CheetahO_Helpers::get_image_paths( $images[0]->path );
+        $original_size = $images[0]->original_size;
+
+        $this->assertTrue( !file_exists( $paths['backup_file'] ) );
+
+        (new CheetahO_Optimizer( $this->cheetaho ))->optimize_custom_image($images[0]->id);
+
+        $this->assertTrue( $original_size >  $images[0]->image_size);
+        $this->assertTrue( file_exists( $paths['backup_file'] ) );
+    }
 
 	function test_cheetaho_update_notice() {
 		$cheetaho = new CheetahO_Alert($this->cheetaho);
@@ -212,7 +280,7 @@ class CheetahOCoreTest extends WP_UnitTestCase {
 	}
 
 	/*
-	 * create file and uplaod to db.
+	 * create file and upload to db.
 	 */
 	public static function upload_test_files( $filePath ) {
 		$wp_upload_dir = wp_upload_dir();

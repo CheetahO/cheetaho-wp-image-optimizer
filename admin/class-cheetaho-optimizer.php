@@ -360,9 +360,17 @@ class CheetahO_Optimizer {
 	 *
 	 * @return WP_Error
 	 */
-	private function optimize( $image_path, $image_id, $settings, $image_size_name = false ) {
+	private function optimize( $image_path, $image_id, $settings, $image_size_name = false, $galery_type = 'media' ) {
+
 		// make image backup if not exist
-		CheetahO_Backup::make_backup( $image_path, $image_id, $settings );
+        if ($galery_type === 'custom' ) {
+            $file = CheetahO_Helpers::get_abs_path(wp_make_link_relative($image_path));
+        } else {
+            $original_image_path = get_attached_file($image_id);
+            $file = dirname($original_image_path) . '/' . basename($image_path);
+        }
+
+		CheetahO_Backup::make_backup( $file, $settings );
 
 		$cheetaho = new CheetahO_API( $settings );
 
@@ -422,6 +430,7 @@ class CheetahO_Optimizer {
 	 */
 	private function optimize_image( $image_path, $image_id, $wp_image_meta_data = array() )
     {
+        $local_image_path    = get_attached_file( $image_id );
         $this->removeWCommerceFilters();
 
 		$first_img_time = get_option( '_cheetaho_first_opt_images' );
@@ -431,7 +440,7 @@ class CheetahO_Optimizer {
 		}
 
 		$settings        = $this->cheetaho_settings;
-		$validation_data = $this->validate_image_before_optimize( $image_path );
+		$validation_data = $this->validate_image_before_optimize( $local_image_path );
 
 		if ( is_wp_error( $validation_data ) ) {
 			return new WP_Error( 'cheetaho', $validation_data->get_error_message(), $validation_data->get_error_data('cheetaho') );
@@ -453,7 +462,6 @@ class CheetahO_Optimizer {
         $data['width'] = isset($wp_image_meta_data['width']) ? $wp_image_meta_data['width'] : $data['data']['imageWidth'];
         $data['height'] = isset($wp_image_meta_data['height']) ? $wp_image_meta_data['height'] : $data['data']['imageHeight'];
 
-		$local_image_path    = get_attached_file( $image_id );
 		$image_meta_data     = $this->generate_image_meta( $data, $local_image_path );
 		$optimization_status = $this->replace_new_image( $local_image_path, $data['data']['destURL'] );
 
@@ -538,9 +546,9 @@ class CheetahO_Optimizer {
 			);
 		}
 
-		if ( CheetahO_Helpers::is_processable_path( $image_path ) === false ) {
+		if ( CheetahO_Helpers::is_processable_path( $image_path, CheetahO_Helpers::convert_exclude_file_patterns_to_array($settings) ) === false ) {
 			return new WP_Error( 'cheetaho',
-				__( 'This type of file can not be optimized', 'cheetaho-image-optimizer' ),
+				__( 'This file can not be optimized', 'cheetaho-image-optimizer' ),
 				array('type' => 'filestore')
 			);
 		}
@@ -763,5 +771,89 @@ class CheetahO_Optimizer {
     {
         add_filter( 'woocommerce_resize_images', '__return_false' );
         add_filter( 'woocommerce_background_image_regeneration', '__return_false' );
+    }
+
+    public function optimize_custom_image($meta_id)
+    {
+        $meta = $this->image_meta->get_image_meta_by_meta_id($meta_id);
+
+        if ($meta->status !== CheetahO_Image_Metadata::STATUS_SUCCESS)  // do we need to optimize?
+        {
+            $paths = CheetahO_Helpers::get_image_paths( $meta->path );
+            $image_path = get_site_url().'/'.$paths['original_image_path'];
+
+            $validation_data = $this->validate_image_before_optimize( $paths['local_path'] );
+
+            if ( is_wp_error( $validation_data )) {
+                return json_encode(
+                    array(
+                        'success'       => false,
+                        'html' => $validation_data->get_error_message()
+                    )
+                );
+            }
+
+            $result = $this->optimize( $image_path, $meta_id, $this->cheetaho_settings, 'full', 'custom');
+
+            if ( !is_wp_error( $result ) ) {
+
+                $optimization_status = $this->replace_new_image($paths['local_path'], $result['data']['destURL']);
+
+                $meta_data = [];
+                $meta_data['width'] = isset($result['data']['imageWidth']) ? $result['data']['imageWidth'] : 0;
+                $meta_data['height'] = isset($result['data']['imageHeight']) ? $result['data']['imageHeight'] : 0;
+                $meta_data['image_size'] = isset($result['data']['newSize']) ? $result['data']['newSize'] : 0;
+                $meta_data['level'] = strtolower( $this->optimization_type_to_text( $this->cheetaho_settings['api_lossy'] ) );
+
+                if (CheetahO_Helpers::can_do_backup($this->cheetaho_settings) === true) {
+                    $meta_data['backup_path'] =  str_replace( ABSPATH, '', $paths['backup_file'] );;
+                }
+
+                if (!is_wp_error($optimization_status)) {
+                    $meta_data['status'] = 'success';
+                    $meta_data['results'] = [];
+                    $this->image_meta->update_optimized_custom_meta($meta_id, $meta_data);
+                    do_action( 'cheetaho_custom_file_optimized', $meta_id);
+                    
+                    $image = $meta;
+                    $image->level = $meta_data['level'];
+                    $image->image_size = $meta_data['image_size'];
+
+                    include CHEETAHO_PLUGIN_ROOT . 'admin/views/parts/column-custom-results.php';
+
+                    return json_encode(
+                        array( 'success'       => true,
+                        'html' => $html )
+                    );
+
+                } else {
+                    $meta_data['status'] = 'error';
+                    $meta_data['results'] = $result;
+                    $this->image_meta->update_optimized_custom_meta($meta_id, $meta_data);
+
+                    return json_encode(
+                        array(
+                            'error' => array_merge(
+                                array(
+                                    'message' => $optimization_status->get_error_message()
+                                ),
+                                ($optimization_status->get_error_data('cheetaho') != null)  ? $optimization_status->get_error_data('cheetaho') : array()
+                            ),
+                        )
+                    );
+                }
+            } else {
+                return json_encode(
+                    array(
+                        'error' => array_merge(
+                            array(
+                                'message' => $result->get_error_message()
+                            ),
+                            ($result->get_error_data('cheetaho') != null)  ? $result->get_error_data('cheetaho') : array()
+                        ),
+                    )
+                );
+            }
+        }
     }
 }

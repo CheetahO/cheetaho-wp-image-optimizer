@@ -1294,6 +1294,26 @@ default:
     break;
 }
 
+// phpcs:set Generic.WhiteSpace.ScopeIndent exact true
+$shortArray = [
+    'hello',
+'world',
+];
+
+$shortArray = array(
+    'hello',
+'world',
+);
+
+function foo() {
+    echo 'foo';
+        echo 'bar';
+    if ($foo) {
+            echo 'baz';
+    }
+}
+// phpcs:set Generic.WhiteSpace.ScopeIndent exact false
+
 function test() {
     return [
         <<<'SQLDATA'
@@ -1332,6 +1352,123 @@ if ($oo) {
     } ?>
 </div>
 
+<div>
+    <?php echo
+        foo(
+            $foo
+        );
+    ?>
+</div>
+
+<?php
+
+if (true) {
+    ?>
+    <div>
+        <?php
+
+        if (true) {
+            ?>
+            <?php
+        }
+
+        if (true
+            || false) {
+            ?>
+            <?php
+        }
+
+        ?>
+    </div>
+    <?php
+}
+
+foo(function () {
+    if ($conditionA &&
+        $conditionB
+    ) {
+        if ($conditionC) {
+            $a = 1;
+        }
+    }
+});
+
+switch($foo)
+{
+    case 1:
+        $value = 1; break;
+    case 2:
+        if ($bar) {
+            break;
+        }
+    default:
+        $value = 0;
+}
+
+switch ($x) {
+    case 'a':
+        switch ($y) {
+            case 'c':
+                return true;
+        }
+    case 'b':
+        switch ($z) {
+            case 'd':
+                return true;
+        }
+}
+
+$foo = [
+    [
+        'a' => [
+        ],
+        'b' => <<<'FOO'
+foo;
+FOO
+    ],
+    $a,
+];
+
+$query = Model::query()
+   ->when($a, function () {
+        static $b = '';
+   });
+
+$result = array_map(
+    static fn(int $number) : int => $number + 1,
+    $numbers
+);
+
+$a = $a === true ? [
+    'a' => 1,
+    ] : [
+    'a' => 100,
+];
+
+return [
+    Url::make('View Song', fn($song) => $song->url())
+        ->onlyOnDetail(),
+
+    new Panel('Information', [
+        Text::make('Title')
+    ]),
+];
+
+echo $string?->append('foo')
+            ?->outputUsing();
+
+// phpcs:set Generic.WhiteSpace.ScopeIndent exact true
+echo $string?->append('foo')
+            ?->outputUsing();
+// phpcs:set Generic.WhiteSpace.ScopeIndent exact false
+
+/* ADD NEW TESTS ABOVE THIS LINE AND MAKE SURE THAT THE 1 (space-based) AND 2 (tab-based) FILES ARE IN SYNC! */
+?>
+
+     <?php if (true) : ?>
+         <span></span>
+     <?php endif ?>
+
 <?php
     if (true) {
     }
@@ -1344,5 +1481,21 @@ $a = 1;
 $a = array(
     */
 );
+
+return [
+    'lor' =>
+        <<<'INTRO'
+        lorem ipsum
+        INTRO,
+    'em' => [
+        [
+            '',
+        ],
+    ],
+    'abc' => [
+        'a' => 'wop wop',
+        'b' => 'ola ola.',
+    ],
+];
 
 echo ""

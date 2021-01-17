@@ -87,28 +87,32 @@ class CheetahO_Backup {
 
 		if (is_array($images) && count($images) > 0) {
 			foreach ( $images as $image ) {
-
-				if ( $image->backup_path != '' && file_exists( CheetahO_Helpers::get_abs_path( $image->backup_path ) ) ) {
-
-					// first check if the file is readable by the current user - otherwise it will be unaccessible for the web browser
-					if ( ! CheetahO_Helpers::set_file_perms( CheetahO_Helpers::get_abs_path( $image->backup_path ) ) ) {
-						return false;
-					}
-
-					try {
-						// main file
-						CheetahO_Helpers::rename_file( CheetahO_Helpers::get_abs_path( $image->backup_path ),
-							CheetahO_Helpers::get_abs_path( $image->path ) );
-
-					} catch ( Exception $e ) {
-						return false;
-					}
-				}
+			    self::restore_single_file($image);
 			}
 		}
 
 		return true;
 	}
+
+	public static function restore_single_file($image)
+    {
+        if ( $image->backup_path != '' && file_exists( CheetahO_Helpers::get_abs_path( $image->backup_path ) ) ) {
+
+            // first check if the file is readable by the current user - otherwise it will be unaccessible for the web browser
+            if (!CheetahO_Helpers::set_file_perms(CheetahO_Helpers::get_abs_path($image->backup_path))) {
+                return false;
+            }
+
+            try {
+                // main file
+                CheetahO_Helpers::rename_file(CheetahO_Helpers::get_abs_path($image->backup_path),
+                    CheetahO_Helpers::get_abs_path($image->path));
+
+            } catch (Exception $e) {
+                return false;
+            }
+        }
+    }
 
 	/**
 	 * @param $image_path
@@ -116,14 +120,9 @@ class CheetahO_Backup {
 	 * @param $settings
 	 * @return WP_Error
 	 */
-	static function make_backup( $image_path, $image_id, $settings ) {
+	static function make_backup( $image_path, $settings ) {
 		if ( CheetahO_Helpers::can_do_backup($settings) === true) {
-			$original_image_path = get_attached_file( $image_id );
-
-			// reformat image path, because sometimes no thumbs
-			$file = dirname( $original_image_path ) . '/' . basename( $image_path );
-
-			$paths = CheetahO_Helpers::get_image_paths( $file );
+			$paths = CheetahO_Helpers::get_image_paths( $image_path );
 
 			if ( ! file_exists( CHEETAHO_BACKUP_FOLDER . '/' . $paths['full_sub_dir'] ) && ! @mkdir( CHEETAHO_BACKUP_FOLDER . '/' . $paths['full_sub_dir'], 0777, true ) ) {// creates backup folder if it doesn't exist
 
