@@ -64,7 +64,7 @@ before_script:
       composer global require "phpunit/phpunit:^7"
     fi
   - |
-    echo $(phpenv version-name)
+    echo [[ $(phpenv version-name) == "5." ]]
   - |
     if [[ $(phpenv version-name) == "5." ]]; then
       composer global require phpunit/phpunit ^5
