@@ -66,10 +66,10 @@ before_script:
   - |
     echo [[ $(phpenv version-name) == "5." ]]
   - |
-    if [[ $(phpenv version-name) == "5." ]]; then
+    if [[ $(phpenv version-name) == "7." ]]; then
       composer global require phpunit/phpunit ^5
     else
-      composer global require phpunit/phpunit ^7
+      composer global require "phpunit/phpunit:^7"
     fi
   - |
     if [[ "$WPSNIFF" == "1" ]] ; then
