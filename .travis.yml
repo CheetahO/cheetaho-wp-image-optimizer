@@ -1,5 +1,4 @@
 os: linux
-sudo: false
 dist: xenial
 language: php
 
@@ -46,7 +45,6 @@ jobs:
       env: WP_VERSION=latest
       deploy:
         provider: script
-        skip_cleanup: true
         script: bash ./bin/deploy.sh
         on:
           php: 7.4
