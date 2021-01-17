@@ -57,8 +57,8 @@ before_script:
   - |
     if [[ ${TRAVIS_PHP_VERSION:0:2} == "5." ]]; then
       composer global require phpunit/phpunit ^5
-    elif [[ ${TRAVIS_PHP_VERSION:0:2} == "7.0" ]]; then
-         composer global require phpunit/phpunit ^5
+    elif [[ ${TRAVIS_PHP_VERSION:0:3} == "7.0" ]]; then
+         composer global require phpunit/phpunit ^6
     else
       composer global require phpunit/phpunit:"7.5.*" --ignore-platform-reqs
     fi

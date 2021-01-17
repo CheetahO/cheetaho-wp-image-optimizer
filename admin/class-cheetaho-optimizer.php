@@ -361,7 +361,6 @@ class CheetahO_Optimizer {
 	 * @return WP_Error
 	 */
 	private function optimize( $image_path, $image_id, $settings, $image_size_name = false, $galery_type = 'media' ) {
-
 		// make image backup if not exist
         if ($galery_type === 'custom' ) {
             $file = CheetahO_Helpers::get_abs_path(wp_make_link_relative($image_path));
@@ -792,7 +791,6 @@ class CheetahO_Optimizer {
                     )
                 );
             }
-
             $result = $this->optimize( $image_path, $meta_id, $this->cheetaho_settings, 'full', 'custom');
 
             if ( !is_wp_error( $result ) ) {
@@ -814,7 +812,7 @@ class CheetahO_Optimizer {
                     $meta_data['results'] = [];
                     $this->image_meta->update_optimized_custom_meta($meta_id, $meta_data);
                     do_action( 'cheetaho_custom_file_optimized', $meta_id);
-                    
+
                     $image = $meta;
                     $image->level = $meta_data['level'];
                     $image->image_size = $meta_data['image_size'];

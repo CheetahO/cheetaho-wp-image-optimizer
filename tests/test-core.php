@@ -205,6 +205,7 @@ class CheetahOCoreTest extends WP_UnitTestCase {
         $input['custom_folder'] = '/tmp/wordpress/wp-content/themes/twentytwentyone/assets/images/';
         $input['authUser']        = 'test';
         $input['authPass']        = 'test';
+        $this->cheetaho = new CheetahO();
 
         $cheetaho = new CheetahO_Settings( $this->cheetaho );
         $result   = $cheetaho->validate_options_data( $input );
@@ -218,7 +219,8 @@ class CheetahOCoreTest extends WP_UnitTestCase {
 
         $this->assertTrue( !file_exists( $paths['backup_file'] ) );
 
-        (new CheetahO_Optimizer( $this->cheetaho ))->optimize_custom_image($images[0]->id);
+        $cheetaho = new CheetahO_Optimizer( $this->cheetaho );
+        $cheetaho->optimize_custom_image($images[0]->id);
 
         $this->assertTrue( $original_size >  $images[0]->image_size);
         $this->assertTrue( file_exists( $paths['backup_file'] ) );
