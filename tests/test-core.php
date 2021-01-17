@@ -201,8 +201,9 @@ class CheetahOCoreTest extends WP_UnitTestCase {
     }
 
     function test_optimize_custom_images() {
+
         $input = $this->cheetaho_settings;
-        $input['custom_folder'] = '/tmp/wordpress/wp-content/themes/twentytwentyone/assets/images/';
+        $input['custom_folder'] = '/tmp/wordpress/wp-content/themes/twentynineteen/';
         $input['authUser']        = 'test';
         $input['authPass']        = 'test';
         $this->cheetaho = new CheetahO();
