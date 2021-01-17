@@ -24,13 +24,6 @@ stages:
   - name: 🚀 deployment
     if: branch = "master"
 
-php:
-  - 8.0.0
-  - 7.4
-  - 7.3
-  - 7.0
-  - 5.6
-
 jobs:
   fast_finish: true
   include:
@@ -71,29 +64,11 @@ before_script:
       composer global require "phpunit/phpunit:^7"
     fi
   - |
-    case "$TRAVIS_PHP_VERSION" in
-        8.0.0|nightly)
-              echo "Using PHPUnit 8.x"
-              travis_retry composer global require "phpunit/phpunit:^8"
-              ;;
-        7.3|7.2|7.1|nightly)
-           echo "Using PHPUnit 7.x"
-           travis_retry composer global require "phpunit/phpunit:^7"
-           ;;
-        7.0)
-           echo "Using PHPUnit 6.x"
-           travis_retry composer global require "phpunit/phpunit:^6"
-           ;;
-        5.6|5.5|5.4|5.3)
-           echo "Using PHPUnit 4.x"
-           travis_retry composer global require "phpunit/phpunit:^4"
-           ;;
-        *)
-           echo "No PHPUnit version handling for PHP version $TRAVIS_PHP_VERSION"
-           exit 1
-           ;;
-       esac
-     fi
+    if [[ $(phpenv version-name) == "5." ]]; then
+      composer global require phpunit/phpunit ^5
+    else
+      composer global require phpunit/phpunit ^7
+    fi
   - |
     if [[ "$WPSNIFF" == "1" ]] ; then
       composer global require wp-coding-standards/wpcs dealerdirect/phpcodesniffer-composer-installer
