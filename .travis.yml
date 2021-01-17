@@ -68,6 +68,8 @@ before_script:
   - |
     if [[ $(phpenv version-name) == "7." ]]; then
       composer global require "phpunit/phpunit^5"
+    elseif [[ $(phpenv version-name) == "8." ]]; then
+      composer global require "phpunit/phpunit^8"
     else
       composer global require "phpunit/phpunit:^7"
     fi
