@@ -55,6 +55,7 @@ jobs:
           branch: master
 
 before_script:
+  - export PATH="$HOME/.composer/vendor/bin:$PATH"
   - |
     if [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ]; then
       phpenv config-rm xdebug.ini
@@ -67,9 +68,9 @@ before_script:
     fi
   - |
     if [[ ${TRAVIS_PHP_VERSION:0:2} == "5." ]]; then
-      composer global require "phpunit/phpunit:^4"
+      composer global require "phpunit/phpunit=4.*"
     else
-      composer global require "phpunit/phpunit:^7"
+      composer global require "phpunit/phpunit=7.*"
     fi
   - |
     if [[ "$WPSNIFF" == "1" ]] ; then
