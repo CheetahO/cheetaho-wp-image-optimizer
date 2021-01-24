@@ -26,6 +26,8 @@ define( 'CHEETAHO_APP_URL', 'https://app.cheetaho.com/' );
 define( 'CHEETAHO_SETTINGS_LINK', admin_url( 'options-general.php?page=cheetaho-image-optimizer' ) );
 define( 'CHEETAHO_PLUGIN_FILE', __FILE__ );
 define( 'CHEETAHO_PLUGIN_ROOT', plugin_dir_path( __FILE__ ) );
+define( 'CHEETAHO_PLUGIN_ADMIN_ASSETS', plugins_url( '/admin/assets/', __FILE__ ) );
+
 
 
 $uploads = wp_upload_dir();
