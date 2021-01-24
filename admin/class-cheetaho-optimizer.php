@@ -787,6 +787,7 @@ class CheetahO_Optimizer {
                 return json_encode(
                     array(
                         'success'       => false,
+                        'status_txt'    => __( 'Failed','cheetaho-image-optimizer' ),
                         'html' => $validation_data->get_error_message()
                     )
                 );
@@ -820,8 +821,11 @@ class CheetahO_Optimizer {
                     include CHEETAHO_PLUGIN_ROOT . 'admin/views/parts/column-custom-results.php';
 
                     return json_encode(
-                        array( 'success'       => true,
-                        'html' => $html )
+                        array(
+                            'status_txt'    => __( 'Optimized','cheetaho-image-optimizer' ),
+                            'success'       => true,
+                            'html' => $html
+                        )
                     );
 
                 } else {

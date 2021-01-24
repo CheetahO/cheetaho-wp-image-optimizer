@@ -33,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <tr id="row_<?=$image->id?>">
                         <th class="thumbnail"><img src="/<?php echo $image->path?>"/></th>
                         <th class="column-primary" ><?php echo $image->path?></th>
-                        <th class="column"><?php echo ($image->status == CheetahO_Image_Metadata::STATUS_SUCCESS ? esc_html_e( 'Optimized', 'cheetaho-image-optimizer' ) : esc_html_e( 'Not optimized', 'cheetaho-image-optimizer' ) )?></th>
+                        <th class="column" id="status_<?=$image->id?>"><?php echo ($image->status == CheetahO_Image_Metadata::STATUS_SUCCESS ? esc_html_e( 'Optimized', 'cheetaho-image-optimizer' ) : esc_html_e( 'Not optimized', 'cheetaho-image-optimizer' ) )?></th>
                         <th class="column" id="column_<?=$image->id?>">
                             <?php if ($image->status == CheetahO_Image_Metadata::STATUS_SUCCESS):?>
                                 <?php include CHEETAHO_PLUGIN_ROOT . 'admin/views/parts/column-custom-results.php';?>

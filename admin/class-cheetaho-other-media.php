@@ -329,6 +329,7 @@ class CheetahO_Other_Media {
             echo json_encode(
                 array(
                     'success'       => true,
+                    'status_txt'    => ($removed === true) ? __( 'Removed','cheetaho-image-optimizer' ) : __( 'Not optimized','cheetaho-image-optimizer' ),
                     'html'          => $html,
                     'removed'       => $removed
                 )

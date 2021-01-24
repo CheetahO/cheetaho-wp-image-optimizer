@@ -24,6 +24,8 @@ var CheetahOOtherMedia = {
             success: function(response) {
                 var data =  JSON.parse(response);
 
+                jQuery('#status_' + el.data('item_id')).html(data.status_txt);
+
                 if (data.error !== undefined) {
                     el.replaceWith('<span>' + data.error.message + '</span>');
                 } else {
