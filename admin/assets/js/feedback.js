@@ -11,8 +11,7 @@ jQuery(document).ready(function($) {
         jQuery('body').toggleClass('cheetaho-deactivate-form-active');
         formContainer.fadeIn();
         $('html,body').animate({ scrollTop: 50 });
-
-
+        
         cheetaho_uninstall_button_handlers(formContainer, url );
     });
 

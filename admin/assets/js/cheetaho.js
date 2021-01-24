@@ -34,7 +34,7 @@ jQuery(document).ready(function($) {
      $topActionDropdown = $(".tablenav.top .bulkactions select[name='action']"),
      $bottomActionDropdown = $(".tablenav.bottom .bulkactions select[name='action2']");
 
-	 
+
 	 var requestSuccess = function(data) {
         var $button = $(this),
             $parent = $(this).parent(),

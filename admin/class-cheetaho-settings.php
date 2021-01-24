@@ -15,6 +15,8 @@ class CheetahO_Settings extends Cheetaho_Base {
     const CLOUDFLARE_API_KEY = 'cloudflare_api_key';
     const CLOUDFLARE_ZONE = 'cloudflare_zone';
 
+    const EXCLUDE_FILES_BY_PATTERN = 'exclude_file_by_patterns';
+
     /**
 	 * Add settings action link to the plugins page.
 	 *
@@ -102,10 +104,16 @@ class CheetahO_Settings extends Cheetaho_Base {
 	 * @return mixed
 	 */
 	function render_cheetaho_settings_menu() {
-		$settings = $this->cheetaho_settings;
+        $settings = $this->cheetaho_settings;
 
 		if ( isset( $_POST['cheetahoSaveAction'] ) && ! empty( $_POST ) ) {
 			$result = $this->validate_options_data( $_POST['_cheetaho_options'] );
+
+            if ( isset($result['valid']['custom_folder']) && !empty($result['valid']['custom_folder'])) {
+                $this->cheetaho->get_loader()->modules->cheetaho_folder->save_dir($result['valid']['custom_folder']);
+			    unset($result['valid']['custom_folder']);
+            }
+
 			$this->update_settings( $result['valid'] );
 
 			// get new settings version
@@ -134,13 +142,18 @@ class CheetahO_Settings extends Cheetaho_Base {
 		$api_key           = isset( $settings['api_key'] ) ? trim($settings['api_key']) : '';
 		$auth_user         = isset( $settings['authUser'] ) ? trim($settings['authUser']) : '';
 		$auth_pass         = isset( $settings['authPass'] ) ? trim($settings['authPass']) : '';
+		$custom_folder     = isset( $settings['custom_folder'] ) ? trim($settings['custom_folder']) : null;
         $cloudflare_email  = $this->get_options_value(self::CLOUDFLARE_EMAIL, '');
         $cloudflare_api_key  = $this->get_options_value(self::CLOUDFLARE_API_KEY, '');
         $cloudflare_zone  = $this->get_options_value(self::CLOUDFLARE_ZONE, '');
+        $file_exclude_pattern  = $this->get_options_value(self::EXCLUDE_FILES_BY_PATTERN, '');
 
 		foreach ( $sizes as $size ) {
 			$valid[ 'include_size_' . $size ] = isset( $settings[ 'include_size_' . $size ] ) ? $settings[ 'include_size_' . $size ] : 1;
 		}
+
+		$root_path = $this->cheetaho->get_loader()->modules->cheetaho_folder->get_root_path();
+        $customFolders = $this->cheetaho->get_loader()->modules->cheetaho_folder->get_active_custom_folders();
 
 		include_once CHEETAHO_PLUGIN_ROOT . 'admin/views/settings.php';
 	}
@@ -164,10 +177,12 @@ class CheetahO_Settings extends Cheetaho_Base {
 		$valid['create_webp']     = isset( $input['create_webp'] ) ? 1 : 0;
 		$valid['authUser']        = $input['authUser'];
 		$valid['authPass']        = $input['authPass'];
+		$valid['custom_folder']   = isset( $input['custom_folder'] ) ? $input['custom_folder'] : null;
 
         $valid[self::CLOUDFLARE_EMAIL]  = isset($input[self::CLOUDFLARE_EMAIL]) ? $input[self::CLOUDFLARE_EMAIL] : '';
         $valid[self::CLOUDFLARE_API_KEY]= isset($input[self::CLOUDFLARE_API_KEY]) ? $input[self::CLOUDFLARE_API_KEY] : '';
         $valid[self::CLOUDFLARE_ZONE]   = isset($input[self::CLOUDFLARE_ZONE]) ? $input[self::CLOUDFLARE_ZONE] : '';
+        $valid[self::EXCLUDE_FILES_BY_PATTERN]   = isset($input[self::EXCLUDE_FILES_BY_PATTERN]) ? $input[self::EXCLUDE_FILES_BY_PATTERN] : '';
 
         $cloudflare_params = strlen(implode(array($valid[self::CLOUDFLARE_EMAIL], $valid[self::CLOUDFLARE_API_KEY], $valid[self::CLOUDFLARE_ZONE])));
 
@@ -198,7 +213,7 @@ class CheetahO_Settings extends Cheetaho_Base {
 		} else {
 			$cheetaho = new CheetahO_API( array( 'api_key' => $input['api_key'] ) );
 			$status   = $cheetaho->status();
-			
+
 			if ( isset( $status['data']['error']['code'] ) && $status['data']['error']['code'] === 403) {
 				$error[] = __( 'Your API key is invalid. Check it here', 'cheetaho-image-optimizer' ) . ' https://app.cheetaho.com/api-credentials';
 			} else {

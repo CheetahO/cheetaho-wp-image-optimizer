@@ -123,6 +123,7 @@ class CheetahO_Helpers {
 			'backup_file'         => $backup_file,
 			'original_image_path' => $original_image_path,
 			'full_sub_dir'        => $full_sub_dir,
+			'local_path'          => self::get_abs_path($full_sub_dir . self::get_base_name( $original_image_path ))
 		);
 	}
 
@@ -204,15 +205,169 @@ class CheetahO_Helpers {
 	 * @param $path
 	 * @return bool
 	 */
-	public static function is_processable_path( $path ) {
+	public static function is_processable_path( $path, $exclude_files_patterns = array() ) {
 		$path_parts = pathinfo( $path );
 
-		if ( isset( $path_parts['extension'] ) && in_array( strtolower( $path_parts['extension'] ), self::$allowed_extensions ) ) {
+        // Check if the path is valid.
+        if (!file_exists($path)) {
+            return false;
+        }
+
+        // Check if the path is valid.
+        if (!self::is_correct_file($path)) {
+            return false;
+        }
+
+        // Used in place of Skip Dots, For php 5.2 compatibility.
+        if (basename($path) === '..' || basename($path) === '.') {
+            return false;
+        }
+
+        if (strpos($path, '.bak') !== false) {
+            return false;
+        }
+
+		if ( isset( $path_parts['extension'] ) && self::is_image_from_extension($path) && self::is_excluded_file($path, $exclude_files_patterns) === false) {
 			return true;
 		} else {
 			return false;
 		}
 	}
+
+    /**
+     * @since 1.5
+     * @param $path
+     * @param array $exclude_files_patterns
+     * @return bool
+     */
+	public static function is_excluded_file($path, $exclude_files_patterns = array())
+    {
+        if(!$exclude_files_patterns || !is_array($exclude_files_patterns)) {
+            return false;
+        }
+
+        foreach($exclude_files_patterns as $item) {
+            if (isset($item["type"])) {
+                $type = trim($item["type"]);
+
+                if (in_array($type, array("name", "path"))) {
+                    $pattern = trim($item["value"]);
+                    $target = $type == "name" ? self::get_base_name($path) : $path;
+
+                    if (self::match_exclude_pattern($target, $pattern)) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @since 1.5
+     * @param $path
+     * @return bool
+     */
+    public static function is_image_from_extension($path)
+    {
+        $supported_image = self::$allowed_extensions;
+        $ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+
+        if (in_array($ext, $supported_image, true)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check whether the given path is a image or not.
+     *
+     * Do not include backup files.
+     *
+     * @param  string  $path  Image path.
+     *
+     * @return bool
+     */
+    private static function is_correct_file($path)
+    {
+        if (false !== stripos($path, 'phar://')) {
+            return false;
+        }
+
+        $a = @getimagesize($path);
+
+        // If a is not set.
+        if (!$a || empty($a)) {
+            return false;
+        }
+
+        $image_type = $a[2];
+
+        if (in_array($image_type, array(IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG))) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @since 1.5
+     * @param $settings
+     * @return array
+     */
+	static public function convert_exclude_file_patterns_to_array($settings)
+    {
+        $items = [];
+
+        if (isset($settings[CheetahO_Settings::EXCLUDE_FILES_BY_PATTERN])){
+            $data = explode(',', $settings[CheetahO_Settings::EXCLUDE_FILES_BY_PATTERN]);
+
+            foreach ($data as $item) {
+                $patternData = explode(':', $item);
+
+                if (isset($patternData[0]) && isset($patternData[1])) {
+                    $items[] = [
+                        'type' => $patternData[0],
+                        'value' => $patternData[1],
+                    ];
+                }
+            }
+        }
+
+        return $items;
+    }
+
+    /**
+     * @since 1.5
+     * @param $target
+     * @param $pattern
+     * @return bool
+     */
+    static public function match_exclude_pattern($target, $pattern) {
+        if(strlen($pattern) == 0) {
+            return false;
+        }
+
+        $first = substr($pattern, 0,1);
+
+        if ($first == '/')
+        {
+            if (@preg_match($pattern, false) !== false)
+            {
+                $m = preg_match($pattern,  $target);
+                if ($m !== false && $m > 0)
+                {
+                    return true;
+                }
+            }
+        } else {
+            return strpos($target, $pattern) !== false;
+        }
+
+        return false;
+     }
 
 	/**
 	 * Show results after optimization
@@ -264,8 +419,8 @@ class CheetahO_Helpers {
 	 */
 	public static function is_processable( $id ) {
 		$path = get_attached_file( $id );// get the full file PATH
-		
-		return self::is_processable_path( $path );
+
+		return self::is_processable_path( $path, array() );
 	}
 
 	/**
@@ -327,11 +482,11 @@ class CheetahO_Helpers {
 		}
 	}
 
-
-	/**
-	 * @since 1.4.3
-	 * @param $settings
-	 */
+    /**
+     * @param $settings
+     * @return bool
+     * @since 1.4.3
+     */
 	public static function can_do_backup ($settings)
 	{
 		if ( isset( $settings['backup'] ) && 1 == $settings['backup'] || ! isset( $settings['backup'] ) ) {
@@ -341,12 +496,25 @@ class CheetahO_Helpers {
 		return false;
 	}
 
-	/**
-	 * @since 1.4.3
-	 * @param $settings
-	 */
+    /**
+     * @param $settings
+     * @return string
+     * @since 1.4.3
+     */
 	public static function get_abs_path ($img_path)
 	{
 		return ABSPATH.$img_path;
 	}
+
+    /**s
+     * @param $image
+     * @return float|int
+     * @since 1.4.5
+     */
+	public static function count_savings($image)
+    {
+        $saved_bytes  = $image->original_size - $image->image_size;
+
+        return round(( $saved_bytes > 0 ) ? $saved_bytes / (int) $image->original_size * 100 : 0, 2);
+    }
 }

@@ -11,7 +11,6 @@ namespace PHP_CodeSniffer\Standards\PSR12\Sniffs\Functions;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
-use PHP_CodeSniffer\Util\Tokens;
 
 class NullableTypeDeclarationSniff implements Sniff
 {
@@ -27,6 +26,7 @@ class NullableTypeDeclarationSniff implements Sniff
         T_CALLABLE     => true,
         T_SELF         => true,
         T_PARENT       => true,
+        T_STATIC       => true,
     ];
 
 

@@ -10,8 +10,7 @@
  * @author     CheetahO <support@cheetaho.com>
  */
 class CheetahO_Bulk {
-
-
+    
 	/**
 	 * The version of this plugin.
 	 *
@@ -72,7 +71,7 @@ class CheetahO_Bulk {
 	 * @return mixed
 	 */
 	function render_cheetaho_bulk_page() {
-		$images   = CheetahO_Stats::get_not_optimized_images( );
+		$images   = CheetahO_Stats::get_not_optimized_images($this->cheetaho_settings);
 
 		include CHEETAHO_PLUGIN_ROOT . 'admin/views/bulk.php';
 	}

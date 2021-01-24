@@ -44,7 +44,7 @@ body .cheetaho.error.mb-30 {
 .cheetaho-mask {
   z-index:90000;
   width:100%;
-  height:100%;	
+  height:100%;
   top: 0;
   right: 0;
   bottom: 0;
@@ -57,14 +57,14 @@ body .cheetaho.error.mb-30 {
 .cheetaho-modal {
 	position:fixed;
 	width:440px;
-	height:100px;
+	min-height:100px;
 	z-index:99999;
 	padding:20px;
 	background:#fff;
 	top:15%;
 	left:50%;
 	margin-left:-220px;
-} 
+}
 
 #cheetaho-bulk-progressbar {
 	height: 20px;
@@ -76,7 +76,7 @@ body .cheetaho.error.mb-30 {
     border-radius: 4px;
     -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
     box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
-	
+
 }
 
 #cheetaho-bulk-progressbar-status {
@@ -156,6 +156,11 @@ body .cheetaho.error.mb-30 {
     flex-basis: 50%;
 }
 
+.cheetaho-align-center {
+    align-items: center;
+    -webkit-align-items: center;
+}
+
 .cheetaho-col-main{
     float:left;
     width:70%;
@@ -173,7 +178,7 @@ body .cheetaho.error.mb-30 {
 	.cheetaho-col-main{
 		 width:75%;
 	}
-	
+
 	.cheetaho-col-sidebar {
 	    width: 22%;
 	    max-width: 300px;
@@ -182,6 +187,10 @@ body .cheetaho.error.mb-30 {
 
 .form-table th {
 	color:#000;
+}
+
+.cheetaho-tab-content .form-table th{
+    width:160px;
 }
 
 .cheetaho-sizes-comment span {
@@ -219,7 +228,7 @@ body .cheetaho.error.mb-30 {
     text-decoration:none;
 }
 
-.cheetaho-twitter {	
+.cheetaho-twitter {
 	color: #fff;
     background-color: #55acee;
     border-color: rgba(0,0,0,0.2);
@@ -263,9 +272,6 @@ body .cheetaho.error.mb-30 {
 .cheetaho-welcome .cheetaho-columns .col-1-3 {
     width: 33.333%;
     padding-left: 28px;
-}
-
-.cheetaho-welcome .cheetaho-columns .col-1-3 {
     float: left;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -277,7 +283,7 @@ body .cheetaho.error.mb-30 {
 }
 
 .cheetaho-welcome .cheetaho-col-title {
-    margin: 0 0 15px 0;
+    margin: 0 0 15px;
     font-size: 23px;
 }
 
@@ -308,28 +314,28 @@ body .cheetaho.error.mb-30 {
 }
 
 .cheetaho-alert-danger {
-    background-color: #fff; 
-    border-left: 4px solid #ff0000; 
-    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1); 
+    background-color: #fff;
+    border-left: 4px solid #ff0000;
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
     padding: 1px 12px;
 }
 
 .cheetaho-alert-success {
-    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1); 
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
     padding: 10px 12px;
     border:1px solid green;
     color: #3c763d;
     background-color: #dff0d8;
-    border-color: #d6e9c6;  
+    border-color: #d6e9c6;
 }
 
 .cheetaho-alert-info {
-    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1); 
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
     padding: 10px 12px;
     border:1px solid #fff;
     color: #000;
     background-color: #fff;
-    border-color: #fff;  
+    border-color: #fff;
 }
 
 .cheetaho-message-block h3{
@@ -374,7 +380,7 @@ body .info-btn:focus + .popup-container,
 body .info-btn:active + .popup-container {
 	display:block;
 	border: #c0c0c0 1px dotted;
-    padding: 5px 10px 10px 10px;
+    padding: 5px 10px 10px;
     z-index: 100;
     background: #f0f0f0 no-repeat 100% 5%;
     margin: 10px;
@@ -383,7 +389,7 @@ body .info-btn:active + .popup-container {
     top: 10px;
     right:0;
     left:auto;
-    text-decoration: none 
+    text-decoration: none
 }
 
 .info-btn i{
@@ -492,14 +498,10 @@ a.cheetahoError:hover span {
     width: 30px;
 }
 
-.cheetaho-bulk table.whitebox thead th.thumbnail {
-    width: 30px;
-}
-
 .cheetaho-bulk  table.whitebox .column {
     width: auto;
 }
- 
+
 .cheetaho-bulk .button-hero {
 	display:none;
 }
@@ -533,4 +535,187 @@ a.cheetahoError:hover span {
 
 .cheetaho-columns h4 {
     margin-bottom:5px;
+}
+
+.cheetaho-tabs ul {
+    padding:15px 0 0;
+    margin:0;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.cheetaho-tabs li{
+    display:inline-block;
+    margin:0;
+    margin-bottom:-1px;
+}
+
+.cheetaho-tabs li a{
+    display:inline-block;
+    text-decoration:none;
+    padding:7px 20px;
+    background:#fff;
+}
+
+.cheetaho-tabs li.active a{
+    color:#444;
+    border:1px solid #dee2e6;
+    border-color: #dee2e6 #dee2e6 #fff;
+}
+
+.cheetaho-tabs li a:focus {
+    outline:none;
+    box-shadow: none;
+}
+
+.cheetaho-tab-content {
+    display:none;
+}
+
+.cheetaho-tab-content.active {
+    display:block;
+}
+
+.cheetaho-modal-title {
+    display: block;
+    margin: 0;
+    padding: 0;
+    font-weight:bold;
+    padding-bottom:5px;
+    border: 0;
+    color: #333;
+    font-size:15px;
+    text-transform: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cheetaho-modal-footer {
+    padding-top:10px;
+}
+
+.cheetaho-content-right {
+    text-align: right;
+}
+
+.cheetaho-folder-picker {
+    border: 1px dashed #ccc;
+    padding: 0 10px;
+    margin: 10px 0;
+    max-height:250px;
+    overflow-y:auto;
+}
+
+.cheetaho-folder-picker .jqueryFileTree
+{
+    padding-top:5px;
+    padding-bottom:5px;
+    padding-left:10px;
+}
+
+.cheetaho-folder-picker .jqueryFileTree .directory {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 13px;
+    position:relative;
+    border-radius: 4px;
+    color: #17A8E3;
+    display:block;
+    padding:0 7px;
+}
+.cheetaho-folder-picker .jqueryFileTree .directory.unselectable {
+    opacity: 0.4;
+}
+
+.cheetaho-folder-picker .jqueryFileTree .directory.selected {
+    background-color: #F8F8F8;
+}
+
+
+
+.cheetaho-folder-picker .jqueryFileTree .directory a{
+    color: #666666;
+    padding:3px 0;
+    display:inline-block;
+    cursor: pointer;
+    text-decoration: none;
+    position:relative;
+    z-index:2;
+}
+
+.cheetaho-folder-picker .jqueryFileTree .directory a i{
+    font-size: 19px;
+    vertical-align: middle;
+    color: #e8c50d;
+}
+
+.cheetaho-tab-content #addCustomFolderView {
+    width:300px;
+}
+
+.cheetaho-folders-list
+{
+    margin-bottom:20px;
+}
+
+.cheetaho-folders-list th,
+.cheetaho-folders-list td {
+    background:#eee;
+    font-size:11px;
+    padding:5px 10px;
+}
+
+.cheetaho-folders-list th {
+    font-size:12px;
+}
+
+.cheetaho-folders-list td .button {
+    font-size:11px;
+    min-height:20px;
+}
+
+.cheetaho-folders-list td .button-alert {
+    font-size:11px;
+    min-height:20px;
+    color: rgba(255, 21, 0, 0.8);
+    border-color: rgba(255, 21, 0, 0.8);
+    background: rgba(255, 21, 0, 0.1);
+}
+
+.cheetaho-other-media .thumbnail img {
+    width:auto;
+    height: auto;
+    max-width: 100px;
+}
+
+.cheetaho-navigation {
+    text-align: right;
+    padding-top:20px;
+}
+
+.cheetaho-displaying-num {
+    padding-top:5px;
+    display:inline-block;
+}
+
+.p-20 {
+    padding:20px;
+}
+
+.cheetaho-mb-5 {
+    margin-bottom:5px;
+}
+
+.toolbar-in-title {
+    display:inline-block;
+    margin-left:15px;
+    margin-right:15px;
+}
+
+.cheetaho-d-flex {
+    display:flex;
+}
+
+.cheetaho-text-center {
+    text-align: center;
 }
