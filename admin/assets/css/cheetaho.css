@@ -272,9 +272,6 @@ body .cheetaho.error.mb-30 {
 .cheetaho-welcome .cheetaho-columns .col-1-3 {
     width: 33.333%;
     padding-left: 28px;
-}
-
-.cheetaho-welcome .cheetaho-columns .col-1-3 {
     float: left;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -286,7 +283,7 @@ body .cheetaho.error.mb-30 {
 }
 
 .cheetaho-welcome .cheetaho-col-title {
-    margin: 0 0 15px 0;
+    margin: 0 0 15px;
     font-size: 23px;
 }
 
@@ -383,7 +380,7 @@ body .info-btn:focus + .popup-container,
 body .info-btn:active + .popup-container {
 	display:block;
 	border: #c0c0c0 1px dotted;
-    padding: 5px 10px 10px 10px;
+    padding: 5px 10px 10px;
     z-index: 100;
     background: #f0f0f0 no-repeat 100% 5%;
     margin: 10px;
@@ -501,10 +498,6 @@ a.cheetahoError:hover span {
     width: 30px;
 }
 
-.cheetaho-bulk table.whitebox thead th.thumbnail {
-    width: 30px;
-}
-
 .cheetaho-bulk  table.whitebox .column {
     width: auto;
 }
@@ -545,7 +538,7 @@ a.cheetahoError:hover span {
 }
 
 .cheetaho-tabs ul {
-    padding:15px 0 0 0;
+    padding:15px 0 0;
     margin:0;
     border-bottom: 1px solid #dee2e6;
 }

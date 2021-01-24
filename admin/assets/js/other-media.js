@@ -1,11 +1,11 @@
 var CheetahOOtherMedia = {
     init: function () {
-        jQuery('.column').on('click', 'a.cheetaho-custom-restore', function(item){
+        jQuery('.column').on('click', 'a.cheetaho-custom-restore', function(){
             CheetahOOtherMedia.doAction(jQuery(this));
             return false;
         });
 
-        jQuery('.column').on('click', 'button.cheetaho-custom-optimize', function(item){
+        jQuery('.column').on('click', 'button.cheetaho-custom-optimize', function(){
             CheetahOOtherMedia.doAction(jQuery(this));
             return false;
         });
@@ -44,6 +44,6 @@ var CheetahOOtherMedia = {
     }
 };
 
-jQuery(document).ready(function($) {
+jQuery(document).ready(function() {
     CheetahOOtherMedia.init();
 });

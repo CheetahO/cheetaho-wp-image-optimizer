@@ -23,7 +23,7 @@ var CheetahOSettings =  {
             jQuery(".cheetaho-modal.modal-folder-picker").hide();
         });
 
-        jQuery(".cheetaho-modal-footer").on('click', 'input.select-folder', function(item){
+        jQuery(".cheetaho-modal-footer").on('click', 'input.select-folder', function(){
 
             // check if selected item is a directory. If so, we are good.
             var selected = jQuery('ul.jqueryFileTree li.directory.selected');
@@ -99,7 +99,7 @@ var CheetahOSettings =  {
     }
 };
 
-jQuery(document).ready(function($) {
+jQuery(document).ready(function() {
     jQuery('.cheetaho-tabs a').on('click', function(){
         jQuery('.cheetaho-tabs li').removeClass('active');
         jQuery('.cheetaho-tab-content').removeClass('active');
