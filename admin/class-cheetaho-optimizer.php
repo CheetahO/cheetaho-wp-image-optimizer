@@ -752,11 +752,12 @@ class CheetahO_Optimizer {
 
 	/**
 	 * @param $attachment_id
-	 * @param bool $local_image_path
+	 * @param $local_image_path
 	 * @param $size_name
 	 */
-	function optimize_after_wr2x_retina_file_added( $attachment_id, $local_image_path = false, $size_name ) {
+	function optimize_after_wr2x_retina_file_added( $attachment_id, $local_image_path, $size_name ) {
 		if ( false !== $local_image_path ) {
+		    print_R('asd');
             $this->removeWCommerceFilters();
 			$image_path = wp_get_attachment_image_src( $attachment_id, $size_name ); // get the file URL
 

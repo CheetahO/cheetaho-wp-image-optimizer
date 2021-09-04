@@ -174,6 +174,7 @@ Yes if theme use native WordPress image upload functions. For example tested WPR
 = 1.5.1 =
 * Security and maintenance release
 * Update readme file
+* Fix php8 notice
 
 = 1.5 =
 * Check compatibility with newest WP version
