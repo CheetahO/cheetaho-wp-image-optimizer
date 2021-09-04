@@ -1,9 +1,0 @@
-{
-    "require-dev": {
-        "phpcompatibility/phpcompatibility-wp": "*"
-    },
-    "require": {
-        "wp-coding-standards/wpcs": "^2.3",
-        "squizlabs/php_codesniffer": "*"
-    }
-}
