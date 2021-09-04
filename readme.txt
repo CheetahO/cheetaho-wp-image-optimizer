@@ -5,8 +5,8 @@ Author URI: https://cheetaho.com/
 Contributors: cheetaho
 Tags: image compression, performance, optimize, optimize jpg, lossy, image optimiser, lossless, compress PNG, compress jpeg, optimize gif
 Requires at least: 4.4
-Tested up to: 5.6
-Stable tag: 1.5
+Tested up to: 5.8
+Stable tag: 1.5.1
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
@@ -17,7 +17,8 @@ This plugin allows you to compress and optimize your WordPress images through th
 
 This plugin allows you to resize/scale images down to your specified size, optimize and compress new and existing WordPress image uploads through CheetahO Image [optimizer](https://cheetaho.com/?utm_source=wordpress-plugin&utm_medium=readme) API. You can choose lossless or lossy optimization modes. At this moment supported filetypes are JPEG, PNG, GIF.
 Smaller image sizes on your website mean faster page loads and less bandwidth usage. The faster your site loads, the more Google, Yahoo, Bing, and other search engines will like it.
-You can try a **live demo** <a href="http://poopy.life/create?url=/wp-admin/admin.php?page=sandbox" target="_blank">here</a> (via poopy.life).
+You can try a **quick demo** <a href="https://wpsandbox.net/" target="_blank">here</a>.
+Also you can create a staging copy of your site using <a href="https://wp-staging.com/" target="_blank">WP Staging</a> and test it there.
 
 Set a max width and height and large images will scale down as they are being compressed. CheetahO compresses images using a proprietary algorithm & blazing fast servers to quickly compress images & optimize images. Also cuts all the unnecessary data without slowing down your website/blog which helps to boost SEO & performance.
 
@@ -170,6 +171,10 @@ Yes if theme use native WordPress image upload functions. For example tested WPR
 
 
 == Changelog ==
+= 1.5.1 =
+* Security and maintenance release
+* Readme updates
+
 = 1.5 =
 * Check compatibility with newest WP version
 * New feature to filter images using patterns and not allow them to optimize

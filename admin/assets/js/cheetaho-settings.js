@@ -66,7 +66,7 @@ var CheetahOSettings =  {
                 type: "POST",
                 url: cheetaho_folder_object.ajaxurl,
                 data: {id:id, action: 'cheetaho_remove_folders'},
-                success: function(response) {
+                success: function() {
                     location.reload();
                 },
                 async: false
