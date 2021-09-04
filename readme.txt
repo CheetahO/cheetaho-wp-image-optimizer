@@ -169,7 +169,6 @@ Yes! You need to use the CloudFlare plugin or setup credentials in the CheetahO 
 = Will CheetahO work with front-end image submission? =
 Yes if theme use native WordPress image upload functions. For example tested WPResidence theme.
 
-
 == Changelog ==
 = 1.5.1 =
 * Security and maintenance release
